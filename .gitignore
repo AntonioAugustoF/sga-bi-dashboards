@@ -1,0 +1,15 @@
+# Power BI Project (.pbip) - local cache and generated artifacts
+.pbi/
+*.pbix.bak
+*.abf
+
+# Legacy binary format - once migrated, the .pbip text files are the
+# source of truth; keep the binary out of version control
+*.pbix
+
+# Credentials / connection strings for the Data Warehouse
+.env
+
+# OS / editor noise
+Thumbs.db
+.DS_Store
