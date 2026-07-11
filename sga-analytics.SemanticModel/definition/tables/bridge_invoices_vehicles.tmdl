@@ -1,0 +1,95 @@
+table bridge_invoices_vehicles
+	lineageTag: ec9e8c13-03fe-445a-af89-a7ce00c0a4eb
+
+	column codigo_boleto
+		dataType: string
+		lineageTag: a3f24101-44c4-4d76-b9a6-a3a20a9c3588
+		summarizeBy: none
+		sourceColumn: codigo_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_veiculo
+		dataType: string
+		lineageTag: 9cd536ca-5f4c-40ac-80dd-59387ed27aeb
+		summarizeBy: none
+		sourceColumn: codigo_veiculo
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_veiculos_boleto
+		dataType: int64
+		formatString: 0
+		lineageTag: bbbd1fdd-3d92-4c37-b03d-22e2a1c986cc
+		summarizeBy: sum
+		sourceColumn: qtd_veiculos_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_rateado
+		dataType: double
+		lineageTag: ad14b6aa-79f5-48bf-af3f-22b28af64809
+		summarizeBy: sum
+		sourceColumn: valor_rateado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column criado_em
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 37bed867-0caf-4233-8275-e0c78513300c
+		summarizeBy: none
+		sourceColumn: criado_em
+
+		variation Variation
+			isDefault
+			relationship: 171dfd09-a084-4938-b3d1-5816f243f1e4
+			defaultHierarchy: LocalDateTable_641d0857-d6d2-4cb3-802a-b66d3cc87db8.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_referencia
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7cbfcef7-12f3-4bac-a3a5-0df62390bc1d
+		summarizeBy: none
+		sourceColumn: data_referencia
+
+		variation Variation
+			isDefault
+			relationship: 006376f5-7ced-4df7-8dc3-bdba10698326
+			defaultHierarchy: LocalDateTable_95a5d00c-8dab-448f-93eb-ccd347915433.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column atualizado_em
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f8e31345-6f4a-4fb9-a702-99954f51f5e0
+		summarizeBy: none
+		sourceColumn: atualizado_em
+
+		variation Variation
+			isDefault
+			relationship: 7bea1ba7-8802-4f25-b8db-2a1ab05b2516
+			defaultHierarchy: LocalDateTable_149adb17-eaf2-4f94-b673-efd39faa2c59.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition bridge_invoices_vehicles = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("localhost", "sga_dw"),
+				    public_bridge_invoices_vehicles = Fonte{[Schema="public",Item="bridge_invoices_vehicles"]}[Data]
+				in
+				    public_bridge_invoices_vehicles
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

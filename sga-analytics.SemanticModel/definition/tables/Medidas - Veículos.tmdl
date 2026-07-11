@@ -1,0 +1,207 @@
+table 'Medidas - Veículos'
+	lineageTag: cc88ba3b-88ab-48a8-a5a1-1170c4a95589
+
+	measure 'Veículos - Qtd Cadastros' = DISTINCTCOUNT(dim_vehicles[codigo_veiculo])
+		formatString: 0
+		lineageTag: 0337459c-3ac6-4132-8605-ac5b95bb0da9
+
+	measure 'Veículos - Cadastros MTD' =
+			
+			CALCULATE(
+			    [Veículos - Qtd Cadastros],
+			    DATESMTD(dim_calendar[Data])
+			)
+		formatString: 0
+		lineageTag: 56d485ab-1ca1-416e-9f31-b7ea775fbcc8
+
+	measure 'Veículos - Qtd Inativações' =
+			CALCULATE(
+			    DISTINCTCOUNT(dim_vehicles_history[codigo_veiculo]),
+			    dim_vehicles_history[descricao_situacao] = "INATIVO",
+			    dim_vehicles_history[status_anterior] <> "INATIVO"
+			)
+		formatString: 0
+		lineageTag: 97f36db3-3987-4d2d-a373-b13ccaafa28d
+
+	measure 'Veículos - Inativações MTD' =
+			
+			CALCULATE(
+			    [Veículos - Qtd Inativações],
+			    DATESMTD(dim_calendar[Data])
+			)
+		formatString: 0
+		lineageTag: 3f90a891-cfcc-42c2-861c-6347072d6192
+
+	measure 'Veículos - Qtd Pausas' =
+			CALCULATE(
+			    DISTINCTCOUNT(dim_vehicles_history[codigo_veiculo]),
+			    dim_vehicles_history[descricao_situacao] = "PAUSA",
+			    NOT dim_vehicles_history[status_anterior] IN {"PAUSA", "INATIVO"}
+			)
+		formatString: 0
+		lineageTag: a6683699-751f-4391-a892-05168ccbf5e9
+
+	measure 'Veículos - Pausas MTD' =
+			
+			CALCULATE(
+			    [Veículos - Qtd Pausas],
+			    DATESMTD(dim_calendar[Data])
+			)
+		formatString: 0
+		lineageTag: 94512626-a187-4c22-acc3-c1deec8aac0f
+
+	measure 'Veículos - Saldo Líquido' =
+			
+			[Veículos - Qtd Cadastros] - [Veículos - Qtd Inativações]
+		formatString: 0
+		lineageTag: 01ab5eb1-a8dd-47fa-8457-fe03833d67d3
+
+	measure 'Veículos - Saldo Líquido MTD' =
+			
+			[Veículos - Cadastros MTD] - [Veículos - Inativações MTD]
+		formatString: 0
+		lineageTag: 49286d23-bfcf-4aff-b2bc-c0f503a830d3
+
+	measure 'Veículos - Cadastros Mês Anterior' =
+			
+			CALCULATE(
+			    [Veículos - Qtd Cadastros],
+			    PREVIOUSMONTH(dim_calendar[Data])
+			)
+		formatString: 0
+		lineageTag: a20efb8b-b2d0-4c6e-88cb-c136f19a9c85
+
+	measure 'Veículos - Inativações Mês Anterior' =
+			
+			CALCULATE(
+			    [Veículos - Qtd Inativações],
+			    PREVIOUSMONTH(dim_calendar[Data])
+			)
+		formatString: 0
+		lineageTag: 842fbaea-bbd8-45e9-a753-585bf9ffd25f
+
+	measure 'Veículos - Pausas Mês Anterior' =
+			
+			CALCULATE(
+			    [Veículos - Qtd Pausas],
+			    PREVIOUSMONTH(dim_calendar[Data])
+			)
+		formatString: 0
+		lineageTag: b1e9ec0d-2399-4564-8314-87c99997cd79
+
+	measure 'Veículos - Saldo Líquido Mês Anterior' =
+			
+			[Veículos - Cadastros Mês Anterior] - [Veículos - Inativações Mês Anterior]
+		formatString: 0
+		lineageTag: d805c29c-e1bb-45b3-86ce-5bec90d671b1
+
+	measure 'Veículos - Var % Cadastros' =
+			
+			DIVIDE(
+			    [Veículos - Qtd Cadastros] - [Veículos - Cadastros Mês Anterior],
+			    [Veículos - Cadastros Mês Anterior]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5d8ed24e-bdd7-492b-93a9-3c5b4a76d953
+
+	measure 'Veículos - Var % Cancelamentos' =
+			
+			DIVIDE(
+			    [Veículos - Qtd Inativações] - [Veículos - Inativações Mês Anterior],
+			    [Veículos - Inativações Mês Anterior]
+			)
+		lineageTag: d1077a9a-a072-4777-bf96-2dd6a9c219f2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Var % Saldo Líquido' =
+			
+			DIVIDE(
+			    [Veículos - Saldo Líquido] - [Veículos - Saldo Líquido Mês Anterior],
+			    [Veículos - Saldo Líquido Mês Anterior]
+			)
+		lineageTag: 530a5bdc-e24f-4b4f-b188-686cf6e14dd8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Veículos - % Ativos' =
+			
+			DIVIDE (
+			    [Veículos - Qtd Ativos],
+			    [Veículos - Qtd Atual]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: fb73c29b-3302-4542-9a1c-3dc1dcc6e182
+
+	measure 'Veículos - Qtd Ativos' = ```
+			
+			VAR UltimaData = 
+			    MAX(dim_vehicles_history[data_extracao])
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT( dim_vehicles_history[codigo_veiculo]),
+			    dim_vehicles_history[descricao_situacao] = "ATIVO",
+			    dim_vehicles_history[data_extracao] = UltimaData
+			)
+			```
+		formatString: 0
+		lineageTag: d5ec2002-24a7-4fe4-92d2-64a3a0681642
+
+	measure 'Veículos - Qtd Atual' =
+			
+			VAR UltimaData =
+			    MAX(dim_vehicles_history[data_extracao])
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT(dim_vehicles_history[codigo_veiculo]),
+			    dim_vehicles_history[data_extracao] = UltimaData,
+			    dim_vehicles_history[descricao_situacao] <> "INATIVO"
+			)
+		formatString: 0
+		lineageTag: 7154df90-4848-4654-8285-c9ea0a7c48d8
+
+	measure 'Veículos - Qtd Fechamento' =
+			
+			VAR UltimaData =
+			    MAX ( dim_vehicles_history[data_extracao] )
+			RETURN
+			CALCULATE (
+			    DISTINCTCOUNT ( dim_vehicles_history[codigo_veiculo] ),
+			    dim_vehicles_history[data_extracao] = UltimaData
+			)
+		formatString: 0
+		lineageTag: 190dc4dc-920e-431b-82c3-948dc307f0bb
+
+	measure 'Veículos - Última Data Snapshot' =
+			
+			MAX(dim_vehicles_history[data_extracao])
+		formatString: General Date
+		lineageTag: 76d8fa3c-8208-481c-9d51-00751994b2c3
+
+	measure 'Veículos - Qtd Reativações' =
+			CALCULATE(
+			    DISTINCTCOUNT(dim_vehicles_history[codigo_veiculo]),
+			    dim_vehicles_history[descricao_situacao] = "ATIVO",
+			    dim_vehicles_history[status_anterior] IN { "INATIVO", "PAUSA" }
+			)
+		formatString: 0
+		lineageTag: 9fef32c4-42eb-4843-9dff-35e68658451d
+
+	column Z
+		isHidden
+		formatString: 0
+		lineageTag: b4b39c75-b235-4176-904a-3e53a8cbfc0a
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Z]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Medidas - Veículos' = calculated
+		mode: import
+		source = Row("Z", BLANK())
+
+	annotation PBI_Id = ca4875f7600140ddaf127b1c099d7b88
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

@@ -1,0 +1,354 @@
+relationship 0889a9b4-1fba-4067-a653-e175a5392a31
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_calendar.'Início Mês'
+	toColumn: LocalDateTable_eff49fb0-d85b-4a62-9570-ca7fac54cdac.Date
+
+relationship 27b27e15-f390-4ca7-acac-4f70f8e5d3f4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.data_nascimento
+	toColumn: LocalDateTable_ebd4a20d-c1d5-4a86-bdcd-b05694a4926f.Date
+
+relationship 3cbc1e12-22e1-472d-8211-6a8d0feaf15a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.data_vencimento_habilitacao
+	toColumn: LocalDateTable_bbc93ef8-d2b7-4aee-86d0-f1c61fe27af8.Date
+
+relationship e9e6bca6-abb4-4938-978d-d2c218cf700a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.data_cadastro_associado
+	toColumn: LocalDateTable_5cea0c12-1094-475e-a74d-417a55607c16.Date
+
+relationship 3c2982c4-9611-427e-b28f-5f02e630c062
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.data_contrato_associado
+	toColumn: LocalDateTable_715112ff-17c1-4156-9a52-6fc37e4c8ddd.Date
+
+relationship 543f181b-e5c0-42db-952f-532336b208fd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_volunteers.data_cadastro
+	toColumn: LocalDateTable_6963fc0d-3d0f-48a2-a878-4fb7133086d9.Date
+
+relationship aa50a187-d1ec-4d75-b368-656e6fe65c20
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_volunteers.data_nascimento
+	toColumn: LocalDateTable_e89e0ea9-d2c4-425f-bfc1-4d3091095935.Date
+
+relationship f7179713-c44c-4423-971e-dcf1294c3088
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles.data_reativacao
+	toColumn: LocalDateTable_889b535f-0a36-46b0-b0c7-ce916115609c.Date
+
+relationship 3d6d04f1-29ca-4ead-978b-c5238bfbc497
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles.data_alteracao
+	toColumn: LocalDateTable_086ef2e7-5362-4e0d-88f3-b5afc3dc61b5.Date
+
+relationship 59404976-a274-455a-a466-a9f312d84362
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles.data_cadastro
+	toColumn: LocalDateTable_17d42504-2b8a-4b16-b73d-5938a4ea5feb.Date
+
+relationship 9b8245f4-fd2c-4450-90c9-a2353de8ce42
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles.data_contrato
+	toColumn: LocalDateTable_345b8ad9-3aa0-4f30-a28b-b1b1e2071f0f.Date
+
+relationship ba6749ed-0c02-433d-9086-23c902b8ca9d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_invoices.data_vencimento_original
+	toColumn: LocalDateTable_7dd02b1d-0ced-48ac-862b-f41f0f88c587.Date
+
+relationship 19e8f172-966c-4b18-814e-0d4a0f009998
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_invoices.data_credito_banco
+	toColumn: LocalDateTable_9297db1a-731f-466c-87ff-d8f62a6387ce.Date
+
+relationship 33288977-71c9-4e82-a1cb-6f686555d8d8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_calendar.Data
+	toColumn: LocalDateTable_04f769c6-4920-4ce6-9d71-82a9608b3e90.Date
+
+relationship 433664e8-b775-47a5-a076-4dc7dec649c5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_delinquency_snapshot.data_emissao
+	toColumn: LocalDateTable_b46d66f8-9639-4a8b-bdb7-0940040aa1dc.Date
+
+relationship 6ae6f91a-39b3-46ee-a0aa-d1ab53c06bc3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_delinquency_snapshot.data_vencimento_original
+	toColumn: LocalDateTable_2f97bed8-9ef0-47fc-955e-2f960ed8d4c6.Date
+
+relationship 2842c07f-64bd-46e8-bb01-9421b7dcf843
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_delinquency_snapshot.data_vencimento
+	toColumn: LocalDateTable_dbc14286-3e81-4e44-aa19-9d26eecf6301.Date
+
+relationship 1ae96ed5-a1d1-426a-a920-2918e5872aa6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.valido_de
+	toColumn: LocalDateTable_fcab602d-0757-4d33-96d2-40a7741ae063.Date
+
+relationship 44047b9c-9ff2-49b0-a9cc-5817315035ba
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.valido_ate
+	toColumn: LocalDateTable_11a91258-3c7d-4eb5-8874-894d229775e4.Date
+
+relationship 9e78316f-49dc-4b42-b697-ae4e4d11686d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles.valido_de
+	toColumn: LocalDateTable_e5dd47da-c93d-4dbf-b048-dfd678afccbb.Date
+
+relationship aec82ff8-b060-45e4-a611-14c69d71523d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles.valido_ate
+	toColumn: LocalDateTable_8deaaa65-4641-4ea7-a652-e9694c762fb3.Date
+
+relationship ea1d9bce-5d2e-ee16-1c59-f8a97b52097b
+	fromColumn: fact_invoices.sk_customer
+	toColumn: dim_customers.sk_customer
+
+relationship bdbf1a06-3d20-38e3-9d56-4b5e06b53564
+	fromColumn: fact_invoices.data_emissao
+	toColumn: dim_calendar.Data
+
+relationship 70c0ea15-33a0-abe2-0369-53616318a5c0
+	fromColumn: fact_delinquency_snapshot.sk_customer
+	toColumn: dim_customers.sk_customer
+
+relationship 08614198-ea8f-41ee-225e-3f9447aab761
+	fromColumn: fact_delinquency_snapshot.dt_referencia
+	toColumn: dim_calendar.Data
+
+relationship 4093bda3-80a3-60e6-b637-f4833afce9a7
+	isActive: false
+	fromColumn: fact_invoices.data_vencimento
+	toColumn: dim_calendar.Data
+
+relationship 5b3a771c-6230-0f23-7d69-7c6067df32fc
+	isActive: false
+	fromColumn: fact_invoices.data_pagamento
+	toColumn: dim_calendar.Data
+
+relationship db16ad04-1031-00b8-32d4-c67b466c556e
+	fromColumn: dim_vehicles.codigo_cooperativa
+	toColumn: dim_cooperatives.codigo_cooperativa
+
+relationship 6e448b92-734e-20a9-ad06-f55e12a9bc57
+	fromColumn: dim_vehicles.codigo_voluntario
+	toColumn: dim_volunteers.codigo_voluntario
+
+relationship eb9034d0-95dc-4a0a-b681-5357bb477d45
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers_current.data_nascimento
+	toColumn: LocalDateTable_08a48a03-c3ac-4e8d-babc-d864229b3318.Date
+
+relationship 1be0a7a4-3e89-482b-ac38-c337ba8c17d3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers_current.data_vencimento_habilitacao
+	toColumn: LocalDateTable_0eb42478-5344-4a83-ae2f-9f45c1fcc6cf.Date
+
+relationship 42f828a9-8a6d-4e93-a057-554bbb7425e6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers_current.data_cadastro_associado
+	toColumn: LocalDateTable_abce5fb9-0da3-438e-8ef9-267956dee31c.Date
+
+relationship da459120-854b-4a4b-b238-1e6d8a0253d0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers_current.data_contrato_associado
+	toColumn: LocalDateTable_09746193-0b5d-4e01-a487-25ce2c9c0bca.Date
+
+relationship 5b731687-ba4f-45ad-b741-d1365e916602
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers_current.valido_de
+	toColumn: LocalDateTable_8f985b75-8c0d-4958-8b6b-6ddf8bb17d4e.Date
+
+relationship fe4f95f0-6d99-4472-a8da-5cf619e4a8ee
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers_current.valido_ate
+	toColumn: LocalDateTable_75fd13b4-da17-49c0-844c-19a96dba1b90.Date
+
+relationship a8ab5494-fb64-486d-aad0-8090344813c7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles_current.data_reativacao
+	toColumn: LocalDateTable_00d67391-b057-4ba2-aeb0-4c1d4411f75d.Date
+
+relationship 202b4d74-0338-4899-91a4-77e080336ad3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles_current.data_alteracao
+	toColumn: LocalDateTable_0c8b544e-384f-4f6d-aaf0-05ba1327d3e5.Date
+
+relationship f5669b4a-a466-4737-8abc-988e175137d8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles_current.data_cadastro
+	toColumn: LocalDateTable_064fb59a-051a-440d-befb-1b5552dc7418.Date
+
+relationship 4e528e42-4c6c-4dff-b679-b7934abf4ca7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles_current.data_contrato
+	toColumn: LocalDateTable_f0d100f4-0ee0-4e5f-b0dc-a85f70c1ad50.Date
+
+relationship 94f24a48-b323-447b-9736-3d15225d4638
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles_current.valido_de
+	toColumn: LocalDateTable_dbed7c91-499b-4303-8367-d30141012beb.Date
+
+relationship b20896b3-f7cb-4cea-a88f-08b36fee2024
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles_current.valido_ate
+	toColumn: LocalDateTable_784ecfd9-c42e-4488-a904-0342797533ce.Date
+
+relationship 42ca1e07-ac03-4764-89b1-63395fe09c7b
+	isActive: false
+	fromColumn: dim_customers.codigo_regional
+	toColumn: dim_regionals.codigo_regional
+
+	annotation PBI_IsFromSource = FS
+
+relationship 171dfd09-a084-4938-b3d1-5816f243f1e4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: bridge_invoices_vehicles.criado_em
+	toColumn: LocalDateTable_641d0857-d6d2-4cb3-802a-b66d3cc87db8.Date
+
+relationship 006376f5-7ced-4df7-8dc3-bdba10698326
+	joinOnDateBehavior: datePartOnly
+	fromColumn: bridge_invoices_vehicles.data_referencia
+	toColumn: LocalDateTable_95a5d00c-8dab-448f-93eb-ccd347915433.Date
+
+relationship 7bea1ba7-8802-4f25-b8db-2a1ab05b2516
+	joinOnDateBehavior: datePartOnly
+	fromColumn: bridge_invoices_vehicles.atualizado_em
+	toColumn: LocalDateTable_149adb17-eaf2-4f94-b673-efd39faa2c59.Date
+
+relationship d20290c5-4efe-973a-a934-617f548fd90b
+	fromColumn: bridge_invoices_vehicles.codigo_boleto
+	toColumn: fact_invoices.codigo_boleto
+
+relationship cfc3b37d-998d-a6d9-aa51-22c29aac81d6
+	fromColumn: bridge_invoices_vehicles.codigo_veiculo
+	toColumn: dim_vehicles.codigo_veiculo
+
+relationship 130061f1-0f59-4f26-b589-7faba09eddad
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_delinquency_by_vehicle_actual.data_emissao
+	toColumn: LocalDateTable_a6ed1498-bec0-4f7c-841e-664f5e8ea987.Date
+
+relationship 0c827b78-f2cf-47c8-a926-8e26f604b4d1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_delinquency_by_vehicle_actual.data_vencimento
+	toColumn: LocalDateTable_e686c4e6-b71b-4516-be4e-d89ae70f28f2.Date
+
+relationship 1970e6c2-5c56-4fdd-bd1e-06e16f4730a5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_delinquency_by_vehicle_history.data_emissao
+	toColumn: LocalDateTable_d5d90203-48f7-4617-a13c-81b82814bb02.Date
+
+relationship 4d24134a-28a7-476f-b098-9fbef82a5980
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_delinquency_by_vehicle_history.data_vencimento
+	toColumn: LocalDateTable_ea82b123-c8ef-4f36-9fab-83b3b5fb87ee.Date
+
+relationship 8a6a3b21-b440-6bad-64d8-b6a9f9904245
+	fromColumn: fact_delinquency_by_vehicle_actual.dt_referencia
+	toColumn: dim_calendar.Data
+
+relationship 8616043b-f4bc-f3f1-65cc-ef8b9933a2cd
+	fromColumn: fact_delinquency_by_vehicle_history.dt_referencia
+	toColumn: dim_calendar.Data
+
+relationship 7026505b-6e9f-d10b-a249-18bfbebb87dd
+	fromColumn: fact_delinquency_by_vehicle_actual.codigo_veiculo
+	toColumn: dim_vehicles_current.codigo_veiculo
+
+relationship 294591a9-8b16-3079-eacc-a65a9bf888af
+	fromColumn: fact_delinquency_by_vehicle_history.sk_vehicle
+	toColumn: dim_vehicles.sk_vehicle
+
+relationship 6b546e24-67f8-d508-14b5-8d2614e861bb
+	fromColumn: fact_delinquency_snapshot.codigo_associado
+	toColumn: dim_customers_current.codigo_associado
+
+relationship 2684dea0-8dfb-43c7-b279-f46a748e5b0b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_cooperatives.criado_em
+	toColumn: LocalDateTable_a6cb20eb-bf40-4e4d-a7f7-08dd106aa82a.Date
+
+relationship c4926509-2ffc-4bbf-9612-6b3f6b1c494b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_cooperatives.atualizado_em
+	toColumn: LocalDateTable_9f898fc9-77e5-483e-973e-033a217baa2d.Date
+
+relationship d940becb-fb08-43c5-b90a-621984b34c88
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_cooperatives.data_referencia
+	toColumn: LocalDateTable_5018526f-0092-4e4e-b4b7-f840c131b470.Date
+
+relationship 7381149d-ce42-4b77-b1d2-1c2a883dabbc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.criado_em
+	toColumn: LocalDateTable_ceb0a291-d18f-4b88-8489-f8a0aae1ceb4.Date
+
+relationship 3c5aec7c-8eda-43a5-9a22-25e565cb54fd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.atualizado_em
+	toColumn: LocalDateTable_029572ee-7a21-453b-a35f-fa3630f00952.Date
+
+relationship ce2b63a4-a20a-4a1f-becb-99ebea5261aa
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_regionals.criado_em
+	toColumn: LocalDateTable_970d1c95-320d-4e9f-8c51-3cff40e9104d.Date
+
+relationship b453b28a-efad-4cce-8e1a-3476a7accf0a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_regionals.atualizado_em
+	toColumn: LocalDateTable_ff5330c7-a827-4003-845a-0d48354ce776.Date
+
+relationship 53b18edc-da79-4682-acc3-ae7c9a168632
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_regionals.data_referencia
+	toColumn: LocalDateTable_25622dac-1ac2-4c01-ae8e-609dc14112eb.Date
+
+relationship a9c5a701-e642-456e-93e9-a0c084651a39
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_volunteers.criado_em
+	toColumn: LocalDateTable_595738e7-4e36-4634-a59c-a3b73abdbb16.Date
+
+relationship 20e55f6b-d47c-4a62-a21f-339179d07c06
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_volunteers.atualizado_em
+	toColumn: LocalDateTable_dd90356c-ec39-48ed-b5b7-83abc90a6e06.Date
+
+relationship d8a419a2-edac-479a-84c6-73ccc089c6a8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_volunteers.data_referencia
+	toColumn: LocalDateTable_29770d61-de26-4a62-9104-f46baf6b0140.Date
+
+relationship 7fc6eca0-4476-4f2d-a385-79036a1fc704
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles.criado_em
+	toColumn: LocalDateTable_926458f1-2a46-4ad0-b52c-2394f5250d20.Date
+
+relationship c71f747f-cb97-4501-874c-3670de616709
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_vehicles.atualizado_em
+	toColumn: LocalDateTable_38fa0e9c-0af8-4ff6-a5aa-df3a6d74ccbf.Date
+
+relationship ffa458b5-44cf-4240-93f8-c88478ec03ce
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_invoices.criado_em
+	toColumn: LocalDateTable_884ce817-9973-4911-9494-349fd47004e5.Date
+
+relationship c59608af-7c83-4a66-9aae-0b6822792cc3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_invoices.atualizado_em
+	toColumn: LocalDateTable_b7a9c294-8d6f-404d-ac9f-6e27b133c989.Date
+
+relationship 0f0d1733-bb5f-41ee-b7ae-3970345bc8c3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_invoices.data_referencia
+	toColumn: LocalDateTable_9cb715cc-3e0b-42c7-84e2-47b656e709b1.Date
+
+relationship 9f21a476-3ed5-48ec-89b3-cabad741e09e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_delinquency_snapshot.criado_em
+	toColumn: LocalDateTable_ec621248-8a5d-4e43-9283-daf6b7f05c0f.Date
+

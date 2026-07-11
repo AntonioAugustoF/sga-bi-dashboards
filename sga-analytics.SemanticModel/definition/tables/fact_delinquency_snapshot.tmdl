@@ -1,0 +1,427 @@
+table fact_delinquency_snapshot
+	lineageTag: 33eef38c-20db-47b8-96d0-49c1bf25a94a
+
+	column codigo_associado
+		dataType: string
+		lineageTag: 47babaee-4ab5-4224-896a-12ae746803eb
+		summarizeBy: none
+		sourceColumn: codigo_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_associado
+		dataType: string
+		lineageTag: f6e4e682-c2a8-4c37-8185-bcad057f1f32
+		summarizeBy: none
+		sourceColumn: nome_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column cpf_associado
+		dataType: string
+		lineageTag: 6c1ff8f6-4361-40d7-8876-181888dd69e6
+		summarizeBy: none
+		sourceColumn: cpf_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_situacao_associado
+		dataType: string
+		lineageTag: c0e1dc0a-1091-4488-9048-f5f4cba64860
+		summarizeBy: none
+		sourceColumn: codigo_situacao_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricao_situacao_associado
+		dataType: string
+		lineageTag: 830f0065-b460-4648-a304-20722d2b781e
+		summarizeBy: none
+		sourceColumn: descricao_situacao_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_regional_associado
+		dataType: string
+		lineageTag: 2e75c315-b976-4b70-b89b-9e32f2c9a19e
+		summarizeBy: none
+		sourceColumn: codigo_regional_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_regional_associado
+		dataType: string
+		lineageTag: caf38ce3-1a14-4cc9-a5c6-7189982a847b
+		summarizeBy: none
+		sourceColumn: nome_regional_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_boleto
+		dataType: string
+		lineageTag: cbc2ac1a-21f2-4e39-a2ba-8ffe0900ad69
+		summarizeBy: none
+		sourceColumn: codigo_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column nosso_numero
+		dataType: string
+		lineageTag: 77913eed-8dda-4be2-8fdb-f61df9522d62
+		summarizeBy: none
+		sourceColumn: nosso_numero
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_situacao_boleto
+		dataType: string
+		lineageTag: 74289df0-53d2-4f08-8cef-5c87eec725b0
+		summarizeBy: none
+		sourceColumn: codigo_situacao_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricao_situacao_boleto
+		dataType: string
+		lineageTag: 4fbc918c-6bd1-4896-baa7-98d245c95e16
+		summarizeBy: none
+		sourceColumn: descricao_situacao_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column pago
+		dataType: string
+		lineageTag: 2bc4b453-dd9e-469a-a3be-b163ce88b49d
+		summarizeBy: none
+		sourceColumn: pago
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_regional
+		dataType: string
+		lineageTag: d79a3ac3-0557-4cd0-8669-ccf3289795c4
+		summarizeBy: none
+		sourceColumn: codigo_regional
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_regional_boleto
+		dataType: string
+		lineageTag: a4886e60-d353-4b31-ba03-753433a7c2f4
+		summarizeBy: none
+		sourceColumn: nome_regional_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes_referente
+		dataType: string
+		lineageTag: 0f3cc3bc-f895-4e61-b43a-ddfb89475648
+		summarizeBy: none
+		sourceColumn: mes_referente
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_emissao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 64a509ab-80b4-4d58-a1bf-e727233059cf
+		summarizeBy: none
+		sourceColumn: data_emissao
+
+		variation Variation
+			isDefault
+			relationship: 433664e8-b775-47a5-a076-4dc7dec649c5
+			defaultHierarchy: LocalDateTable_b46d66f8-9639-4a8b-bdb7-0940040aa1dc.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_vencimento_original
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d5901570-91cf-4a2b-aab3-3586b5ce05e9
+		summarizeBy: none
+		sourceColumn: data_vencimento_original
+
+		variation Variation
+			isDefault
+			relationship: 6ae6f91a-39b3-46ee-a0aa-d1ab53c06bc3
+			defaultHierarchy: LocalDateTable_2f97bed8-9ef0-47fc-955e-2f960ed8d4c6.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_vencimento
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6f253e10-b65e-4fcc-9b21-730139efc2e8
+		summarizeBy: none
+		sourceColumn: data_vencimento
+
+		variation Variation
+			isDefault
+			relationship: 2842c07f-64bd-46e8-bb01-9421b7dcf843
+			defaultHierarchy: LocalDateTable_dbc14286-3e81-4e44-aa19-9d26eecf6301.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column valor_boleto
+		dataType: double
+		lineageTag: 3258b4f5-d701-4512-b94e-b63a84a12ea9
+		summarizeBy: sum
+		sourceColumn: valor_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column data_pagamento
+		dataType: string
+		lineageTag: 06264d7b-afcc-44f8-9553-8eb263be15a3
+		summarizeBy: none
+		sourceColumn: data_pagamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_pagamento
+		dataType: int64
+		formatString: 0
+		lineageTag: 54ab0e34-5144-4b0d-81c5-18054e4c188e
+		summarizeBy: sum
+		sourceColumn: valor_pagamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_credito_banco
+		dataType: string
+		lineageTag: 603092e6-11b0-4811-b479-1314cb0e5299
+		summarizeBy: none
+		sourceColumn: data_credito_banco
+
+		annotation SummarizationSetBy = Automatic
+
+	column referente
+		dataType: string
+		lineageTag: 9165ac92-c8da-41ae-99b3-e5e6a61fcc8b
+		summarizeBy: none
+		sourceColumn: referente
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_mgfformapagamento
+		dataType: string
+		lineageTag: b7f0c646-dd5b-4f31-8d13-bc5ee8bbfdc9
+		summarizeBy: none
+		sourceColumn: codigo_mgfformapagamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_forma_pagamento
+		dataType: string
+		lineageTag: 78cf4582-b9d7-4bea-bc14-f19829a32db8
+		summarizeBy: none
+		sourceColumn: codigo_forma_pagamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricao_forma_pagamento
+		dataType: string
+		lineageTag: 209222e0-62d4-42d9-8b78-04f5f610a287
+		summarizeBy: none
+		sourceColumn: descricao_forma_pagamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column tarifa_cobranca_banco
+		dataType: double
+		lineageTag: 93559edc-b254-4cdf-9d75-dc07b8114df1
+		summarizeBy: sum
+		sourceColumn: tarifa_cobranca_banco
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column parcela_paga
+		dataType: int64
+		formatString: 0
+		lineageTag: adadbdba-f850-455e-8fb3-01e2fef062c6
+		summarizeBy: sum
+		sourceColumn: parcela_paga
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtde_parcela
+		dataType: int64
+		formatString: 0
+		lineageTag: 86fccb78-4949-4a0b-9729-f694b15a1b3b
+		summarizeBy: sum
+		sourceColumn: qtde_parcela
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricao_tipo_cobranca_recorrente
+		dataType: string
+		lineageTag: db5c8f66-26ca-4014-abce-0bfa14712db4
+		summarizeBy: none
+		sourceColumn: descricao_tipo_cobranca_recorrente
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_tipo_boleto
+		dataType: string
+		lineageTag: aaeea1eb-0194-44fb-bb35-4c3d13088d04
+		summarizeBy: none
+		sourceColumn: codigo_tipo_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricao_tipo_boleto
+		dataType: string
+		lineageTag: 8b7ee41a-2f6b-4317-87a3-e160d16f82d6
+		summarizeBy: none
+		sourceColumn: descricao_tipo_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_conta
+		dataType: string
+		lineageTag: 8ba767b2-14d2-436b-8d8c-d13cb13dcacd
+		summarizeBy: none
+		sourceColumn: codigo_conta
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_banco
+		dataType: string
+		lineageTag: 910e241d-3dea-4b3f-a73d-bacede60abef
+		summarizeBy: none
+		sourceColumn: codigo_banco
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_banco
+		dataType: string
+		lineageTag: 687f485c-cc11-4422-8af9-96a82822173c
+		summarizeBy: none
+		sourceColumn: nome_banco
+
+		annotation SummarizationSetBy = Automatic
+
+	column agencia
+		dataType: string
+		lineageTag: 9fbc20bd-9cd4-441f-bb65-2e24ca675b7b
+		summarizeBy: none
+		sourceColumn: agencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column conta
+		dataType: string
+		lineageTag: 79eb8f77-3609-4b29-9d25-1b7473bdda97
+		summarizeBy: none
+		sourceColumn: conta
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricao_tipo_baixa_boleto
+		dataType: string
+		lineageTag: 9bea29d4-9c54-4e47-a138-ce5a304373ae
+		summarizeBy: none
+		sourceColumn: descricao_tipo_baixa_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column veiculo
+		dataType: string
+		lineageTag: 071c8487-2bee-42b4-8995-79ef1d138abe
+		summarizeBy: none
+		sourceColumn: veiculo
+
+		annotation SummarizationSetBy = Automatic
+
+	column beneficiario
+		dataType: string
+		lineageTag: 55d43120-4324-4e61-9bfb-6834e8e13d95
+		summarizeBy: none
+		sourceColumn: beneficiario
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_situacao
+		dataType: string
+		lineageTag: 5c74678a-ea5d-4c94-b4f3-f9a7f552db11
+		summarizeBy: none
+		sourceColumn: codigo_situacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column dt_referencia
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: af07d2d8-f905-45c8-864d-478071ed5000
+		summarizeBy: none
+		sourceColumn: dt_referencia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column dias_em_atraso
+		dataType: int64
+		formatString: 0
+		lineageTag: 21cd7fc6-7165-42a8-b1b5-e1e30f1954dc
+		summarizeBy: sum
+		sourceColumn: dias_em_atraso
+
+		annotation SummarizationSetBy = Automatic
+
+	column faixa_atraso
+		dataType: string
+		lineageTag: fbdce52c-cc60-40a1-a507-a1b5897efe27
+		summarizeBy: none
+		sourceColumn: faixa_atraso
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_customer
+		dataType: int64
+		lineageTag: 9c7f1bf3-7cc2-4b20-82ec-ae8bf0dc063b
+		summarizeBy: none
+		sourceColumn: sk_customer
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column criado_em
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dbbea2c8-ac46-4c54-b2b1-dbef0827692c
+		summarizeBy: none
+		sourceColumn: criado_em
+
+		variation Variation
+			isDefault
+			relationship: 9f21a476-3ed5-48ec-89b3-cabad741e09e
+			defaultHierarchy: LocalDateTable_ec621248-8a5d-4e43-9283-daf6b7f05c0f.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_delinquency_snapshot = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("localhost", "sga_dw"),
+				    public_fact_delinquency_snapshot = Fonte{[Schema="public",Item="fact_delinquency_snapshot"]}[Data]
+				in
+				    public_fact_delinquency_snapshot
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

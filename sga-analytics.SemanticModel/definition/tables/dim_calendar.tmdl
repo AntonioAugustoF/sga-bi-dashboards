@@ -1,0 +1,92 @@
+table dim_calendar
+	lineageTag: fe33cf22-311f-4834-892c-470f47d72951
+
+	column Data
+		formatString: Short Date
+		lineageTag: 5c8e359d-69b7-4eaf-96f4-271849c634f5
+		summarizeBy: none
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: 33288977-71c9-4e82-a1cb-6f686555d8d8
+			defaultHierarchy: LocalDateTable_04f769c6-4920-4ce6-9d71-82a9608b3e90.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mês = dim_calendar[Data].[Mês]
+		lineageTag: e43e503a-ac4e-4514-8139-541e33c492ed
+		summarizeBy: none
+		sortByColumn: 'Nº Mês'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nº Mês' = dim_calendar[Data].[MonthNo]
+		formatString: 0
+		lineageTag: 64625ada-f348-4be7-967f-bc3988a51064
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Início Mês' = STARTOFMONTH(dim_calendar[Data])
+		formatString: Long Date
+		lineageTag: c9b1e58c-14da-43d4-b63f-3d69b4155abd
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 0889a9b4-1fba-4067-a653-e175a5392a31
+			defaultHierarchy: LocalDateTable_eff49fb0-d85b-4a62-9570-ca7fac54cdac.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Trimestre = dim_calendar[Data].[QuarterNo]
+		formatString: 0
+		lineageTag: 18ee398a-1654-49df-a01f-b1e347495bae
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Semestre = IF(dim_calendar[Nº Mês] <= 6, 1, 2)
+		formatString: 0
+		lineageTag: 7d09b34a-afed-4b1b-bba8-e70abb48f321
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ano = dim_calendar[Data].[Ano]
+		formatString: 0
+		lineageTag: 7d8fe03b-57a2-4147-b314-7f45932984a3
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesAno = FORMAT(dim_calendar[Início Mês], "mmm/yyyy")
+		lineageTag: 4b115287-a758-4fb0-932d-8312b8f24bb1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Vigente?' =
+			IF(
+			    dim_calendar[Data]<=MAX(fact_invoices[data_pagamento]),
+			    "Sim",
+			    "Não"
+			)
+		lineageTag: 19bcada2-edf4-46cd-b8a5-f6a2cfbbffe0
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_calendar = calculated
+		mode: import
+		source =
+				CALENDAR(
+				    DATE(YEAR(MIN(fact_invoices[data_pagamento])), 1, 1),
+				    DATE(YEAR(MAX((fact_invoices[data_pagamento]))), 12, 31)
+				)
+
+	annotation PBI_Id = 61e426aff23b44249ca4429869e372b8
+

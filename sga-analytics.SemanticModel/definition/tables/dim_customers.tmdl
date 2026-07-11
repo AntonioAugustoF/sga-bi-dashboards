@@ -1,0 +1,402 @@
+table dim_customers
+	lineageTag: 26134ad6-0fc4-4c04-9739-53a0d1aff740
+
+	column codigo_associado
+		dataType: string
+		lineageTag: 851dd25e-ef0e-402d-8c92-01ad4c6eea52
+		summarizeBy: none
+		sourceColumn: codigo_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_situacao
+		dataType: string
+		lineageTag: 8707342b-44cf-45d1-86a2-c2945d965a3f
+		summarizeBy: none
+		sourceColumn: codigo_situacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome
+		dataType: string
+		lineageTag: aaa20abe-6317-4723-9873-07daf9f61f9b
+		summarizeBy: none
+		sourceColumn: nome
+
+		annotation SummarizationSetBy = Automatic
+
+	column sexo
+		dataType: string
+		lineageTag: 0dc17a82-4b80-4ab0-9de2-16b15bc3fdc9
+		summarizeBy: none
+		sourceColumn: sexo
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_pessoa
+		dataType: string
+		lineageTag: fea43def-1283-47f1-ab90-30c6be526734
+		summarizeBy: none
+		sourceColumn: tipo_pessoa
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_nascimento
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 55144b6a-3455-45e2-872e-c1f9415d5ae2
+		summarizeBy: none
+		sourceColumn: data_nascimento
+
+		variation Variation
+			isDefault
+			relationship: 27b27e15-f390-4ca7-acac-4f70f8e5d3f4
+			defaultHierarchy: LocalDateTable_ebd4a20d-c1d5-4a86-bdcd-b05694a4926f.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column rg_associado
+		dataType: string
+		lineageTag: c4bbd5a2-91a5-4656-a2ab-3e8d034c82d3
+		summarizeBy: none
+		sourceColumn: rg_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnh
+		dataType: string
+		lineageTag: e113f242-ed41-4fa4-9dd5-ef9b9c75b1f5
+		summarizeBy: none
+		sourceColumn: cnh
+
+		annotation SummarizationSetBy = Automatic
+
+	column categoria_cnh
+		dataType: string
+		lineageTag: 18aa4726-04ea-4bfc-8a53-2671792f0539
+		summarizeBy: none
+		sourceColumn: categoria_cnh
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_vencimento_habilitacao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cfeea0d0-725d-4331-9eae-c15cad0eabae
+		summarizeBy: none
+		sourceColumn: data_vencimento_habilitacao
+
+		variation Variation
+			isDefault
+			relationship: 3cbc1e12-22e1-472d-8211-6a8d0feaf15a
+			defaultHierarchy: LocalDateTable_bbc93ef8-d2b7-4aee-86d0-f1c61fe27af8.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column dia_vencimento
+		dataType: string
+		lineageTag: 4a9916c7-03c1-401b-8da3-ee347be1c775
+		summarizeBy: none
+		sourceColumn: dia_vencimento
+
+		annotation SummarizationSetBy = Automatic
+
+	column cpf
+		dataType: string
+		lineageTag: 1da14814-ec3f-40ba-b900-214bcb7f7e13
+		summarizeBy: none
+		sourceColumn: cpf
+
+		annotation SummarizationSetBy = Automatic
+
+	column ddd
+		dataType: string
+		lineageTag: d50e6c3b-44db-4b45-b7c6-da4433e917c5
+		summarizeBy: none
+		sourceColumn: ddd
+
+		annotation SummarizationSetBy = Automatic
+
+	column telefone
+		dataType: string
+		lineageTag: a0a73854-f2fc-4bad-994f-f3ab63a146d6
+		summarizeBy: none
+		sourceColumn: telefone
+
+		annotation SummarizationSetBy = Automatic
+
+	column filhos
+		dataType: double
+		lineageTag: d69ffd5c-3377-451c-8048-3deef58614a5
+		summarizeBy: sum
+		sourceColumn: filhos
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column codigo_profissao
+		dataType: string
+		lineageTag: 7455b4b9-071b-43f6-8a06-e2ab6c78a4fe
+		summarizeBy: none
+		sourceColumn: codigo_profissao
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_classificacao
+		dataType: string
+		lineageTag: 2e533a91-fe06-4869-b3f8-a0668dcce6d9
+		summarizeBy: none
+		sourceColumn: codigo_classificacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column ddd_celular
+		dataType: string
+		lineageTag: 7314c0ba-d313-4ea2-8610-cd13903d9ec6
+		summarizeBy: none
+		sourceColumn: ddd_celular
+
+		annotation SummarizationSetBy = Automatic
+
+	column telefone_celular
+		dataType: string
+		lineageTag: d9ac644d-6356-4df1-a066-eaf2992a24c6
+		summarizeBy: none
+		sourceColumn: telefone_celular
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: 3ae1eec1-6e1d-4309-bb58-5bf7e18aca33
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column cep
+		dataType: string
+		lineageTag: c265207f-6485-45b9-ae60-55ee0603d1cd
+		summarizeBy: none
+		sourceColumn: cep
+
+		annotation SummarizationSetBy = Automatic
+
+	column logradouro
+		dataType: string
+		lineageTag: d364caf1-55eb-4745-8752-f58093528df2
+		summarizeBy: none
+		sourceColumn: logradouro
+
+		annotation SummarizationSetBy = Automatic
+
+	column numero
+		dataType: string
+		lineageTag: 74635668-b297-4b73-9902-1598d48794e8
+		summarizeBy: none
+		sourceColumn: numero
+
+		annotation SummarizationSetBy = Automatic
+
+	column complemento
+		dataType: string
+		lineageTag: 394c58cb-8679-4208-b36f-a4c82e5a0a82
+		summarizeBy: none
+		sourceColumn: complemento
+
+		annotation SummarizationSetBy = Automatic
+
+	column bairro
+		dataType: string
+		lineageTag: 763f7623-bf58-42aa-affa-8943b0161dbc
+		summarizeBy: none
+		sourceColumn: bairro
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade
+		dataType: string
+		lineageTag: 8675c72a-c2da-4c7d-b255-ff3be0aef33a
+		summarizeBy: none
+		sourceColumn: cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado
+		dataType: string
+		lineageTag: 9d6e2277-cf67-42ca-8afe-b33adc765465
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_cadastro_associado
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1d58ef59-8a75-460a-97c4-29d37efa48d0
+		summarizeBy: none
+		sourceColumn: data_cadastro_associado
+
+		variation Variation
+			isDefault
+			relationship: e9e6bca6-abb4-4938-978d-d2c218cf700a
+			defaultHierarchy: LocalDateTable_5cea0c12-1094-475e-a74d-417a55607c16.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_contrato_associado
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 602d8cf3-e883-40af-be70-199cc4de5c8f
+		summarizeBy: none
+		sourceColumn: data_contrato_associado
+
+		variation Variation
+			isDefault
+			relationship: 3c2982c4-9611-427e-b28f-5f02e630c062
+			defaultHierarchy: LocalDateTable_715112ff-17c1-4156-9a52-6fc37e4c8ddd.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column codigo_regional
+		dataType: string
+		lineageTag: 5a0c36f9-c252-44b8-b3d6-92a0d8b41855
+		summarizeBy: none
+		sourceColumn: codigo_regional
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_cooperativa
+		dataType: string
+		lineageTag: 3f2cc0e1-e93b-44ea-8757-5f42c7a81a81
+		summarizeBy: none
+		sourceColumn: codigo_cooperativa
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_voluntario
+		dataType: string
+		lineageTag: 1de1ea18-ac25-4cc2-8a67-a16568055c7f
+		summarizeBy: none
+		sourceColumn: codigo_voluntario
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricao_situacao
+		dataType: string
+		lineageTag: 5ad1a0ea-8efa-45b8-b27c-3bd72ed8571e
+		summarizeBy: none
+		sourceColumn: descricao_situacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column idade
+		dataType: double
+		lineageTag: 54629ea9-0479-4532-af6b-80cc5abb7ae9
+		summarizeBy: sum
+		sourceColumn: idade
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column valido_de
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: fb6cf960-e94a-4035-8046-2e2f3d8464e2
+		summarizeBy: none
+		sourceColumn: valido_de
+
+		variation Variation
+			isDefault
+			relationship: 1ae96ed5-a1d1-426a-a920-2918e5872aa6
+			defaultHierarchy: LocalDateTable_fcab602d-0757-4d33-96d2-40a7741ae063.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column valido_ate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7b26e467-e7fc-464d-b48b-9c10e8d52657
+		summarizeBy: none
+		sourceColumn: valido_ate
+
+		variation Variation
+			isDefault
+			relationship: 44047b9c-9ff2-49b0-a9cc-5817315035ba
+			defaultHierarchy: LocalDateTable_11a91258-3c7d-4eb5-8874-894d229775e4.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column vigente
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: cdb555fe-cb6e-4ed0-a7c9-0637e9e9ddac
+		summarizeBy: none
+		sourceColumn: vigente
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_customer
+		dataType: int64
+		formatString: 0
+		lineageTag: 36edf3e5-b964-417b-be87-7adbea125d06
+		summarizeBy: none
+		sourceColumn: sk_customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column criado_em
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2ba5312b-da92-4e63-9bd1-f3273816df20
+		summarizeBy: none
+		sourceColumn: criado_em
+
+		variation Variation
+			isDefault
+			relationship: 7381149d-ce42-4b77-b1d2-1c2a883dabbc
+			defaultHierarchy: LocalDateTable_ceb0a291-d18f-4b88-8489-f8a0aae1ceb4.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column atualizado_em
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b7f0ab40-cc2c-4152-bfd3-9563fb24e8c8
+		summarizeBy: none
+		sourceColumn: atualizado_em
+
+		variation Variation
+			isDefault
+			relationship: 3c5aec7c-8eda-43a5-9a22-25e565cb54fd
+			defaultHierarchy: LocalDateTable_029572ee-7a21-453b-a35f-fa3630f00952.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customers = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("localhost", "sga_dw"),
+				    public_dim_customers = Fonte{[Schema="public",Item="dim_customers"]}[Data]
+				in
+				    public_dim_customers
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,239 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 251.999994913737,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1205.7415752499753,
+            "y": 820.5522571503476
+          },
+          "nodeIndex": "dim_cooperatives",
+          "nodeLineageTag": "feb3f071-6ede-487f-8735-c3d562f39e70",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 148.57142857142861,
+            "y": 848.53425502666948
+          },
+          "nodeIndex": "dim_customers",
+          "nodeLineageTag": "26134ad6-0fc4-4c04-9739-53a0d1aff740",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 27.142857142857142
+          },
+          "nodeIndex": "dim_regionals",
+          "nodeLineageTag": "a2133dfa-1c75-496f-9893-fe60f991459f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 719.72389762873786,
+            "y": 0
+          },
+          "nodeIndex": "dim_vehicles",
+          "nodeLineageTag": "e57cdd99-0b1b-4e27-8d8d-588d77103ec7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 1348.6775184228036,
+            "y": 162.85714285714286
+          },
+          "nodeIndex": "dim_volunteers",
+          "nodeLineageTag": "6a0853db-d3de-4b60-8bda-693a7808aa80",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 447.14285714285711,
+            "y": 371.46447286244006
+          },
+          "nodeIndex": "fact_invoices",
+          "nodeLineageTag": "8f442256-de03-4826-a9da-41d3178176e1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 646.60757832191166,
+            "y": 750.10261783790747
+          },
+          "nodeIndex": "dim_calendar",
+          "nodeLineageTag": "fe33cf22-311f-4834-892c-470f47d72951",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 944.35886110272543,
+            "y": 468.36463490850707
+          },
+          "nodeIndex": "fact_delinquency_snapshot",
+          "nodeLineageTag": "33eef38c-20db-47b8-96d0-49c1bf25a94a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 3249.7963174050838,
+            "y": 544.669863254046
+          },
+          "nodeIndex": "Medidas - Associados",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 3253.7615214200819,
+            "y": 752.07828586347409
+          },
+          "nodeIndex": "Medidas - Veículos",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 1891.0948547534151,
+            "y": 229.2671275133348
+          },
+          "nodeIndex": "dim_customers_current",
+          "nodeLineageTag": "b67dde70-2497-4322-9663-355017ef48a6",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1887.4280660164361,
+            "y": 612.93379418000143
+          },
+          "nodeIndex": "dim_vehicles_current",
+          "nodeLineageTag": "9babdf79-72d6-44c0-b55b-fb5366eda512",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 3015.7963174050838,
+            "y": 540.89880102478378
+          },
+          "nodeIndex": "Medidas - Inadimplência",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 3028.4000015258789,
+            "y": 735
+          },
+          "nodeIndex": "Medidas - Faturamento",
+          "nodeLineageTag": "3d6bdfe1-3782-41f8-ae37-f31c34c17fb2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1558,
+            "y": 864
+          },
+          "nodeIndex": "bridge_invoices_vehicles",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 848.42818808674838,
+            "y": 1077.6004608466683
+          },
+          "nodeIndex": "fact_delinquency_by_vehicle_history",
+          "nodeLineageTag": "1473f524-2530-4d19-8d11-cd8ca8cacd29",
+          "size": {
+            "height": 300,
+            "width": 339
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 416.09485475341512,
+            "y": 1079.2671275133348
+          },
+          "nodeIndex": "fact_delinquency_by_vehicle_actual",
+          "nodeLineageTag": "5b02579a-87d6-416f-b150-ffb4e33d9d9b",
+          "size": {
+            "height": 300,
+            "width": 295.66666666666663
+          },
+          "zIndex": 1
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 60,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

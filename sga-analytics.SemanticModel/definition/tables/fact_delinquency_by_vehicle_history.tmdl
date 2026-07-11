@@ -1,0 +1,178 @@
+table fact_delinquency_by_vehicle_history
+	lineageTag: 1473f524-2530-4d19-8d11-cd8ca8cacd29
+
+	column codigo_boleto
+		dataType: string
+		lineageTag: 73d509e0-436c-4d2d-b965-cc4a0efa6a9e
+		summarizeBy: none
+		sourceColumn: codigo_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column dt_referencia
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e01b9fd1-0ca1-4d0d-b065-da5830950d16
+		summarizeBy: none
+		sourceColumn: dt_referencia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_emissao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 69fa78ee-5a23-423f-b87f-8476b71f1813
+		summarizeBy: none
+		sourceColumn: data_emissao
+
+		variation Variation
+			isDefault
+			relationship: 1970e6c2-5c56-4fdd-bd1e-06e16f4730a5
+			defaultHierarchy: LocalDateTable_d5d90203-48f7-4617-a13c-81b82814bb02.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_vencimento
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 85eec007-3e7e-4f07-b9f4-34e5e3e63378
+		summarizeBy: none
+		sourceColumn: data_vencimento
+
+		variation Variation
+			isDefault
+			relationship: 4d24134a-28a7-476f-b098-9fbef82a5980
+			defaultHierarchy: LocalDateTable_ea82b123-c8ef-4f36-9fab-83b3b5fb87ee.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column valor_boleto
+		dataType: double
+		lineageTag: 5ea6006c-6704-433f-8da5-8b10699b39a6
+		summarizeBy: sum
+		sourceColumn: valor_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dias_em_atraso
+		dataType: int64
+		formatString: 0
+		lineageTag: 4f9980e9-2af3-473d-8ba2-121ad9eb06bb
+		summarizeBy: sum
+		sourceColumn: dias_em_atraso
+
+		annotation SummarizationSetBy = Automatic
+
+	column faixa_atraso
+		dataType: string
+		lineageTag: e3636a5c-851f-4341-a68e-a8a02d12c5d0
+		summarizeBy: none
+		sourceColumn: faixa_atraso
+
+		annotation SummarizationSetBy = Automatic
+
+	column pago
+		dataType: string
+		lineageTag: 71d6d5a4-9e0c-4d89-9d9a-5cb17f1bf746
+		summarizeBy: none
+		sourceColumn: pago
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_veiculo
+		dataType: string
+		lineageTag: fcd34bf4-41e0-4151-a0ab-996b2eca434a
+		summarizeBy: none
+		sourceColumn: codigo_veiculo
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_veiculos_boleto
+		dataType: int64
+		formatString: 0
+		lineageTag: a65d053e-60a2-4d68-be03-4a095a698abf
+		summarizeBy: sum
+		sourceColumn: qtd_veiculos_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_rateado
+		dataType: double
+		lineageTag: fcbec0f1-ab6b-432c-be49-54ff15173b77
+		summarizeBy: sum
+		sourceColumn: valor_rateado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sk_vehicle
+		dataType: int64
+		formatString: 0
+		lineageTag: d04801e3-361e-47ad-90e7-9fce6162d1a6
+		summarizeBy: none
+		sourceColumn: sk_vehicle
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_voluntario
+		dataType: string
+		lineageTag: 2fcf1732-b25f-46de-a985-99107d0a3195
+		summarizeBy: none
+		sourceColumn: codigo_voluntario
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_voluntario
+		dataType: string
+		lineageTag: 5eb75886-bc37-41fe-b79d-fad19446847d
+		summarizeBy: none
+		sourceColumn: nome_voluntario
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_regional_veiculo
+		dataType: string
+		lineageTag: 889516dd-9b9e-4181-a88b-5c23e5b5d956
+		summarizeBy: none
+		sourceColumn: codigo_regional_veiculo
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_cooperativa_veiculo
+		dataType: string
+		lineageTag: e98e0e2b-6232-4360-bf6b-25e87455e019
+		summarizeBy: none
+		sourceColumn: codigo_cooperativa_veiculo
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_situacao_veiculo
+		dataType: string
+		lineageTag: 47ac6552-cacb-46a8-801c-86453808770a
+		summarizeBy: none
+		sourceColumn: codigo_situacao_veiculo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_delinquency_by_vehicle_history = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("localhost", "sga_dw"),
+				    public_vw_delinquency_by_vehicle_historico = Fonte{[Schema="public",Item="vw_delinquency_by_vehicle_historico"]}[Data]
+				in
+				    public_vw_delinquency_by_vehicle_historico
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

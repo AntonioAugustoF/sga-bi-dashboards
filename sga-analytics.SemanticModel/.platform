@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "sga-analytics"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9995ab4c-d821-48b5-add1-abf89cb56b64"
+  }
+}

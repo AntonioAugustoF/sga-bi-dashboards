@@ -1,0 +1,106 @@
+table 'Medidas - Associados'
+	lineageTag: 2a2c4482-5472-43c2-ad31-32007d7af349
+
+	measure 'Associados - Última Data Snapshot' =
+			
+			MAX(dim_customers_history[data_extracao])
+		formatString: General Date
+		lineageTag: 46b7b9b2-6c38-4622-9b2a-f2917e9d8fda
+
+	measure 'Associados - Qtd Atual' =
+			
+			VAR UltimaData =
+			    MAX(dim_customers_history[data_extracao])
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT(dim_customers_history[codigo_associado]),
+			    dim_customers_history[data_extracao] = UltimaData,
+			    dim_customers_history[descricao_situacao] <> "INATIVO"
+			)
+		formatString: 0
+		lineageTag: 3b011c9e-4629-4216-972e-4d72b656a400
+
+	measure 'Associados - Qtd Ativos' =
+			
+			VAR UltimaData =
+			    MAX(dim_customers_history[data_extracao])
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT (dim_customers_history[codigo_associado]),
+			    dim_customers_history[data_extracao] = UltimaData,
+			    dim_customers_history[descricao_situacao] = "ATIVO"
+			)
+		formatString: 0
+		lineageTag: 2f1b272c-3ffe-43e1-a76c-f36ea8370c20
+
+	measure 'Associados - % Ativos' =
+			
+			DIVIDE (
+			    [Associados - Qtd Ativos],
+			    [Associados - Qtd Atual]
+			)
+		lineageTag: 705c381f-27b2-4fe2-b9fd-1b65c3660d5c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Associados - Qtd Fechamento' =
+			
+			VAR UltimaData =
+			    MAX ( dim_customers_history[data_extracao] )
+			RETURN
+			CALCULATE (
+			    DISTINCTCOUNT ( dim_customers_history[codigo_associado] ),
+			    dim_customers_history[data_extracao] = UltimaData
+			)
+		formatString: 0
+		lineageTag: bfa3a990-a1c0-4868-971a-c662fce11c60
+
+	measure 'Associados - Cadastros' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(dim_customers[codigo_associado])
+			)
+		formatString: 0
+		lineageTag: 5bbb8298-97ac-4b02-8a20-06545a36a341
+
+	measure 'Associados - Cadastros MTD' =
+			
+			CALCULATE(
+			    [Associados - Cadastros],
+			    DATESMTD(dim_calendar[Data])
+			)
+		formatString: 0
+		lineageTag: 03b20087-30eb-42a0-9d36-e4e9c2ae71c0
+
+	measure 'Faturas orfas' =
+			
+			CALCULATE(
+			    [Receita Recebida],
+			    FILTER(
+			        fact_invoices,
+			        NOT fact_invoices[codigo_associado]
+			            IN VALUES( dim_customers[codigo_associado] )
+			    )
+			)
+		lineageTag: cc87c020-fce0-49c5-8ab8-344fd1864d7f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Z
+		isHidden
+		formatString: 0
+		lineageTag: 4fb7e064-488f-4ea0-829d-48d81f62e3f1
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Z]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Medidas - Associados' = calculated
+		mode: import
+		source = Row("Z", BLANK())
+
+	annotation PBI_Id = fef5dcb9f658496da2203e991dc60d48
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

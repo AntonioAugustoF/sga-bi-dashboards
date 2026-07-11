@@ -1,0 +1,224 @@
+table dim_cooperatives
+	lineageTag: feb3f071-6ede-487f-8735-c3d562f39e70
+
+	column codigo_cooperativa
+		dataType: string
+		lineageTag: 3ad0de69-8c32-4e0c-a12c-ddfe5ad45bc4
+		summarizeBy: none
+		sourceColumn: codigo_cooperativa
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome
+		dataType: string
+		lineageTag: 8ed5cf19-12c0-4782-9d4c-0f15853fa875
+		summarizeBy: none
+		sourceColumn: nome
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_pagamento
+		dataType: double
+		lineageTag: b97fdd27-bff9-4a10-ab6c-7344046e1f13
+		summarizeBy: sum
+		sourceColumn: valor_pagamento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column logradouro
+		dataType: string
+		lineageTag: ab181838-a302-4db6-a561-d63392a806f8
+		summarizeBy: none
+		sourceColumn: logradouro
+
+		annotation SummarizationSetBy = Automatic
+
+	column numero
+		dataType: string
+		lineageTag: 061a4906-43d4-4346-8da6-329cdc5570fd
+		summarizeBy: none
+		sourceColumn: numero
+
+		annotation SummarizationSetBy = Automatic
+
+	column complemento
+		dataType: string
+		lineageTag: 1d3e1b7a-b018-4776-a107-b740e8e06c1b
+		summarizeBy: none
+		sourceColumn: complemento
+
+		annotation SummarizationSetBy = Automatic
+
+	column bairro
+		dataType: string
+		lineageTag: 5b8cf3e5-6917-4c62-b220-560654d82b4e
+		summarizeBy: none
+		sourceColumn: bairro
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade
+		dataType: string
+		lineageTag: 85544359-67e6-4ffa-ad88-0e02ec9b19fb
+		summarizeBy: none
+		sourceColumn: cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado
+		dataType: string
+		lineageTag: efabfef0-9a8b-42bc-9cdf-60d746442619
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column cep
+		dataType: string
+		lineageTag: 223b6d3b-f1cc-4527-a0b8-0575c371442f
+		summarizeBy: none
+		sourceColumn: cep
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: 9fe48258-d50c-497d-aa5e-61637a0ad85c
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column cpf
+		dataType: string
+		lineageTag: d1e87b4b-7f31-4283-a481-a1f8d4da37e8
+		summarizeBy: none
+		sourceColumn: cpf
+
+		annotation SummarizationSetBy = Automatic
+
+	column contato
+		dataType: string
+		lineageTag: ebe45981-49f8-4658-af2a-f21ca7c7748f
+		summarizeBy: none
+		sourceColumn: contato
+
+		annotation SummarizationSetBy = Automatic
+
+	column telefone
+		dataType: string
+		lineageTag: a0814cf0-e2e4-4b2e-87c3-e9b9843a2f27
+		summarizeBy: none
+		sourceColumn: telefone
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_pagamento_residual
+		dataType: double
+		lineageTag: 66d2cb1c-9fb5-41de-8e5c-63081d5e0e07
+		summarizeBy: sum
+		sourceColumn: valor_pagamento_residual
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column telefone_comercial
+		dataType: string
+		lineageTag: 922b9b5e-aef2-4da0-a9af-9ac533958d32
+		summarizeBy: none
+		sourceColumn: telefone_comercial
+
+		annotation SummarizationSetBy = Automatic
+
+	column formato_pagamento_residual
+		dataType: string
+		lineageTag: 01ae93ec-eb44-4c38-9951-de14aacd6e21
+		summarizeBy: none
+		sourceColumn: formato_pagamento_residual
+
+		annotation SummarizationSetBy = Automatic
+
+	column formato_pagamento
+		dataType: string
+		lineageTag: 3bc04531-5300-4f0c-a972-947a8b79f082
+		summarizeBy: none
+		sourceColumn: formato_pagamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column situacao
+		dataType: string
+		lineageTag: b7623473-90b7-4e12-9745-47b8b971a7b3
+		summarizeBy: none
+		sourceColumn: situacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column situacao_origem
+		dataType: string
+		lineageTag: e993419d-80a3-4408-99b8-cf74dfed9ead
+		summarizeBy: none
+		sourceColumn: situacao_origem
+
+		annotation SummarizationSetBy = Automatic
+
+	column criado_em
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6acccb6a-2c83-44ed-b942-72ec048f7c93
+		summarizeBy: none
+		sourceColumn: criado_em
+
+		variation Variation
+			isDefault
+			relationship: 2684dea0-8dfb-43c7-b279-f46a748e5b0b
+			defaultHierarchy: LocalDateTable_a6cb20eb-bf40-4e4d-a7f7-08dd106aa82a.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column atualizado_em
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6b437b25-9abe-4475-b837-57d7f8cf7a85
+		summarizeBy: none
+		sourceColumn: atualizado_em
+
+		variation Variation
+			isDefault
+			relationship: c4926509-2ffc-4bbf-9612-6b3f6b1c494b
+			defaultHierarchy: LocalDateTable_9f898fc9-77e5-483e-973e-033a217baa2d.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_referencia
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3e940fd3-044e-4a65-98ae-2e30536fca98
+		summarizeBy: none
+		sourceColumn: data_referencia
+
+		variation Variation
+			isDefault
+			relationship: d940becb-fb08-43c5-b90a-621984b34c88
+			defaultHierarchy: LocalDateTable_5018526f-0092-4e4e-b4b7-f840c131b470.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition dim_cooperatives = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("localhost", "sga_dw"),
+				    public_dim_cooperatives = Fonte{[Schema="public",Item="dim_cooperatives"]}[Data]
+				in
+				    public_dim_cooperatives
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

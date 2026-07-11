@@ -1,0 +1,169 @@
+table fact_delinquency_by_vehicle_actual
+	lineageTag: 5b02579a-87d6-416f-b150-ffb4e33d9d9b
+
+	column codigo_boleto
+		dataType: string
+		lineageTag: 4d767687-a4ee-4c9b-8dc3-fa469a618dc0
+		summarizeBy: none
+		sourceColumn: codigo_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column dt_referencia
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: baf7a345-86b4-4363-912b-13cd8699d42c
+		summarizeBy: none
+		sourceColumn: dt_referencia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_emissao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c081aa0d-0b05-477f-a67d-c154cd039e1b
+		summarizeBy: none
+		sourceColumn: data_emissao
+
+		variation Variation
+			isDefault
+			relationship: 130061f1-0f59-4f26-b589-7faba09eddad
+			defaultHierarchy: LocalDateTable_a6ed1498-bec0-4f7c-841e-664f5e8ea987.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_vencimento
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3c0144ed-f93e-4fd1-a060-5ea8dec4fb5b
+		summarizeBy: none
+		sourceColumn: data_vencimento
+
+		variation Variation
+			isDefault
+			relationship: 0c827b78-f2cf-47c8-a926-8e26f604b4d1
+			defaultHierarchy: LocalDateTable_e686c4e6-b71b-4516-be4e-d89ae70f28f2.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column valor_boleto
+		dataType: double
+		lineageTag: c83e6660-e7c4-4926-871e-5382b71b701b
+		summarizeBy: sum
+		sourceColumn: valor_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column dias_em_atraso
+		dataType: int64
+		formatString: 0
+		lineageTag: d2c4ced6-2dc1-4b0b-bfd6-b220d9ff764c
+		summarizeBy: sum
+		sourceColumn: dias_em_atraso
+
+		annotation SummarizationSetBy = Automatic
+
+	column faixa_atraso
+		dataType: string
+		lineageTag: 24dad443-eff9-4245-ad05-54ec42327ccb
+		summarizeBy: none
+		sourceColumn: faixa_atraso
+
+		annotation SummarizationSetBy = Automatic
+
+	column pago
+		dataType: string
+		lineageTag: 1ed4f7e6-4e4d-471a-a3a2-8109c66a8032
+		summarizeBy: none
+		sourceColumn: pago
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_veiculo
+		dataType: string
+		lineageTag: a4dcaa7a-2409-4b31-a292-d3c39684b16e
+		summarizeBy: none
+		sourceColumn: codigo_veiculo
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_veiculos_boleto
+		dataType: int64
+		formatString: 0
+		lineageTag: d86d6fdb-f806-4ff4-9991-31921a0f1104
+		summarizeBy: sum
+		sourceColumn: qtd_veiculos_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_rateado
+		dataType: double
+		lineageTag: 6d992e85-a30c-4491-998b-d8e6f1dc99b6
+		summarizeBy: sum
+		sourceColumn: valor_rateado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column codigo_voluntario
+		dataType: string
+		lineageTag: e1f966f9-78ac-4d66-bbcb-04f6d9aef4fc
+		summarizeBy: none
+		sourceColumn: codigo_voluntario
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_voluntario
+		dataType: string
+		lineageTag: 863b127f-5f06-435c-acc4-63eadb40cfb4
+		summarizeBy: none
+		sourceColumn: nome_voluntario
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_regional_veiculo
+		dataType: string
+		lineageTag: d9ec04f3-19ff-47c4-89ce-390f97a10504
+		summarizeBy: none
+		sourceColumn: codigo_regional_veiculo
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_cooperativa_veiculo
+		dataType: string
+		lineageTag: 8c716afe-7827-45bb-b502-a2017f4f3475
+		summarizeBy: none
+		sourceColumn: codigo_cooperativa_veiculo
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_situacao_veiculo
+		dataType: string
+		lineageTag: 4d87b899-c0e5-4f34-992f-60c027ff9497
+		summarizeBy: none
+		sourceColumn: codigo_situacao_veiculo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_delinquency_by_vehicle_actual = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("localhost", "sga_dw"),
+				    public_vw_delinquency_by_vehicle_atual = Fonte{[Schema="public",Item="vw_delinquency_by_vehicle_atual"]}[Data]
+				in
+				    public_vw_delinquency_by_vehicle_atual
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+

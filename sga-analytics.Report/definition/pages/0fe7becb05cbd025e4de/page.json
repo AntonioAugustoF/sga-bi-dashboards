@@ -1,0 +1,90 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "0fe7becb05cbd025e4de",
+  "displayName": "Faturamento",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'point (1).jpg'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "point_(1)7325599404463278.jpg"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Fill'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "185L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "38e85fc3329346b1dbbd",
+      "target": "a92bb00385627372263a",
+      "type": "DataFilter"
+    },
+    {
+      "source": "38e85fc3329346b1dbbd",
+      "target": "341b4ca78c2cd50a0900",
+      "type": "DataFilter"
+    },
+    {
+      "source": "38e85fc3329346b1dbbd",
+      "target": "c2f279727495abd1f30a",
+      "type": "DataFilter"
+    },
+    {
+      "source": "341b4ca78c2cd50a0900",
+      "target": "38e85fc3329346b1dbbd",
+      "type": "NoFilter"
+    },
+    {
+      "source": "341b4ca78c2cd50a0900",
+      "target": "80f9bce1bc2c8cfd77a1",
+      "type": "NoFilter"
+    }
+  ]
+}

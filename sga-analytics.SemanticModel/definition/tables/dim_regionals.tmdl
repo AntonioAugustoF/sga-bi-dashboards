@@ -1,0 +1,188 @@
+table dim_regionals
+	lineageTag: a2133dfa-1c75-496f-9893-fe60f991459f
+
+	column codigo_regional
+		dataType: string
+		lineageTag: 0204bc9a-a1ac-49ae-87b8-5c31968536b4
+		summarizeBy: none
+		sourceColumn: codigo_regional
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome
+		dataType: string
+		lineageTag: 56f59d00-f71c-4093-a656-a8ea8a1c6025
+		summarizeBy: none
+		sourceColumn: nome
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_fantasia
+		dataType: string
+		lineageTag: 9a81cc5c-be2e-4cf0-932a-5a6da159fc68
+		summarizeBy: none
+		sourceColumn: nome_fantasia
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnpj
+		dataType: string
+		lineageTag: 570eb96c-338a-4055-a292-02f6ad82e1cf
+		summarizeBy: none
+		sourceColumn: cnpj
+
+		annotation SummarizationSetBy = Automatic
+
+	column logradouro
+		dataType: string
+		lineageTag: 241af142-0e6d-4aba-9708-d0bb0bcc99b9
+		summarizeBy: none
+		sourceColumn: logradouro
+
+		annotation SummarizationSetBy = Automatic
+
+	column numero
+		dataType: string
+		lineageTag: 7273201f-9417-4265-a1c8-7081b57ba834
+		summarizeBy: none
+		sourceColumn: numero
+
+		annotation SummarizationSetBy = Automatic
+
+	column complemento
+		dataType: string
+		lineageTag: dd4e85f4-3415-44a9-9649-c38d1be6da25
+		summarizeBy: none
+		sourceColumn: complemento
+
+		annotation SummarizationSetBy = Automatic
+
+	column bairro
+		dataType: string
+		lineageTag: 2f29619c-31d8-4a1e-917c-05b01630c2d4
+		summarizeBy: none
+		sourceColumn: bairro
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade
+		dataType: string
+		lineageTag: 65239a83-ebab-416e-b230-ebba5b70daa6
+		summarizeBy: none
+		sourceColumn: cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado
+		dataType: string
+		lineageTag: 3c0a0637-a2e7-49a4-96f5-0545e3e56f84
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column cep
+		dataType: string
+		lineageTag: 1bb273e7-2927-40cf-b645-1d9589d61ba4
+		summarizeBy: none
+		sourceColumn: cep
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: b709db18-cb23-4c43-9f07-676968d16dbe
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column website
+		dataType: string
+		lineageTag: d80612d8-2481-427c-bd6c-05fed453087a
+		summarizeBy: none
+		sourceColumn: website
+
+		annotation SummarizationSetBy = Automatic
+
+	column telefone
+		dataType: string
+		lineageTag: d8ab6428-bebf-413a-ad48-749ed8da8e33
+		summarizeBy: none
+		sourceColumn: telefone
+
+		annotation SummarizationSetBy = Automatic
+
+	column situacao
+		dataType: string
+		lineageTag: 8f908114-8550-427c-b15c-0ec5149515d6
+		summarizeBy: none
+		sourceColumn: situacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column situacao_origem
+		dataType: string
+		lineageTag: b98aae3f-49d9-44fd-8a8e-24e0ac11829f
+		summarizeBy: none
+		sourceColumn: situacao_origem
+
+		annotation SummarizationSetBy = Automatic
+
+	column criado_em
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1054c4c2-d61b-4acc-a5e5-40a2468c2ec1
+		summarizeBy: none
+		sourceColumn: criado_em
+
+		variation Variation
+			isDefault
+			relationship: ce2b63a4-a20a-4a1f-becb-99ebea5261aa
+			defaultHierarchy: LocalDateTable_970d1c95-320d-4e9f-8c51-3cff40e9104d.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column atualizado_em
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 16480193-d09f-4fda-a013-9996a1ed1faf
+		summarizeBy: none
+		sourceColumn: atualizado_em
+
+		variation Variation
+			isDefault
+			relationship: b453b28a-efad-4cce-8e1a-3476a7accf0a
+			defaultHierarchy: LocalDateTable_ff5330c7-a827-4003-845a-0d48354ce776.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_referencia
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 27c82faa-5cde-451f-ac66-fdf9cd7cfb97
+		summarizeBy: none
+		sourceColumn: data_referencia
+
+		variation Variation
+			isDefault
+			relationship: 53b18edc-da79-4682-acc3-ae7c9a168632
+			defaultHierarchy: LocalDateTable_25622dac-1ac2-4c01-ae8e-609dc14112eb.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition dim_regionals = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("localhost", "sga_dw"),
+				    public_dim_regionals = Fonte{[Schema="public",Item="dim_regionals"]}[Data]
+				in
+				    public_dim_regionals
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,126 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY26SU02",
+      "reportVersionAtImport": {
+        "visual": "2.6.0",
+        "report": "3.1.0",
+        "page": "2.3.0"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "AccessibleDefault",
+      "reportVersionAtImport": {
+        "visual": "2.7.0",
+        "report": "3.2.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "true"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "ScrollingTextVisual1448795304508"
+  ],
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "AccessibleDefault",
+          "path": "BuiltInThemes/AccessibleDefault.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "CY26SU02",
+          "path": "BaseThemes/CY26SU02.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "BackgroundBI07741766360966185.jpg",
+          "path": "BackgroundBI07741766360966185.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "BackgroundBI1359721315503044.jpg",
+          "path": "BackgroundBI1359721315503044.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "BackgroundBI32075809114541054.jpg",
+          "path": "BackgroundBI32075809114541054.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "BackgroundBI608616052030735.jpg",
+          "path": "BackgroundBI608616052030735.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "BackgroundBI8582059321556577.jpg",
+          "path": "BackgroundBI8582059321556577.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "BackgroundBI9496071429501735.jpg",
+          "path": "BackgroundBI9496071429501735.jpg",
+          "type": "Image"
+        },
+        {
+          "name": "logo_retificada5353750775548836.png",
+          "path": "logo_retificada5353750775548836.png",
+          "type": "Image"
+        },
+        {
+          "name": "point_(1)7325599404463278.jpg",
+          "path": "point_(1)7325599404463278.jpg",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  }
+}

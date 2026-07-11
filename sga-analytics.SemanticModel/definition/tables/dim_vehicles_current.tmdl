@@ -1,0 +1,532 @@
+table dim_vehicles_current
+	lineageTag: 9babdf79-72d6-44c0-b55b-fb5366eda512
+
+	column codigo_veiculo
+		dataType: string
+		lineageTag: e488bbb3-f418-4bdc-aa2b-b49e5db82c1d
+		summarizeBy: none
+		sourceColumn: codigo_veiculo
+
+		annotation SummarizationSetBy = Automatic
+
+	column placa
+		dataType: string
+		lineageTag: 26c51346-4f19-4cb3-8162-fa911981e4d2
+		summarizeBy: none
+		sourceColumn: placa
+
+		annotation SummarizationSetBy = Automatic
+
+	column chassi
+		dataType: string
+		lineageTag: 56dee457-7043-434b-b718-cef03b026a53
+		summarizeBy: none
+		sourceColumn: chassi
+
+		annotation SummarizationSetBy = Automatic
+
+	column renavam
+		dataType: string
+		lineageTag: 5dcedf80-fd06-42e1-83d8-897a6515ea25
+		summarizeBy: none
+		sourceColumn: renavam
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_associado
+		dataType: string
+		lineageTag: 185116c1-c6c8-4c78-947e-fde92a872b7e
+		summarizeBy: none
+		sourceColumn: codigo_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_usuario
+		dataType: string
+		lineageTag: 6e0b011e-6b9d-4a11-b8a0-8151e2e09c72
+		summarizeBy: none
+		sourceColumn: codigo_usuario
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_tipo
+		dataType: string
+		lineageTag: f59aecb1-b967-454f-8944-99382a05e039
+		summarizeBy: none
+		sourceColumn: codigo_tipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_classificacao
+		dataType: string
+		lineageTag: 83fe807f-6344-437e-b858-b907622084b1
+		summarizeBy: none
+		sourceColumn: codigo_classificacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_cota
+		dataType: string
+		lineageTag: 6ad00cbb-bd9a-4362-a757-1234c9ae6035
+		summarizeBy: none
+		sourceColumn: codigo_cota
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_fipe
+		dataType: string
+		lineageTag: dff9063c-6210-4529-ad90-bba1045b97ff
+		summarizeBy: none
+		sourceColumn: codigo_fipe
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_fipe
+		dataType: double
+		lineageTag: 2770f16e-f90f-4e2f-89fa-88f8eb8bbfac
+		summarizeBy: sum
+		sourceColumn: valor_fipe
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column valor_fipe_protegido
+		dataType: string
+		lineageTag: fbe14c66-17d4-4ddd-b3a9-2d899eb6eea2
+		summarizeBy: none
+		sourceColumn: valor_fipe_protegido
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_fixo
+		dataType: double
+		lineageTag: 4f6bfee3-65d8-4dd5-9d5b-688aaa554dc3
+		summarizeBy: sum
+		sourceColumn: valor_fixo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pontos
+		dataType: int64
+		formatString: 0
+		lineageTag: fba71490-c646-4786-aef6-0300c2eabf92
+		summarizeBy: sum
+		sourceColumn: pontos
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_reativacao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: eaf7e15b-fe26-4f8c-b209-14d60405bd41
+		summarizeBy: none
+		sourceColumn: data_reativacao
+
+		variation Variation
+			isDefault
+			relationship: a8ab5494-fb64-486d-aad0-8090344813c7
+			defaultHierarchy: LocalDateTable_00d67391-b057-4ba2-aeb0-4c1d4411f75d.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_alteracao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7b630769-d9a2-435a-8494-4b4cd6c18c9a
+		summarizeBy: none
+		sourceColumn: data_alteracao
+
+		variation Variation
+			isDefault
+			relationship: 202b4d74-0338-4899-91a4-77e080336ad3
+			defaultHierarchy: LocalDateTable_0c8b544e-384f-4f6d-aaf0-05ba1327d3e5.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column codigo_depreciacao
+		dataType: string
+		lineageTag: 6e9d2d32-2437-4da0-a192-18e1aff1b716
+		summarizeBy: none
+		sourceColumn: codigo_depreciacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_tipo_envio_boleto
+		dataType: string
+		lineageTag: 1cf61b53-0994-4406-b6ba-55bbf4493852
+		summarizeBy: none
+		sourceColumn: codigo_tipo_envio_boleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_regional
+		dataType: string
+		lineageTag: 19c657ed-96c9-42d6-bec8-bad8fe22cfe8
+		summarizeBy: none
+		sourceColumn: codigo_regional
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_cooperativa
+		dataType: string
+		lineageTag: dd93c443-0b08-46f9-8639-05f170d8f060
+		summarizeBy: none
+		sourceColumn: codigo_cooperativa
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_marca
+		dataType: string
+		lineageTag: be0c6225-92be-47b4-be98-8684352784b1
+		summarizeBy: none
+		sourceColumn: codigo_marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_modelo
+		dataType: string
+		lineageTag: f56cd337-f4b8-484c-b18a-9be0af9ae018
+		summarizeBy: none
+		sourceColumn: codigo_modelo
+
+		annotation SummarizationSetBy = Automatic
+
+	column ano_fabricacao
+		dataType: int64
+		formatString: 0
+		lineageTag: 3801ca53-cf57-4cc2-8d8e-3a213758d189
+		summarizeBy: sum
+		sourceColumn: ano_fabricacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column ano_modelo
+		dataType: int64
+		formatString: 0
+		lineageTag: 746bf8af-4a41-468f-aeca-bfdf96972bf0
+		summarizeBy: sum
+		sourceColumn: ano_modelo
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_combustivel
+		dataType: string
+		lineageTag: befe5821-758b-4970-92e3-36da07d7349a
+		summarizeBy: none
+		sourceColumn: codigo_combustivel
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_cor
+		dataType: string
+		lineageTag: 9e1576fb-409e-4093-9e90-debc327742f7
+		summarizeBy: none
+		sourceColumn: codigo_cor
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_grupo_produto
+		dataType: string
+		lineageTag: 0d98d5bb-060e-496f-ac6e-a1f620bfd6a1
+		summarizeBy: none
+		sourceColumn: codigo_grupo_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_vencimento
+		dataType: string
+		lineageTag: 41ee928b-9bd7-40c7-8cd3-52d8f1c99fcd
+		summarizeBy: none
+		sourceColumn: codigo_vencimento
+
+		annotation SummarizationSetBy = Automatic
+
+	column boleto_fisico
+		dataType: string
+		lineageTag: c52c4c18-fab4-40cb-9eed-05788c88a77e
+		summarizeBy: none
+		sourceColumn: boleto_fisico
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes_final_carne
+		dataType: int64
+		formatString: 0
+		lineageTag: c437562d-538e-4538-9b4c-fa0623cc4af1
+		summarizeBy: sum
+		sourceColumn: mes_final_carne
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes_referente
+		dataType: string
+		lineageTag: b82a4971-94ca-438d-af7c-a9484b511307
+		summarizeBy: none
+		sourceColumn: mes_referente
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_adesao
+		dataType: double
+		lineageTag: b226da32-f4b2-4d31-9bfa-735585da8105
+		summarizeBy: sum
+		sourceColumn: valor_adesao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column codigo_categoria
+		dataType: string
+		lineageTag: f13543ce-0fde-4883-97c3-24f78bfefd95
+		summarizeBy: none
+		sourceColumn: codigo_categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo
+		dataType: string
+		lineageTag: 7dd4652c-2be5-46d6-bc03-88f028de30fd
+		summarizeBy: none
+		sourceColumn: tipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column categoria
+		dataType: string
+		lineageTag: f7d2ff6c-01c2-4f2c-8213-a46e7c77b7d9
+		summarizeBy: none
+		sourceColumn: categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column marca
+		dataType: string
+		lineageTag: 76d546d7-921f-431b-9619-62d6ddd4572a
+		summarizeBy: none
+		sourceColumn: marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column modelo
+		dataType: string
+		lineageTag: 36adf20e-4575-4e53-af84-d910e169b26b
+		summarizeBy: none
+		sourceColumn: modelo
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_associado
+		dataType: string
+		lineageTag: a8d06502-ee2a-49f1-b5c5-407b83d8c364
+		summarizeBy: none
+		sourceColumn: nome_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column rg_associado
+		dataType: string
+		lineageTag: 1f339c67-14c8-4f73-aad4-e7d7c80bba70
+		summarizeBy: none
+		sourceColumn: rg_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column cpf_associado
+		dataType: string
+		lineageTag: 2e6f8549-52c2-4b2b-9e43-9a0da3d64aa1
+		summarizeBy: none
+		sourceColumn: cpf_associado
+
+		annotation SummarizationSetBy = Automatic
+
+	column telefone
+		dataType: string
+		lineageTag: b8fea200-bb25-4862-b03b-b4dd3f2cc27e
+		summarizeBy: none
+		sourceColumn: telefone
+
+		annotation SummarizationSetBy = Automatic
+
+	column ddd
+		dataType: string
+		lineageTag: 4c4c37c2-3bde-44a9-9ca3-1a171151c629
+		summarizeBy: none
+		sourceColumn: ddd
+
+		annotation SummarizationSetBy = Automatic
+
+	column telefone_celular
+		dataType: string
+		lineageTag: 6dbfa518-9e65-4f67-b058-6acbb17deb6f
+		summarizeBy: none
+		sourceColumn: telefone_celular
+
+		annotation SummarizationSetBy = Automatic
+
+	column ddd_celular
+		dataType: string
+		lineageTag: abb2345c-e532-45f9-8c1a-7d68c4a7f0dd
+		summarizeBy: none
+		sourceColumn: ddd_celular
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: b6dff860-0e1a-4dde-8667-ca5bf1d9ea13
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_situacao
+		dataType: string
+		lineageTag: cb82bb17-1d1e-4d65-92c5-5ff97c21af3c
+		summarizeBy: none
+		sourceColumn: codigo_situacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricao_situacao
+		dataType: string
+		lineageTag: c038071e-7a7d-4ce9-8beb-6f247723d5c0
+		summarizeBy: none
+		sourceColumn: descricao_situacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_cadastro
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 63db9344-a2cc-4eab-9ac0-512279a8983f
+		summarizeBy: none
+		sourceColumn: data_cadastro
+
+		variation Variation
+			isDefault
+			relationship: f5669b4a-a466-4737-8abc-988e175137d8
+			defaultHierarchy: LocalDateTable_064fb59a-051a-440d-befb-1b5552dc7418.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_contrato
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ece8c5f9-0087-4506-b269-d38556820aa6
+		summarizeBy: none
+		sourceColumn: data_contrato
+
+		variation Variation
+			isDefault
+			relationship: 4e528e42-4c6c-4dff-b679-b7934abf4ca7
+			defaultHierarchy: LocalDateTable_f0d100f4-0ee0-4e5f-b0dc-a85f70c1ad50.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column codigo_voluntario
+		dataType: string
+		lineageTag: e1a8e0d2-d529-44db-b3d9-89d022048f69
+		summarizeBy: none
+		sourceColumn: codigo_voluntario
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_voluntario
+		dataType: string
+		lineageTag: 52398d30-6985-4505-81bb-4ee9b981ef77
+		summarizeBy: none
+		sourceColumn: nome_voluntario
+
+		annotation SummarizationSetBy = Automatic
+
+	column cpf_voluntario
+		dataType: string
+		lineageTag: ad9799aa-fddf-40ff-b027-0606d662f439
+		summarizeBy: none
+		sourceColumn: cpf_voluntario
+
+		annotation SummarizationSetBy = Automatic
+
+	column campos_opcionais
+		dataType: string
+		lineageTag: 1f773123-dd87-46f5-8847-7199b64be31b
+		summarizeBy: none
+		sourceColumn: campos_opcionais
+
+		annotation SummarizationSetBy = Automatic
+
+	column valido_de
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5f78b67e-2a9c-45cc-be7d-f8b90d8b7624
+		summarizeBy: none
+		sourceColumn: valido_de
+
+		variation Variation
+			isDefault
+			relationship: 94f24a48-b323-447b-9736-3d15225d4638
+			defaultHierarchy: LocalDateTable_dbed7c91-499b-4303-8367-d30141012beb.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column valido_ate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3d513914-0b7b-480c-ac79-760ab8dc9c65
+		summarizeBy: none
+		sourceColumn: valido_ate
+
+		variation Variation
+			isDefault
+			relationship: b20896b3-f7cb-4cea-a88f-08b36fee2024
+			defaultHierarchy: LocalDateTable_784ecfd9-c42e-4488-a904-0342797533ce.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column vigente
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: dbae535b-9312-44cc-8264-6d5bed725790
+		summarizeBy: none
+		sourceColumn: vigente
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_vehicle
+		dataType: int64
+		formatString: 0
+		lineageTag: dc8db6d1-f747-45f8-a56e-56494a92612e
+		summarizeBy: sum
+		sourceColumn: sk_vehicle
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_vehicles_current = m
+		mode: import
+		source =
+				let
+				    Fonte = PostgreSQL.Database("localhost", "sga_dw"),
+				    public_dim_vehicles_current = Fonte{[Schema="public",Item="dim_vehicles_current"]}[Data]
+				in
+				    public_dim_vehicles_current
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
