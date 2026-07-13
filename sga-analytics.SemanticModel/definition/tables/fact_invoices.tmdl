@@ -139,11 +139,6 @@ table fact_invoices
 		summarizeBy: none
 		sourceColumn: data_vencimento_original
 
-		variation Variation
-			isDefault
-			relationship: ba6749ed-0c02-433d-9086-23c902b8ca9d
-			defaultHierarchy: LocalDateTable_7dd02b1d-0ced-48ac-862b-f41f0f88c587.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -196,11 +191,6 @@ table fact_invoices
 		lineageTag: 9c9ab2d1-8d20-450d-a60e-39034786d7d0
 		summarizeBy: none
 		sourceColumn: data_credito_banco
-
-		variation Variation
-			isDefault
-			relationship: 19e8f172-966c-4b18-814e-0d4a0f009998
-			defaultHierarchy: LocalDateTable_9297db1a-731f-466c-87ff-d8f62a6387ce.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -415,11 +405,6 @@ table fact_invoices
 		summarizeBy: none
 		sourceColumn: criado_em
 
-		variation Variation
-			isDefault
-			relationship: ffa458b5-44cf-4240-93f8-c88478ec03ce
-			defaultHierarchy: LocalDateTable_884ce817-9973-4911-9494-349fd47004e5.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column atualizado_em
@@ -429,11 +414,6 @@ table fact_invoices
 		summarizeBy: none
 		sourceColumn: atualizado_em
 
-		variation Variation
-			isDefault
-			relationship: c59608af-7c83-4a66-9aae-0b6822792cc3
-			defaultHierarchy: LocalDateTable_b7a9c294-8d6f-404d-ac9f-6e27b133c989.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column data_referencia
@@ -442,11 +422,6 @@ table fact_invoices
 		lineageTag: a256ee07-486b-4f19-9f93-2e659ec734ce
 		summarizeBy: none
 		sourceColumn: data_referencia
-
-		variation Variation
-			isDefault
-			relationship: 0f0d1733-bb5f-41ee-b7ae-3970345bc8c3
-			defaultHierarchy: LocalDateTable_9cb715cc-3e0b-42c7-84e2-47b656e709b1.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 

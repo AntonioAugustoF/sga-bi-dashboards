@@ -125,11 +125,6 @@ table dim_vehicles_current
 		summarizeBy: none
 		sourceColumn: data_reativacao
 
-		variation Variation
-			isDefault
-			relationship: a8ab5494-fb64-486d-aad0-8090344813c7
-			defaultHierarchy: LocalDateTable_00d67391-b057-4ba2-aeb0-4c1d4411f75d.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -140,11 +135,6 @@ table dim_vehicles_current
 		lineageTag: 7b630769-d9a2-435a-8494-4b4cd6c18c9a
 		summarizeBy: none
 		sourceColumn: data_alteracao
-
-		variation Variation
-			isDefault
-			relationship: 202b4d74-0338-4899-91a4-77e080336ad3
-			defaultHierarchy: LocalDateTable_0c8b544e-384f-4f6d-aaf0-05ba1327d3e5.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -410,11 +400,6 @@ table dim_vehicles_current
 		summarizeBy: none
 		sourceColumn: data_cadastro
 
-		variation Variation
-			isDefault
-			relationship: f5669b4a-a466-4737-8abc-988e175137d8
-			defaultHierarchy: LocalDateTable_064fb59a-051a-440d-befb-1b5552dc7418.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -425,11 +410,6 @@ table dim_vehicles_current
 		lineageTag: ece8c5f9-0087-4506-b269-d38556820aa6
 		summarizeBy: none
 		sourceColumn: data_contrato
-
-		variation Variation
-			isDefault
-			relationship: 4e528e42-4c6c-4dff-b679-b7934abf4ca7
-			defaultHierarchy: LocalDateTable_f0d100f4-0ee0-4e5f-b0dc-a85f70c1ad50.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -474,11 +454,6 @@ table dim_vehicles_current
 		summarizeBy: none
 		sourceColumn: valido_de
 
-		variation Variation
-			isDefault
-			relationship: 94f24a48-b323-447b-9736-3d15225d4638
-			defaultHierarchy: LocalDateTable_dbed7c91-499b-4303-8367-d30141012beb.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -489,11 +464,6 @@ table dim_vehicles_current
 		lineageTag: 3d513914-0b7b-480c-ac79-760ab8dc9c65
 		summarizeBy: none
 		sourceColumn: valido_ate
-
-		variation Variation
-			isDefault
-			relationship: b20896b3-f7cb-4cea-a88f-08b36fee2024
-			defaultHierarchy: LocalDateTable_784ecfd9-c42e-4488-a904-0342797533ce.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 

@@ -27,11 +27,6 @@ table fact_delinquency_by_vehicle_history
 		summarizeBy: none
 		sourceColumn: data_emissao
 
-		variation Variation
-			isDefault
-			relationship: 1970e6c2-5c56-4fdd-bd1e-06e16f4730a5
-			defaultHierarchy: LocalDateTable_d5d90203-48f7-4617-a13c-81b82814bb02.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -42,11 +37,6 @@ table fact_delinquency_by_vehicle_history
 		lineageTag: 85eec007-3e7e-4f07-b9f4-34e5e3e63378
 		summarizeBy: none
 		sourceColumn: data_vencimento
-
-		variation Variation
-			isDefault
-			relationship: 4d24134a-28a7-476f-b098-9fbef82a5980
-			defaultHierarchy: LocalDateTable_ea82b123-c8ef-4f36-9fab-83b3b5fb87ee.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 

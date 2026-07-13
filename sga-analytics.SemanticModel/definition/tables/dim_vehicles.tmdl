@@ -125,11 +125,6 @@ table dim_vehicles
 		summarizeBy: none
 		sourceColumn: data_reativacao
 
-		variation Variation
-			isDefault
-			relationship: f7179713-c44c-4423-971e-dcf1294c3088
-			defaultHierarchy: LocalDateTable_889b535f-0a36-46b0-b0c7-ce916115609c.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -140,11 +135,6 @@ table dim_vehicles
 		lineageTag: 51b338a5-3801-4dc2-a1d1-a2f6b1abbd0c
 		summarizeBy: none
 		sourceColumn: data_alteracao
-
-		variation Variation
-			isDefault
-			relationship: 3d6d04f1-29ca-4ead-978b-c5238bfbc497
-			defaultHierarchy: LocalDateTable_086ef2e7-5362-4e0d-88f3-b5afc3dc61b5.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -410,11 +400,6 @@ table dim_vehicles
 		summarizeBy: none
 		sourceColumn: data_cadastro
 
-		variation Variation
-			isDefault
-			relationship: 59404976-a274-455a-a466-a9f312d84362
-			defaultHierarchy: LocalDateTable_17d42504-2b8a-4b16-b73d-5938a4ea5feb.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -425,11 +410,6 @@ table dim_vehicles
 		lineageTag: 77a466f1-4686-4f2c-bbfb-65ccb37fdf79
 		summarizeBy: none
 		sourceColumn: data_contrato
-
-		variation Variation
-			isDefault
-			relationship: 9b8245f4-fd2c-4450-90c9-a2353de8ce42
-			defaultHierarchy: LocalDateTable_345b8ad9-3aa0-4f30-a28b-b1b1e2071f0f.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -474,11 +454,6 @@ table dim_vehicles
 		summarizeBy: none
 		sourceColumn: valido_de
 
-		variation Variation
-			isDefault
-			relationship: 9e78316f-49dc-4b42-b697-ae4e4d11686d
-			defaultHierarchy: LocalDateTable_e5dd47da-c93d-4dbf-b048-dfd678afccbb.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -489,11 +464,6 @@ table dim_vehicles
 		lineageTag: 1b9c3d13-971e-4967-b8a2-92644b4675a2
 		summarizeBy: none
 		sourceColumn: valido_ate
-
-		variation Variation
-			isDefault
-			relationship: aec82ff8-b060-45e4-a611-14c69d71523d
-			defaultHierarchy: LocalDateTable_8deaaa65-4641-4ea7-a652-e9694c762fb3.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -524,11 +494,6 @@ table dim_vehicles
 		summarizeBy: none
 		sourceColumn: criado_em
 
-		variation Variation
-			isDefault
-			relationship: 7fc6eca0-4476-4f2d-a385-79036a1fc704
-			defaultHierarchy: LocalDateTable_926458f1-2a46-4ad0-b52c-2394f5250d20.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column atualizado_em
@@ -537,11 +502,6 @@ table dim_vehicles
 		lineageTag: d35566d1-9bed-47f0-be53-320aa92963c4
 		summarizeBy: none
 		sourceColumn: atualizado_em
-
-		variation Variation
-			isDefault
-			relationship: c71f747f-cb97-4501-874c-3670de616709
-			defaultHierarchy: LocalDateTable_38fa0e9c-0af8-4ff6-a5aa-df3a6d74ccbf.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 

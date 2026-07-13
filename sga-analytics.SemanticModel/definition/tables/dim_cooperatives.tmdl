@@ -172,11 +172,6 @@ table dim_cooperatives
 		summarizeBy: none
 		sourceColumn: criado_em
 
-		variation Variation
-			isDefault
-			relationship: 2684dea0-8dfb-43c7-b279-f46a748e5b0b
-			defaultHierarchy: LocalDateTable_a6cb20eb-bf40-4e4d-a7f7-08dd106aa82a.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column atualizado_em
@@ -186,11 +181,6 @@ table dim_cooperatives
 		summarizeBy: none
 		sourceColumn: atualizado_em
 
-		variation Variation
-			isDefault
-			relationship: c4926509-2ffc-4bbf-9612-6b3f6b1c494b
-			defaultHierarchy: LocalDateTable_9f898fc9-77e5-483e-973e-033a217baa2d.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column data_referencia
@@ -199,11 +189,6 @@ table dim_cooperatives
 		lineageTag: 3e940fd3-044e-4a65-98ae-2e30536fca98
 		summarizeBy: none
 		sourceColumn: data_referencia
-
-		variation Variation
-			isDefault
-			relationship: d940becb-fb08-43c5-b90a-621984b34c88
-			defaultHierarchy: LocalDateTable_5018526f-0092-4e4e-b4b7-f840c131b470.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 

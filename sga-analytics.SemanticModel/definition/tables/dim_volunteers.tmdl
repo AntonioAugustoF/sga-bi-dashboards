@@ -136,11 +136,6 @@ table dim_volunteers
 		summarizeBy: none
 		sourceColumn: data_cadastro
 
-		variation Variation
-			isDefault
-			relationship: 543f181b-e5c0-42db-952f-532336b208fd
-			defaultHierarchy: LocalDateTable_6963fc0d-3d0f-48a2-a878-4fb7133086d9.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -151,11 +146,6 @@ table dim_volunteers
 		lineageTag: 93717ec4-d8d5-4baa-9033-3c82e25d34ff
 		summarizeBy: none
 		sourceColumn: data_nascimento
-
-		variation Variation
-			isDefault
-			relationship: aa50a187-d1ec-4d75-b368-656e6fe65c20
-			defaultHierarchy: LocalDateTable_e89e0ea9-d2c4-425f-bfc1-4d3091095935.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -184,11 +174,6 @@ table dim_volunteers
 		summarizeBy: none
 		sourceColumn: criado_em
 
-		variation Variation
-			isDefault
-			relationship: a9c5a701-e642-456e-93e9-a0c084651a39
-			defaultHierarchy: LocalDateTable_595738e7-4e36-4634-a59c-a3b73abdbb16.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column atualizado_em
@@ -198,11 +183,6 @@ table dim_volunteers
 		summarizeBy: none
 		sourceColumn: atualizado_em
 
-		variation Variation
-			isDefault
-			relationship: 20e55f6b-d47c-4a62-a21f-339179d07c06
-			defaultHierarchy: LocalDateTable_dd90356c-ec39-48ed-b5b7-83abc90a6e06.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column data_referencia
@@ -211,11 +191,6 @@ table dim_volunteers
 		lineageTag: 7bc20e79-903f-4cc2-b888-d4ff87dde948
 		summarizeBy: none
 		sourceColumn: data_referencia
-
-		variation Variation
-			isDefault
-			relationship: d8a419a2-edac-479a-84c6-73ccc089c6a8
-			defaultHierarchy: LocalDateTable_29770d61-de26-4a62-9104-f46baf6b0140.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 

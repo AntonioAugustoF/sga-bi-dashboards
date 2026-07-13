@@ -4,7 +4,7 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 251.999994913737,
+        "x": 251.66666666666669,
         "y": 0
       },
       "nodes": [
@@ -224,6 +224,19 @@
             "width": 295.66666666666663
           },
           "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 3537.7615214200819,
+            "y": 625.6335637566674
+          },
+          "nodeIndex": "Time Intelligence",
+          "nodeLineageTag": "0ed943e1-e2c3-4ea0-9b0d-b1d9e7ec3ea4",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "Todas as tabelas",

@@ -1,12 +1,13 @@
 model Model
 	culture: pt-BR
 	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
 	sourceQueryCulture: pt-BR
 	dataAccessOptions
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation __PBI_TimeIntelligenceEnabled = 1
+annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_QueryOrder = ["dim_cooperatives","dim_customers","dim_regionals","dim_volunteers","dim_vehicles","fact_invoices","fact_delinquency_snapshot","dim_customers_current","dim_vehicles_current","bridge_invoices_vehicles","fact_delinquency_by_vehicle_actual","fact_delinquency_by_vehicle_history"]
 
@@ -14,81 +15,26 @@ annotation PBI_RemovedChildren = [{"remoteItemId":{"foreignKeyRelationship":{"fr
 
 annotation PBI_ProTooling = ["DevMode"]
 
-ref table DateTableTemplate_d6de9e04-ad7d-4023-8412-81dd2bc2fa42
+annotation __TEdtr = 1
+
 ref table 'Medidas - Faturamento'
 ref table dim_calendar
-ref table LocalDateTable_eff49fb0-d85b-4a62-9570-ca7fac54cdac
 ref table 'Medidas - Inadimplência'
 ref table 'Medidas - Associados'
 ref table 'Medidas - Veículos'
 ref table dim_cooperatives
 ref table dim_customers
-ref table LocalDateTable_ebd4a20d-c1d5-4a86-bdcd-b05694a4926f
-ref table LocalDateTable_bbc93ef8-d2b7-4aee-86d0-f1c61fe27af8
-ref table LocalDateTable_5cea0c12-1094-475e-a74d-417a55607c16
-ref table LocalDateTable_715112ff-17c1-4156-9a52-6fc37e4c8ddd
 ref table dim_regionals
 ref table dim_volunteers
-ref table LocalDateTable_6963fc0d-3d0f-48a2-a878-4fb7133086d9
-ref table LocalDateTable_e89e0ea9-d2c4-425f-bfc1-4d3091095935
 ref table dim_vehicles
-ref table LocalDateTable_889b535f-0a36-46b0-b0c7-ce916115609c
-ref table LocalDateTable_086ef2e7-5362-4e0d-88f3-b5afc3dc61b5
-ref table LocalDateTable_17d42504-2b8a-4b16-b73d-5938a4ea5feb
-ref table LocalDateTable_345b8ad9-3aa0-4f30-a28b-b1b1e2071f0f
 ref table fact_invoices
-ref table LocalDateTable_7dd02b1d-0ced-48ac-862b-f41f0f88c587
-ref table LocalDateTable_9297db1a-731f-466c-87ff-d8f62a6387ce
-ref table LocalDateTable_04f769c6-4920-4ce6-9d71-82a9608b3e90
 ref table fact_delinquency_snapshot
-ref table LocalDateTable_b46d66f8-9639-4a8b-bdb7-0940040aa1dc
-ref table LocalDateTable_2f97bed8-9ef0-47fc-955e-2f960ed8d4c6
-ref table LocalDateTable_dbc14286-3e81-4e44-aa19-9d26eecf6301
-ref table LocalDateTable_fcab602d-0757-4d33-96d2-40a7741ae063
-ref table LocalDateTable_11a91258-3c7d-4eb5-8874-894d229775e4
-ref table LocalDateTable_e5dd47da-c93d-4dbf-b048-dfd678afccbb
-ref table LocalDateTable_8deaaa65-4641-4ea7-a652-e9694c762fb3
 ref table dim_customers_current
-ref table LocalDateTable_08a48a03-c3ac-4e8d-babc-d864229b3318
-ref table LocalDateTable_0eb42478-5344-4a83-ae2f-9f45c1fcc6cf
-ref table LocalDateTable_abce5fb9-0da3-438e-8ef9-267956dee31c
-ref table LocalDateTable_09746193-0b5d-4e01-a487-25ce2c9c0bca
-ref table LocalDateTable_8f985b75-8c0d-4958-8b6b-6ddf8bb17d4e
-ref table LocalDateTable_75fd13b4-da17-49c0-844c-19a96dba1b90
 ref table dim_vehicles_current
-ref table LocalDateTable_00d67391-b057-4ba2-aeb0-4c1d4411f75d
-ref table LocalDateTable_0c8b544e-384f-4f6d-aaf0-05ba1327d3e5
-ref table LocalDateTable_064fb59a-051a-440d-befb-1b5552dc7418
-ref table LocalDateTable_f0d100f4-0ee0-4e5f-b0dc-a85f70c1ad50
-ref table LocalDateTable_dbed7c91-499b-4303-8367-d30141012beb
-ref table LocalDateTable_784ecfd9-c42e-4488-a904-0342797533ce
 ref table bridge_invoices_vehicles
-ref table LocalDateTable_641d0857-d6d2-4cb3-802a-b66d3cc87db8
-ref table LocalDateTable_95a5d00c-8dab-448f-93eb-ccd347915433
-ref table LocalDateTable_149adb17-eaf2-4f94-b673-efd39faa2c59
 ref table fact_delinquency_by_vehicle_actual
-ref table LocalDateTable_a6ed1498-bec0-4f7c-841e-664f5e8ea987
-ref table LocalDateTable_e686c4e6-b71b-4516-be4e-d89ae70f28f2
 ref table fact_delinquency_by_vehicle_history
-ref table LocalDateTable_d5d90203-48f7-4617-a13c-81b82814bb02
-ref table LocalDateTable_ea82b123-c8ef-4f36-9fab-83b3b5fb87ee
-ref table LocalDateTable_a6cb20eb-bf40-4e4d-a7f7-08dd106aa82a
-ref table LocalDateTable_9f898fc9-77e5-483e-973e-033a217baa2d
-ref table LocalDateTable_5018526f-0092-4e4e-b4b7-f840c131b470
-ref table LocalDateTable_ceb0a291-d18f-4b88-8489-f8a0aae1ceb4
-ref table LocalDateTable_029572ee-7a21-453b-a35f-fa3630f00952
-ref table LocalDateTable_970d1c95-320d-4e9f-8c51-3cff40e9104d
-ref table LocalDateTable_ff5330c7-a827-4003-845a-0d48354ce776
-ref table LocalDateTable_25622dac-1ac2-4c01-ae8e-609dc14112eb
-ref table LocalDateTable_595738e7-4e36-4634-a59c-a3b73abdbb16
-ref table LocalDateTable_dd90356c-ec39-48ed-b5b7-83abc90a6e06
-ref table LocalDateTable_29770d61-de26-4a62-9104-f46baf6b0140
-ref table LocalDateTable_926458f1-2a46-4ad0-b52c-2394f5250d20
-ref table LocalDateTable_38fa0e9c-0af8-4ff6-a5aa-df3a6d74ccbf
-ref table LocalDateTable_884ce817-9973-4911-9494-349fd47004e5
-ref table LocalDateTable_b7a9c294-8d6f-404d-ac9f-6e27b133c989
-ref table LocalDateTable_9cb715cc-3e0b-42c7-84e2-47b656e709b1
-ref table LocalDateTable_ec621248-8a5d-4e43-9283-daf6b7f05c0f
+ref table 'Time Intelligence'
 
 ref cultureInfo pt-BR
 

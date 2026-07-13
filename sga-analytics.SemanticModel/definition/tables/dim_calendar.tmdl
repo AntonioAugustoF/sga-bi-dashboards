@@ -1,27 +1,24 @@
 table dim_calendar
 	lineageTag: fe33cf22-311f-4834-892c-470f47d72951
+	dataCategory: Time
 
 	column Data
+		isKey
 		formatString: Short Date
 		lineageTag: 5c8e359d-69b7-4eaf-96f4-271849c634f5
 		summarizeBy: none
 		sourceColumn: [Date]
 
-		variation Variation
-			isDefault
-			relationship: 33288977-71c9-4e82-a1cb-6f686555d8d8
-			defaultHierarchy: LocalDateTable_04f769c6-4920-4ce6-9d71-82a9608b3e90.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
-	column Mês = dim_calendar[Data].[Mês]
+	column Mês = FORMAT(dim_calendar[Data], "mmmm")
 		lineageTag: e43e503a-ac4e-4514-8139-541e33c492ed
 		summarizeBy: none
 		sortByColumn: 'Nº Mês'
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Nº Mês' = dim_calendar[Data].[MonthNo]
+	column 'Nº Mês' = MONTH(dim_calendar[Data])
 		formatString: 0
 		lineageTag: 64625ada-f348-4be7-967f-bc3988a51064
 		summarizeBy: sum
@@ -33,16 +30,11 @@ table dim_calendar
 		lineageTag: c9b1e58c-14da-43d4-b63f-3d69b4155abd
 		summarizeBy: none
 
-		variation Variation
-			isDefault
-			relationship: 0889a9b4-1fba-4067-a653-e175a5392a31
-			defaultHierarchy: LocalDateTable_eff49fb0-d85b-4a62-9570-ca7fac54cdac.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column Trimestre = dim_calendar[Data].[QuarterNo]
+	column Trimestre = QUARTER(dim_calendar[Data])
 		formatString: 0
 		lineageTag: 18ee398a-1654-49df-a01f-b1e347495bae
 		summarizeBy: sum
@@ -56,7 +48,7 @@ table dim_calendar
 
 		annotation SummarizationSetBy = Automatic
 
-	column Ano = dim_calendar[Data].[Ano]
+	column Ano = YEAR(dim_calendar[Data])
 		formatString: 0
 		lineageTag: 7d8fe03b-57a2-4147-b314-7f45932984a3
 		summarizeBy: sum

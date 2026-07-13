@@ -136,11 +136,6 @@ table dim_regionals
 		summarizeBy: none
 		sourceColumn: criado_em
 
-		variation Variation
-			isDefault
-			relationship: ce2b63a4-a20a-4a1f-becb-99ebea5261aa
-			defaultHierarchy: LocalDateTable_970d1c95-320d-4e9f-8c51-3cff40e9104d.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column atualizado_em
@@ -150,11 +145,6 @@ table dim_regionals
 		summarizeBy: none
 		sourceColumn: atualizado_em
 
-		variation Variation
-			isDefault
-			relationship: b453b28a-efad-4cce-8e1a-3476a7accf0a
-			defaultHierarchy: LocalDateTable_ff5330c7-a827-4003-845a-0d48354ce776.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column data_referencia
@@ -163,11 +153,6 @@ table dim_regionals
 		lineageTag: 27c82faa-5cde-451f-ac66-fdf9cd7cfb97
 		summarizeBy: none
 		sourceColumn: data_referencia
-
-		variation Variation
-			isDefault
-			relationship: 53b18edc-da79-4682-acc3-ae7c9a168632
-			defaultHierarchy: LocalDateTable_25622dac-1ac2-4c01-ae8e-609dc14112eb.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 

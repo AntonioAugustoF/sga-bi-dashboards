@@ -48,11 +48,6 @@ table dim_customers
 		summarizeBy: none
 		sourceColumn: data_nascimento
 
-		variation Variation
-			isDefault
-			relationship: 27b27e15-f390-4ca7-acac-4f70f8e5d3f4
-			defaultHierarchy: LocalDateTable_ebd4a20d-c1d5-4a86-bdcd-b05694a4926f.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -87,11 +82,6 @@ table dim_customers
 		lineageTag: cfeea0d0-725d-4331-9eae-c15cad0eabae
 		summarizeBy: none
 		sourceColumn: data_vencimento_habilitacao
-
-		variation Variation
-			isDefault
-			relationship: 3cbc1e12-22e1-472d-8211-6a8d0feaf15a
-			defaultHierarchy: LocalDateTable_bbc93ef8-d2b7-4aee-86d0-f1c61fe27af8.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -242,11 +232,6 @@ table dim_customers
 		summarizeBy: none
 		sourceColumn: data_cadastro_associado
 
-		variation Variation
-			isDefault
-			relationship: e9e6bca6-abb4-4938-978d-d2c218cf700a
-			defaultHierarchy: LocalDateTable_5cea0c12-1094-475e-a74d-417a55607c16.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -257,11 +242,6 @@ table dim_customers
 		lineageTag: 602d8cf3-e883-40af-be70-199cc4de5c8f
 		summarizeBy: none
 		sourceColumn: data_contrato_associado
-
-		variation Variation
-			isDefault
-			relationship: 3c2982c4-9611-427e-b28f-5f02e630c062
-			defaultHierarchy: LocalDateTable_715112ff-17c1-4156-9a52-6fc37e4c8ddd.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -316,11 +296,6 @@ table dim_customers
 		summarizeBy: none
 		sourceColumn: valido_de
 
-		variation Variation
-			isDefault
-			relationship: 1ae96ed5-a1d1-426a-a920-2918e5872aa6
-			defaultHierarchy: LocalDateTable_fcab602d-0757-4d33-96d2-40a7741ae063.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -331,11 +306,6 @@ table dim_customers
 		lineageTag: 7b26e467-e7fc-464d-b48b-9c10e8d52657
 		summarizeBy: none
 		sourceColumn: valido_ate
-
-		variation Variation
-			isDefault
-			relationship: 44047b9c-9ff2-49b0-a9cc-5817315035ba
-			defaultHierarchy: LocalDateTable_11a91258-3c7d-4eb5-8874-894d229775e4.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -366,11 +336,6 @@ table dim_customers
 		summarizeBy: none
 		sourceColumn: criado_em
 
-		variation Variation
-			isDefault
-			relationship: 7381149d-ce42-4b77-b1d2-1c2a883dabbc
-			defaultHierarchy: LocalDateTable_ceb0a291-d18f-4b88-8489-f8a0aae1ceb4.'Hierarquia de datas'
-
 		annotation SummarizationSetBy = Automatic
 
 	column atualizado_em
@@ -379,11 +344,6 @@ table dim_customers
 		lineageTag: b7f0ab40-cc2c-4152-bfd3-9563fb24e8c8
 		summarizeBy: none
 		sourceColumn: atualizado_em
-
-		variation Variation
-			isDefault
-			relationship: 3c5aec7c-8eda-43a5-9a22-25e565cb54fd
-			defaultHierarchy: LocalDateTable_029572ee-7a21-453b-a35f-fa3630f00952.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
