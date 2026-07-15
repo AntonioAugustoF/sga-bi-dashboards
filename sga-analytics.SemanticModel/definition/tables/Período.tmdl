@@ -1,0 +1,111 @@
+table Período
+	lineageTag: a3c8e30b-72b3-4afe-a074-33d0decaf46c
+
+	calculationGroup
+		precedence: 10
+
+		calculationItem Atual = SELECTEDMEASURE()
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem MTD =
+				VAR _UltimaData =
+				    CALCULATE(MAX(dim_calendar[Data]), FILTER(ALL(dim_calendar), NOT ISBLANK(SELECTEDMEASURE())))
+				VAR _DiaCorte = DAY(_UltimaData)
+				VAR _DataContexto = MAX(dim_calendar[Data])
+				VAR _InicioMes = DATE(YEAR(_DataContexto), MONTH(_DataContexto), 1)
+				VAR _FimMes = EOMONTH(_DataContexto, 0)
+				VAR _FimMTD = DATE(YEAR(_FimMes), MONTH(_FimMes), MIN(_DiaCorte, DAY(_FimMes)))
+				RETURN
+				CALCULATE(SELECTEDMEASURE(), DATESBETWEEN(dim_calendar[Data], _InicioMes, _FimMTD))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem QTD = CALCULATE(SELECTEDMEASURE(), DATESQTD(dim_calendar[Data]))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem YTD = CALCULATE(SELECTEDMEASURE(), DATESYTD(dim_calendar[Data]))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Média Móvel 3M' =
+				VAR _periodo = DATESINPERIOD(dim_calendar[Data], MAX(dim_calendar[Data]), -3, MONTH)
+				VAR _meses =
+				    ADDCOLUMNS(
+				        CALCULATETABLE(VALUES(dim_calendar[MesAno]), _periodo),
+				        "@v", CALCULATE(SELECTEDMEASURE())
+				    )
+				RETURN
+				AVERAGEX(_meses, [@v])
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Média Móvel 6M' =
+				VAR _periodo = DATESINPERIOD(dim_calendar[Data], MAX(dim_calendar[Data]), -6, MONTH)
+				VAR _meses =
+				    ADDCOLUMNS(
+				        CALCULATETABLE(VALUES(dim_calendar[MesAno]), _periodo),
+				        "@v", CALCULATE(SELECTEDMEASURE())
+				    )
+				RETURN
+				AVERAGEX(_meses, [@v])
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Média Móvel 12M' =
+				VAR _periodo = DATESINPERIOD(dim_calendar[Data], MAX(dim_calendar[Data]), -12, MONTH)
+				VAR _meses =
+				    ADDCOLUMNS(
+				        CALCULATETABLE(VALUES(dim_calendar[MesAno]), _periodo),
+				        "@v", CALCULATE(SELECTEDMEASURE())
+				    )
+				RETURN
+				AVERAGEX(_meses, [@v])
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'MAT (Total Móvel 12M)' = CALCULATE(SELECTEDMEASURE(), DATESINPERIOD(dim_calendar[Data], MAX(dim_calendar[Data]), -12, MONTH))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Último Mês Completo' =
+				VAR _ref = MAX(dim_calendar[Data])
+				VAR _fim = IF(_ref = EOMONTH(_ref, 0), _ref, EOMONTH(_ref, -1))
+				VAR _ini = DATE(YEAR(_fim), MONTH(_fim), 1)
+				RETURN
+				CALCULATE(SELECTEDMEASURE(), DATESBETWEEN(dim_calendar[Data], _ini, _fim))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Último Trim. Completo' =
+				VAR _ref = MAX(dim_calendar[Data])
+				VAR _trim = QUARTER(_ref)
+				VAR _fimTrimRef = EOMONTH(DATE(YEAR(_ref), _trim * 3, 1), 0)
+				VAR _fim = IF(_ref = _fimTrimRef, _fimTrimRef, EOMONTH(_fimTrimRef, -3))
+				VAR _ini = DATE(YEAR(_fim), MONTH(_fim) - 2, 1)
+				RETURN
+				CALCULATE(SELECTEDMEASURE(), DATESBETWEEN(dim_calendar[Data], _ini, _fim))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Último Ano Completo' =
+				VAR _ref = MAX(dim_calendar[Data])
+				VAR _anoCompleto = IF(_ref = DATE(YEAR(_ref), 12, 31), YEAR(_ref), YEAR(_ref) - 1)
+				RETURN
+				CALCULATE(SELECTEDMEASURE(), DATESBETWEEN(dim_calendar[Data], DATE(_anoCompleto, 1, 1), DATE(_anoCompleto, 12, 31)))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+	column Período
+		dataType: string
+		lineageTag: 101f3a76-aa7f-4c94-af42-ecd3b6135ca1
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		lineageTag: 3f75519a-2895-46e5-b3c3-ae90613cf7a9
+		sourceColumn: Ordinal
+

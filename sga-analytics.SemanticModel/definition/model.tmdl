@@ -34,7 +34,8 @@ ref table dim_vehicles_current
 ref table bridge_invoices_vehicles
 ref table fact_delinquency_by_vehicle_actual
 ref table fact_delinquency_by_vehicle_history
-ref table 'Time Intelligence'
+ref table Período
+ref table Comparação
 
 ref cultureInfo pt-BR
 

@@ -1,0 +1,67 @@
+table Comparação
+	lineageTag: a52cd14e-7874-4724-b335-24a18d2d83fd
+
+	calculationGroup
+		precedence: 20
+
+		calculationItem Valor = SELECTEDMEASURE()
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Mês Anterior' = CALCULATE(SELECTEDMEASURE(), DATEADD(dim_calendar[Data], -1, MONTH))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Δ MoM' = SELECTEDMEASURE() - CALCULATE(SELECTEDMEASURE(), DATEADD(dim_calendar[Data], -1, MONTH))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Δ MoM %' =
+				VAR _atual = SELECTEDMEASURE()
+				VAR _anterior = CALCULATE(SELECTEDMEASURE(), DATEADD(dim_calendar[Data], -1, MONTH))
+				RETURN DIVIDE(_atual - _anterior, _anterior)
+
+			formatStringDefinition = "0.00%;-0.00%;0.00%"
+
+		calculationItem 'Trim. Anterior' = CALCULATE(SELECTEDMEASURE(), DATEADD(dim_calendar[Data], -1, QUARTER))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Δ QoQ' = SELECTEDMEASURE() - CALCULATE(SELECTEDMEASURE(), DATEADD(dim_calendar[Data], -1, QUARTER))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Δ QoQ %' =
+				VAR _atual = SELECTEDMEASURE()
+				VAR _anterior = CALCULATE(SELECTEDMEASURE(), DATEADD(dim_calendar[Data], -1, QUARTER))
+				RETURN DIVIDE(_atual - _anterior, _anterior)
+
+			formatStringDefinition = "0.00%;-0.00%;0.00%"
+
+		calculationItem 'Ano Anterior' = CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR(dim_calendar[Data]))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Δ YoY' = SELECTEDMEASURE() - CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR(dim_calendar[Data]))
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Δ YoY %' =
+				VAR _atual = SELECTEDMEASURE()
+				VAR _anterior = CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR(dim_calendar[Data]))
+				RETURN DIVIDE(_atual - _anterior, _anterior)
+
+			formatStringDefinition = "0.00%;-0.00%;0.00%"
+
+	column Comparação
+		dataType: string
+		lineageTag: ea2ab23f-f17a-4fec-94f9-39b23626c978
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		lineageTag: 8c0e6ecc-fa17-4dbb-a674-19043f2e1e25
+		sourceColumn: Ordinal
+

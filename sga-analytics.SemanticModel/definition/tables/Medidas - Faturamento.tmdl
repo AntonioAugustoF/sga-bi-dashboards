@@ -7,144 +7,8 @@ table 'Medidas - Faturamento'
 			    SUM(fact_invoices[valor_pagamento]),
 			    USERELATIONSHIP(fact_invoices[data_pagamento], dim_calendar[Data])
 			)
-		lineageTag: 9c769c26-9403-45a4-af8b-ff198d7d5a9f
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Recebida - MTD' =
-			
-			VAR DataCorte =
-			    CALCULATE(
-			        MAX(fact_invoices[data_pagamento]),
-			        ALL(fact_invoices)
-			    )
-			
-			VAR DiaCorte = DAY(DataCorte)
-			
-			VAR DataContexto = MAX(dim_calendar[Data])
-			
-			VAR InicioMesContexto =
-			    DATE(YEAR(DataContexto), MONTH(DataContexto), 1)
-			
-			VAR FimMesContexto =
-			    EOMONTH(DataContexto, 0)
-			
-			VAR FimMTDContexto =
-			    DATE(
-			        YEAR(FimMesContexto),
-			        MONTH(FimMesContexto),
-			        MIN(DiaCorte, DAY(FimMesContexto))
-			    )
-			
-			RETURN
-			CALCULATE(
-			    [Receita Recebida],
-			    DATESBETWEEN(
-			        dim_calendar[Data],
-			        InicioMesContexto,
-			        FimMTDContexto
-			    )
-			)
-		lineageTag: c22143ff-6ddc-48e9-820f-d795fd99fe78
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Recebida - Mês Anterior' =
-			CALCULATE(
-			    [Receita Recebida],
-			    PREVIOUSMONTH(dim_calendar[Data])
-			)
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
-		lineageTag: c7d1460c-c5fb-4059-ae8c-cd23a8849b02
-
-	measure 'Receita Recebida - MTD Mês Anterior' =
-			
-			VAR DataCorte =
-			    CALCULATE(
-			        MAX(fact_invoices[data_pagamento]),
-			        ALL(fact_invoices)
-			    )
-			
-			VAR DiaCorte = DAY(DataCorte)
-			
-			VAR DataContexto = MAX(dim_calendar[Data])
-			VAR DataMesAnterior = EOMONTH(DataContexto, -1)
-			
-			VAR InicioMesAnterior =
-			    DATE(YEAR(DataMesAnterior), MONTH(DataMesAnterior), 1)
-			
-			VAR FimMesAnterior =
-			    EOMONTH(DataMesAnterior, 0)
-			
-			VAR FimMTDMesAnterior =
-			    DATE(
-			        YEAR(FimMesAnterior),
-			        MONTH(FimMesAnterior),
-			        MIN(DiaCorte, DAY(FimMesAnterior))
-			    )
-			
-			RETURN
-			CALCULATE(
-			    [Receita Recebida],
-			    DATESBETWEEN(
-			        dim_calendar[Data],
-			        InicioMesAnterior,
-			        FimMTDMesAnterior
-			    )
-			)
-		lineageTag: b1d0c32f-c9d9-40ad-88ad-dbf523dce41f
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Recebida - Var Abs MA' =
-			
-			[Receita Recebida - MTD] - [Receita Recebida - MTD Mês Anterior]
-		lineageTag: 2a148df1-39ff-45bd-a5e3-22d967fbaf2c
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Recebida - Var % MA' =
-			
-			DIVIDE(
-			    [Receita Recebida - Var Abs MA],
-			    [Receita Recebida - MTD Mês Anterior]
-			)
-		formatString: 0.00%;-0.00%;0.00%
-		lineageTag: 6032e926-1ee9-46ab-9aa4-ff7f965fc0a2
-
-	measure 'Receita Recebida - YTD' =
-			
-			TOTALYTD(
-			    [Receita Recebida],
-			    dim_calendar[Data]
-			)
 		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
-		lineageTag: 51e7fb36-ab6a-441a-bd50-9d2865448358
-
-		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
-
-	measure 'Receita Recebida - Ano Anterior' =
-			
-			CALCULATE(
-			    [Receita Recebida],
-			    SAMEPERIODLASTYEAR(dim_calendar[Data])
-			)
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
-		lineageTag: 7006213c-e6f8-4436-a376-be66493a9d1e
-
-	measure 'Receita Recebida - Var % AA' =
-			
-			DIVIDE(
-			    [Receita Recebida] - [Receita Recebida - Ano Anterior],
-			    [Receita Recebida - Ano Anterior]
-			)
-		formatString: 0.00%;-0.00%;0.00%
-		lineageTag: e66156ae-c7c1-4088-84be-b0c9c55e8ed2
-
-	measure 'Receita Recebida - Var Abs AA' =
-			
-			[Receita Recebida] - [Receita Recebida - Ano Anterior]
-		lineageTag: 67ab6474-508b-4d26-83b4-3c66310fa7bc
+		lineageTag: 9c769c26-9403-45a4-af8b-ff198d7d5a9f
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -170,64 +34,8 @@ table 'Medidas - Faturamento'
 			    SUM(fact_invoices[valor_boleto]),
 			    fact_invoices[descricao_situacao_boleto] <> "excluido"
 			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
 		lineageTag: 90faf48b-54cd-46af-bab0-b259466df664
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Emitida - Ano Anterior' =
-			
-			CALCULATE(
-			    [Receita Emitida],
-			    SAMEPERIODLASTYEAR(dim_calendar[Data])
-			)
-		lineageTag: 8334176c-baa9-491c-981e-649ce6235f07
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Emitida - Mês Anterior' =
-			CALCULATE(
-			    [Receita Emitida],
-			    PREVIOUSMONTH(dim_calendar[Data])
-			)
-		lineageTag: b129833e-25e2-449d-af12-2b0814565a7c
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Emitida - MTD' =
-			
-			VAR DataCorte =
-			    CALCULATE(
-			        MAX(fact_invoices[data_pagamento]),
-			        ALL(fact_invoices)
-			    )
-			
-			VAR DiaCorte = DAY(DataCorte)
-			
-			VAR DataContexto = MAX(dim_calendar[Data])
-			
-			VAR InicioMesContexto =
-			    DATE(YEAR(DataContexto), MONTH(DataContexto), 1)
-			
-			VAR FimMesContexto =
-			    EOMONTH(DataContexto, 0)
-			
-			VAR FimMTDContexto =
-			    DATE(
-			        YEAR(FimMesContexto),
-			        MONTH(FimMesContexto),
-			        MIN(DiaCorte, DAY(FimMesContexto))
-			    )
-			
-			RETURN
-			CALCULATE(
-			    [Receita Emitida],
-			    DATESBETWEEN(
-			        dim_calendar[Data],
-			        InicioMesContexto,
-			        FimMTDContexto
-			    )
-			)
-		lineageTag: 9f126f2f-7903-450c-a45d-c789b5eabe48
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -239,85 +47,6 @@ table 'Medidas - Faturamento'
 		formatString: 0
 		lineageTag: c817fd7a-522d-4033-82de-7c75852f8bc8
 
-	measure 'Receita Emitida - Var % AA' =
-			
-			DIVIDE(
-			    [Receita Emitida] - [Receita Emitida - Ano Anterior],
-			    [Receita Emitida - Ano Anterior]
-			)
-		lineageTag: db6d3114-3371-47d6-9e07-10b677632d19
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Emitida - Var % MA' =
-			
-			DIVIDE(
-			    [Receita Emitida - Var Abs MA],
-			    [Receita Emitida - MTD Mês Anterior]
-			)
-		lineageTag: 9cf23954-3d47-4997-938d-4704d684770f
-
-	measure 'Receita Emitida - YTD' =
-			
-			TOTALYTD(
-			    [Receita Emitida],
-			    dim_calendar[Data]
-			)
-		lineageTag: 96ed19a6-9877-4432-8080-b1ec5146471c
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Emitida - Var Abs AA' =
-			
-			[Receita Emitida] - [Receita Emitida - Ano Anterior]
-		lineageTag: 0f2686ec-a00d-4360-9f4f-7cb256b9fe71
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Emitida - Var Abs MA' =
-			
-			[Receita Emitida - MTD] - [Receita Emitida - MTD Mês Anterior]
-		lineageTag: 45a16de5-f2f4-4147-9711-c9c16dba9706
-
-	measure 'Receita Emitida - MTD Mês Anterior' =
-			
-			VAR DataCorte =
-			    CALCULATE(
-			        MAX(fact_invoices[data_pagamento]),
-			        ALL(fact_invoices)
-			    )
-			
-			VAR DiaCorte = DAY(DataCorte)
-			
-			VAR DataContexto = MAX(dim_calendar[Data])
-			VAR DataMesAnterior = EOMONTH(DataContexto, -1)
-			
-			VAR InicioMesAnterior =
-			    DATE(YEAR(DataMesAnterior), MONTH(DataMesAnterior), 1)
-			
-			VAR FimMesAnterior =
-			    EOMONTH(DataMesAnterior, 0)
-			
-			VAR FimMTDMesAnterior =
-			    DATE(
-			        YEAR(FimMesAnterior),
-			        MONTH(FimMesAnterior),
-			        MIN(DiaCorte, DAY(FimMesAnterior))
-			    )
-			
-			RETURN
-			CALCULATE(
-			    [Receita Emitida],
-			    DATESBETWEEN(
-			        dim_calendar[Data],
-			        InicioMesAnterior,
-			        FimMTDMesAnterior
-			    )
-			)
-		lineageTag: 8b4963f7-be92-422e-a43b-589e45002c82
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure 'Receita Emitida - Ticket Médio' =
 			DIVIDE(
 			    [Receita Emitida],
@@ -327,102 +56,16 @@ table 'Medidas - Faturamento'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure 'Receita Emitida - QTD' =
-			
-			CALCULATE(
-			    [Receita Emitida],
-			    DATESQTD(dim_calendar[Data])
-			)
-		lineageTag: 870fdf28-6617-4031-9e69-fe37816dedbe
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Recebida - QTD' =
-			
-			CALCULATE(
-			    [Receita Recebida],
-			    DATESQTD(dim_calendar[Data]),
-			    USERELATIONSHIP(fact_invoices[data_pagamento], dim_calendar[Data])
-			)
-		lineageTag: ddcd71a9-8af8-45e9-9054-67f058c2eae3
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Emitida - YTD AA' =
-			
-			CALCULATE(
-			    [Receita Emitida - YTD],
-			    SAMEPERIODLASTYEAR(dim_calendar[Data])
-			)
-		lineageTag: 71c7a6ab-c65b-4613-abfd-9b99f0931f4f
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure 'Receita Emitida - Var % YTD AA' =
 			
 			VAR _atual = [Receita Emitida - YTD]
 			VAR _anterior = [Receita Emitida - YTD AA]
 			RETURN
 			    DIVIDE (_atual - _anterior, _anterior)
+		isHidden
 		lineageTag: 86d8ade8-ce2b-4238-aef6-db45aa3b6ddc
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Recebida - YTD AA' =
-			
-			CALCULATE(
-			    [Receita Recebida - YTD],
-			    SAMEPERIODLASTYEAR(dim_calendar[Data])
-			)
-		lineageTag: 1fb9f602-2c93-4e53-8af4-6c14166f50b1
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Recebida - Var % YTD AA' =
-			
-			DIVIDE(
-			    [Receita Recebida - YTD] - [Receita Recebida - YTD AA],
-			    [Receita Recebida - YTD AA]
-			)
-		lineageTag: d62cd11f-59a5-4296-b7e8-37043c517c9c
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Receita Emitida - Média Móvel 3M' = ```
-			
-			VAR _periodo = 
-			    DATESINPERIOD(dim_calendar[Data], MAX(dim_calendar[Data]), -3, MONTH)
-			VAR _tabela_mensal = 
-			    ADDCOLUMNS(
-			        VALUES(dim_calendar[MesAno]),
-			        "@receita", [Receita Emitida]
-			    )
-			RETURN
-			    AVERAGEX(
-			        FILTER(_tabela_mensal, [MesAno] IN _periodo),
-			        [@receita]
-			    )
-			```
-		formatString: 0
-		lineageTag: 181253ca-adb4-4dd5-8aad-73e3879b5e7d
-
-	measure 'Receita Recebida - Média Móvel 3M' = ```
-			
-			VAR _periodo = 
-			    DATESINPERIOD(dim_calendar[Data], MAX(dim_calendar[Data]), -3, MONTH)
-			VAR _tabela_mensal = 
-			    ADDCOLUMNS(
-			        VALUES(dim_calendar[MesAno]),
-			        "@receita", [Receita Recebida]
-			    )
-			RETURN
-			    AVERAGEX(
-			        FILTER(_tabela_mensal, [MesAno] IN _periodo),
-			        [@receita]
-			    )
-			```
-		formatString: 0
-		lineageTag: fe265014-6362-484e-833c-38713770b7ad
 
 	column Z
 		isHidden
