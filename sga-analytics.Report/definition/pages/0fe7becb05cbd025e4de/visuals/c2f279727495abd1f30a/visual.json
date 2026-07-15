@@ -23,12 +23,12 @@
                       "Entity": "Medidas - Faturamento"
                     }
                   },
-                  "Property": "Receita Recebida - MTD Mês Anterior"
+                  "Property": "Receita Recebida"
                 }
               },
-              "queryRef": "Medidas - Faturamento.Faturamento MTD Mês Anterior",
-              "nativeQueryRef": "Faturamento MTD Mês Anterior",
-              "format": "\"R$\" #,0.###############;-\"R$\" #,0.###############;\"R$\" #,0.###############"
+              "queryRef": "Medidas - Faturamento.Receita Recebida",
+              "nativeQueryRef": "MTD Mês Anterior",
+              "displayName": "MTD Mês Anterior"
             }
           ]
         }
@@ -43,7 +43,7 @@
                     "Entity": "Medidas - Faturamento"
                   }
                 },
-                "Property": "Receita Recebida - MTD Mês Anterior"
+                "Property": "Receita Recebida"
               }
             },
             "direction": "Descending"
@@ -112,7 +112,7 @@
             }
           },
           "selector": {
-            "metadata": "Medidas - Faturamento.Faturamento MTD Mês Anterior"
+            "metadata": "Medidas - Faturamento.Receita Recebida"
           }
         }
       ],
@@ -199,7 +199,7 @@
             }
           },
           "selector": {
-            "metadata": "Medidas - Faturamento.Faturamento MTD Mês Anterior"
+            "metadata": "Medidas - Faturamento.Receita Recebida"
           }
         }
       ]
@@ -269,5 +269,132 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f7a32c65b8d722836836",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Medidas - Faturamento"
+              }
+            },
+            "Property": "Receita Recebida"
+          }
+        },
+        "type": "Advanced",
+        "isHiddenInViewMode": true
+      },
+      {
+        "name": "2b0213cefa209ad472dd",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Período"
+              }
+            },
+            "Property": "Período"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "p",
+              "Entity": "Período",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "p"
+                          }
+                        },
+                        "Property": "Período"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'MTD'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "d69dd7f6a2909d14c873",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Comparação"
+              }
+            },
+            "Property": "Comparação"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "Comparação",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "c"
+                          }
+                        },
+                        "Property": "Comparação"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Mês Anterior'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
   }
 }

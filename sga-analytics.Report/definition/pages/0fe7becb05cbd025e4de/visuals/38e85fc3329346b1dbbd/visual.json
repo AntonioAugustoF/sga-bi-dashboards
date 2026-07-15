@@ -32,6 +32,24 @@
             }
           ]
         },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Comparação"
+                    }
+                  },
+                  "Property": "Comparação"
+                }
+              },
+              "queryRef": "Comparação.Comparação",
+              "nativeQueryRef": "Comparação"
+            }
+          ]
+        },
         "Y": {
           "projections": [
             {
@@ -47,21 +65,6 @@
               },
               "queryRef": "Medidas - Faturamento.Receita Recebida",
               "nativeQueryRef": "Receita Recebida",
-              "format": "\"R$\" #,0.###############;-\"R$\" #,0.###############;\"R$\" #,0.###############"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Medidas - Faturamento"
-                    }
-                  },
-                  "Property": "Receita Recebida - Ano Anterior"
-                }
-              },
-              "queryRef": "Medidas - Faturamento.Receita Recebida - Ano Anterior",
-              "nativeQueryRef": "Receita Recebida - Ano Anterior",
               "format": "\"R$\" #,0.###############;-\"R$\" #,0.###############;\"R$\" #,0.###############"
             }
           ]
@@ -82,7 +85,7 @@
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "1D"
+                  "Value": "1000000D"
                 }
               }
             },
@@ -285,23 +288,8 @@
         }
       },
       {
-        "name": "5180f0a874edc8517dc8",
-        "ordinal": 1,
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Medidas - Faturamento"
-              }
-            },
-            "Property": "Receita Recebida - Ano Anterior"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
         "name": "f993144c495c225df4ea",
-        "ordinal": 2,
+        "ordinal": 1,
         "field": {
           "Measure": {
             "Expression": {
@@ -316,7 +304,7 @@
       },
       {
         "name": "9bb2560f7bad5886a7a8",
-        "ordinal": 3,
+        "ordinal": 2,
         "field": {
           "Column": {
             "Expression": {
@@ -328,6 +316,66 @@
           }
         },
         "type": "Categorical"
+      },
+      {
+        "name": "456fc01591e663b9d351",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Comparação"
+              }
+            },
+            "Property": "Comparação"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "Comparação",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "c"
+                          }
+                        },
+                        "Property": "Comparação"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Valor'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Ano Anterior'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
       }
     ],
     "filterSortOrder": "Custom"

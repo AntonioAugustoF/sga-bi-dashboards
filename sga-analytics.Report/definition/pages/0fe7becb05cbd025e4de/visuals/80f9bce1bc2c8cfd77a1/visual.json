@@ -23,11 +23,11 @@
                       "Entity": "Medidas - Faturamento"
                     }
                   },
-                  "Property": "Receita Recebida - Var % AA"
+                  "Property": "Receita Recebida"
                 }
               },
-              "queryRef": "Medidas - Faturamento.Variação % Ano Atual x Ano Anterior",
-              "nativeQueryRef": "Receita Recebida - Var % AA"
+              "queryRef": "Medidas - Faturamento.Receita Recebida",
+              "nativeQueryRef": "Receita Recebida"
             }
           ]
         }
@@ -42,7 +42,7 @@
                     "Entity": "Medidas - Faturamento"
                   }
                 },
-                "Property": "Receita Recebida - Var % AA"
+                "Property": "Receita Recebida"
               }
             },
             "direction": "Descending"
@@ -159,7 +159,7 @@
                                       "Entity": "Medidas - Faturamento"
                                     }
                                   },
-                                  "Property": "Receita Recebida - Var % AA"
+                                  "Property": "Receita Recebida"
                                 }
                               },
                               "Right": {
@@ -186,7 +186,7 @@
                                       "Entity": "Medidas - Faturamento"
                                     }
                                   },
-                                  "Property": "Receita Recebida - Var % AA"
+                                  "Property": "Receita Recebida"
                                 }
                               },
                               "Right": {
@@ -415,6 +415,114 @@
             }
           ]
         }
+      },
+      {
+        "name": "916b9d065a2cd62cf4e1",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Período"
+              }
+            },
+            "Property": "Período"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "p",
+              "Entity": "Período",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "p"
+                          }
+                        },
+                        "Property": "Período"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'YTD'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "93a840816923f7b1870a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Comparação"
+              }
+            },
+            "Property": "Comparação"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "Comparação",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "c"
+                          }
+                        },
+                        "Property": "Comparação"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Δ YoY %'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
       }
     ]
   }
