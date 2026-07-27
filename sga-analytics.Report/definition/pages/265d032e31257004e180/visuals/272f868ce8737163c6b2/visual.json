@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "1dcfaaf6d60e9dc3121a",
+  "name": "272f868ce8737163c6b2",
   "position": {
-    "x": 127.79582366589328,
-    "y": 0,
-    "z": 1000,
-    "height": 81.856148491879352,
-    "width": 231.36890951276104,
-    "tabOrder": 1000
+    "x": 194.63736263736266,
+    "y": 72,
+    "z": 0,
+    "height": 69.626373626373635,
+    "width": 219.95604395604397,
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "cardVisual",
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Medidas - Faturamento.Receita Recebida",
-              "nativeQueryRef": "Receita Recebida"
+              "nativeQueryRef": "MTD",
+              "displayName": "MTD"
             }
           ]
         }
@@ -55,12 +56,26 @@
       "value": [
         {
           "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Medidas - Faturamento.Receita Recebida"
+          }
+        },
+        {
+          "properties": {
             "fontColor": {
               "solid": {
                 "color": {
                   "expr": {
                     "ThemeDataColor": {
-                      "ColorId": 0,
+                      "ColorId": 1,
                       "Percent": 0
                     }
                   }
@@ -70,7 +85,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "18D"
+                  "Value": "16D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Semibold'', wf_segoe-ui_semibold, helvetica, arial, sans-serif'"
                 }
               }
             }
@@ -146,6 +168,13 @@
                   "Value": "11D"
                 }
               }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           },
           "selector": {
@@ -174,7 +203,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "32839f3c989d6746a4c1",
+        "name": "9c1947757b11d157890f",
         "field": {
           "Measure": {
             "Expression": {
@@ -189,7 +218,7 @@
         "isHiddenInViewMode": true
       },
       {
-        "name": "c1604e769b60e380cbe4",
+        "name": "d5607f03ef426dc50edc",
         "field": {
           "Column": {
             "Expression": {
@@ -243,7 +272,7 @@
         "howCreated": "User"
       },
       {
-        "name": "f2bbee4f8a06c8431cfa",
+        "name": "5fcc6bc5a588fdca9a80",
         "field": {
           "Column": {
             "Expression": {

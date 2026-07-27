@@ -1,12 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "1dcfaaf6d60e9dc3121a",
+  "name": "068a08df9d90d8c51906",
   "position": {
-    "x": 127.79582366589328,
-    "y": 0,
+    "x": 471.56043956043959,
+    "y": 65.670329670329679,
     "z": 1000,
-    "height": 81.856148491879352,
-    "width": 231.36890951276104,
+    "height": 82.285714285714292,
+    "width": 229.45054945054946,
     "tabOrder": 1000
   },
   "visual": {
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Medidas - Faturamento.Receita Recebida",
-              "nativeQueryRef": "Receita Recebida"
+              "nativeQueryRef": "MTD Mês Anterior",
+              "displayName": "MTD Mês Anterior"
             }
           ]
         }
@@ -55,28 +56,49 @@
       "value": [
         {
           "properties": {
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": 0
-                    }
-                  }
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Semibold'', wf_segoe-ui_semibold, helvetica, arial, sans-serif'"
                 }
               }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "18D"
+                  "Value": "16D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
                 }
               }
             }
           },
           "selector": {
             "id": "default"
+          }
+        },
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Medidas - Faturamento.Receita Recebida"
           }
         }
       ],
@@ -128,6 +150,20 @@
       "label": [
         {
           "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
             "fontColor": {
               "solid": {
                 "color": {
@@ -137,13 +173,6 @@
                       "Percent": 0
                     }
                   }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "11D"
                 }
               }
             }
@@ -164,6 +193,55 @@
                   "Value": "false"
                 }
               }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
             }
           }
         }
@@ -174,7 +252,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "32839f3c989d6746a4c1",
+        "name": "f7a32c65b8d722836836",
         "field": {
           "Measure": {
             "Expression": {
@@ -189,7 +267,7 @@
         "isHiddenInViewMode": true
       },
       {
-        "name": "c1604e769b60e380cbe4",
+        "name": "2b0213cefa209ad472dd",
         "field": {
           "Column": {
             "Expression": {
@@ -243,7 +321,7 @@
         "howCreated": "User"
       },
       {
-        "name": "f2bbee4f8a06c8431cfa",
+        "name": "d69dd7f6a2909d14c873",
         "field": {
           "Column": {
             "Expression": {
@@ -284,7 +362,7 @@
                     [
                       {
                         "Literal": {
-                          "Value": "'Valor'"
+                          "Value": "'Mês Anterior'"
                         }
                       }
                     ]

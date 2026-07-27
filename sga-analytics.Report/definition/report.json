@@ -107,7 +107,8 @@
     ]
   },
   "publicCustomVisuals": [
-    "ScrollingTextVisual1448795304508"
+    "ScrollingTextVisual1448795304508",
+    "PBI_CV_25997FEB_F466_44FA_B562_AC4063283C4C"
   ],
   "resourcePackages": [
     {
@@ -131,13 +132,13 @@
       "type": "RegisteredResources",
       "items": [
         {
-          "name": "BackgroundBI07741766360966185.jpg",
-          "path": "BackgroundBI07741766360966185.jpg",
+          "name": "Arrecada__o68819106425756951.svg",
+          "path": "Arrecada__o68819106425756951.svg",
           "type": "Image"
         },
         {
-          "name": "BackgroundBI1359721315503044.jpg",
-          "path": "BackgroundBI1359721315503044.jpg",
+          "name": "BackgroundBI07741766360966185.jpg",
+          "path": "BackgroundBI07741766360966185.jpg",
           "type": "Image"
         },
         {
@@ -163,11 +164,6 @@
         {
           "name": "logo_retificada5353750775548836.png",
           "path": "logo_retificada5353750775548836.png",
-          "type": "Image"
-        },
-        {
-          "name": "point_(1)7325599404463278.jpg",
-          "path": "point_(1)7325599404463278.jpg",
           "type": "Image"
         }
       ]

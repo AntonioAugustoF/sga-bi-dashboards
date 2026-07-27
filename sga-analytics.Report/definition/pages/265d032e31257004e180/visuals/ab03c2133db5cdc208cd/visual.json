@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "1dcfaaf6d60e9dc3121a",
+  "name": "ab03c2133db5cdc208cd",
   "position": {
-    "x": 127.79582366589328,
-    "y": 0,
-    "z": 1000,
-    "height": 81.856148491879352,
-    "width": 231.36890951276104,
-    "tabOrder": 1000
+    "x": 1023.0329670329671,
+    "y": 65.670329670329679,
+    "z": 3000,
+    "height": 81.4945054945055,
+    "width": 218.37362637362639,
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Medidas - Faturamento.Receita Recebida",
-              "nativeQueryRef": "Receita Recebida"
+              "nativeQueryRef": "Média Móvel 3M",
+              "displayName": "Média Móvel 3M"
             }
           ]
         }
@@ -55,28 +56,49 @@
       "value": [
         {
           "properties": {
-            "fontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": 0
-                    }
-                  }
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Semibold'', wf_segoe-ui_semibold, helvetica, arial, sans-serif'"
                 }
               }
             },
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "18D"
+                  "Value": "16D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
                 }
               }
             }
           },
           "selector": {
             "id": "default"
+          }
+        },
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Medidas - Faturamento.Receita Recebida"
           }
         }
       ],
@@ -128,6 +150,20 @@
       "label": [
         {
           "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
             "fontColor": {
               "solid": {
                 "color": {
@@ -137,13 +173,6 @@
                       "Percent": 0
                     }
                   }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "11D"
                 }
               }
             }
@@ -164,6 +193,55 @@
                   "Value": "false"
                 }
               }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
             }
           }
         }
@@ -174,7 +252,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "32839f3c989d6746a4c1",
+        "name": "aee3add30225800d6b63",
         "field": {
           "Measure": {
             "Expression": {
@@ -189,7 +267,7 @@
         "isHiddenInViewMode": true
       },
       {
-        "name": "c1604e769b60e380cbe4",
+        "name": "122b328199c7380a3aed",
         "field": {
           "Column": {
             "Expression": {
@@ -230,7 +308,7 @@
                     [
                       {
                         "Literal": {
-                          "Value": "'MTD'"
+                          "Value": "'Média Móvel 3M'"
                         }
                       }
                     ]
@@ -243,7 +321,7 @@
         "howCreated": "User"
       },
       {
-        "name": "f2bbee4f8a06c8431cfa",
+        "name": "356c178ce1b83cb94474",
         "field": {
           "Column": {
             "Expression": {

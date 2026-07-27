@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
-  "name": "1dcfaaf6d60e9dc3121a",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "662f2f2e6dc75d8a6103",
   "position": {
-    "x": 127.79582366589328,
-    "y": 0,
-    "z": 1000,
-    "height": 81.856148491879352,
-    "width": 231.36890951276104,
-    "tabOrder": 1000
+    "x": 163.58614969935749,
+    "y": 110,
+    "z": 11000,
+    "height": 50,
+    "width": 110,
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -52,9 +52,29 @@
       }
     },
     "objects": {
-      "value": [
+      "fillCustom": [
         {
           "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "label": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
             "fontColor": {
               "solid": {
                 "color": {
@@ -67,10 +87,26 @@
                 }
               }
             },
-            "fontSize": {
+            "show": {
               "expr": {
                 "Literal": {
-                  "Value": "18D"
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "layout": [
+        {
+          "properties": {
+            "backgroundShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -96,65 +132,133 @@
           }
         }
       ],
-      "fillCustom": [
+      "value": [
         {
           "properties": {
-            "show": {
+            "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "9D"
                 }
               }
-            }
-          }
-        }
-      ],
-      "layout": [
-        {
-          "properties": {
-            "backgroundShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "default"
-          }
-        }
-      ],
-      "label": [
-        {
-          "properties": {
+            },
             "fontColor": {
               "solid": {
                 "color": {
                   "expr": {
-                    "ThemeDataColor": {
-                      "ColorId": 0,
-                      "Percent": 0
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 3,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "Medidas - Faturamento"
+                                    }
+                                  },
+                                  "Property": "Receita Recebida"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "0D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#FF3000'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 2,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "Medidas - Faturamento"
+                                    }
+                                  },
+                                  "Property": "Receita Recebida"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "0D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#48bc66'"
+                            }
+                          }
+                        }
+                      ]
                     }
                   }
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "11D"
                 }
               }
             }
           },
           "selector": {
             "id": "default"
+          }
+        },
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Medidas - Faturamento.Faturamento MTD"
           }
         }
       ]
     },
     "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
       "background": [
         {
           "properties": {
@@ -162,6 +266,26 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }
@@ -174,7 +298,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "32839f3c989d6746a4c1",
+        "name": "260c099f502934c4dbfe",
         "field": {
           "Measure": {
             "Expression": {
@@ -189,7 +313,7 @@
         "isHiddenInViewMode": true
       },
       {
-        "name": "c1604e769b60e380cbe4",
+        "name": "3d435a3d9ff412fbb737",
         "field": {
           "Column": {
             "Expression": {
@@ -243,7 +367,7 @@
         "howCreated": "User"
       },
       {
-        "name": "f2bbee4f8a06c8431cfa",
+        "name": "0a7b265fd7baba730037",
         "field": {
           "Column": {
             "Expression": {
@@ -284,7 +408,7 @@
                     [
                       {
                         "Literal": {
-                          "Value": "'Valor'"
+                          "Value": "'Δ YoY %'"
                         }
                       }
                     ]
