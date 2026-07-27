@@ -1,0 +1,22 @@
+table '% Crescimento Meta'
+	lineageTag: fef25f9f-e03a-4fa4-8b4f-1b2adfec6ba2
+
+	measure '% Crescimento Meta Valor' = SELECTEDVALUE('% Crescimento Meta'[% Crescimento Meta], 0.05)
+		formatString: 0.00 %;-0.00 %;0.00 %
+		lineageTag: c93d97b0-74ba-4461-b329-0f85bcfc4480
+
+	column '% Crescimento Meta'
+		dataType: decimal
+		formatString: 0.00 %;-0.00 %;0.00 %
+		lineageTag: 36e0e913-c94a-4a0e-90d5-d0cb68b35467
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '% Crescimento Meta' = calculated
+		mode: import
+		source = GENERATESERIES(0, 0.30, 0.01)
+
+	annotation PBI_Id = a1b2c3d4e5f6478890a1b2c3d4e5f6a7
+

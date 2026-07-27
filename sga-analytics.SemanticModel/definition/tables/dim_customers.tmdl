@@ -352,9 +352,11 @@ table dim_customers
 		source =
 				let
 				    Fonte = PostgreSQL.Database("localhost", "sga_dw"),
-				    public_dim_customers = Fonte{[Schema="public",Item="dim_customers"]}[Data]
+				    public_dim_customers = Fonte{[Schema="public",Item="dim_customers"]}[Data],
+				    #"Texto em Maiúscula" = Table.TransformColumns(public_dim_customers,{{"estado", Text.Upper, type text}}),
+				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(#"Texto em Maiúscula",{{"nome", Text.Proper, type text}})
 				in
-				    public_dim_customers
+				    #"Colocar Cada Palavra Em Maiúscula"
 
 	annotation PBI_NavigationStepName = Navegação
 

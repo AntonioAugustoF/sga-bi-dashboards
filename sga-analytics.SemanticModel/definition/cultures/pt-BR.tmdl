@@ -74,6 +74,16 @@ cultureInfo pt-BR
 			          }
 			        },
 			        {
+			          "MTD Mês Anterior": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
 			          "MTD": {
 			            "State": "Suggested",
 			            "Source": {
@@ -95,16 +105,6 @@ cultureInfo pt-BR
 			        },
 			        {
 			          "Média Móvel 3M": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
-			        },
-			        {
-			          "MTD Mês Anterior": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -569,31 +569,6 @@ cultureInfo pt-BR
 			        {
 			          "_receita recebida FormatString": {
 			            "State": "Generated"
-			          }
-			        }
-			      ]
-			    },
-			    "medidas__faturamento.receita_emitida__var__YTD_AA": {
-			      "Definition": {
-			        "Binding": {
-			          "ConceptualEntity": "Medidas - Faturamento",
-			          "ConceptualProperty": "Receita Emitida - Var % YTD AA"
-			        }
-			      },
-			      "State": "Generated",
-			      "Visibility": {
-			        "Value": "Hidden"
-			      },
-			      "Terms": [
-			        {
-			          "receita emitida - var % YTD AA": {
-			            "State": "Generated"
-			          }
-			        },
-			        {
-			          "receita emitida var % YTD AA": {
-			            "State": "Generated",
-			            "Weight": 0.97
 			          }
 			        }
 			      ]

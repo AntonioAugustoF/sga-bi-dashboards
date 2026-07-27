@@ -58,6 +58,7 @@ table dim_calendar
 	column MesAno = FORMAT(dim_calendar[Início Mês], "mmm/yyyy")
 		lineageTag: 4b115287-a758-4fb0-932d-8312b8f24bb1
 		summarizeBy: none
+		sortByColumn: 'Início Mês'
 
 		annotation SummarizationSetBy = Automatic
 
