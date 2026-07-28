@@ -1,0 +1,77 @@
+/// Tabela DESCONECTADA que dirige o semáforo executivo, os gauges de meta e o Health
+/// Score. Uma linha por indicador estratégico.
+/// 
+/// O padrão: em vez de criar 4 medidas por indicador (realizado, meta, atingimento,
+/// status) e repetir isso 6 vezes, a tabela vira o eixo de um visual único e as medidas
+/// de 'Medidas - Executivo' resolvem por SWITCH. Seis indicadores viram 5 medidas em
+/// vez de 24, e incluir um sétimo é adicionar uma linha aqui mais um ramo do SWITCH.
+/// 
+/// [Sentido] diz como ler o atingimento: "Maior" = quanto mais alto melhor (carteira,
+/// receita); "Menor" = quanto mais baixo melhor (inadimplência, churn). Sem isso o
+/// semáforo pintaria de verde uma inadimplência que estourou a meta.
+/// 
+/// METAS SÃO PLACEHOLDER. Os valores abaixo são ordens de grandeza para o painel não
+/// nascer quebrado — NÃO são metas aprovadas pela diretoria. Trocar antes de publicar.
+/// Editar em: Desktop > Transformar dados > Indicadores Executivos.
+/// 
+/// SINISTRALIDADE ficou de fora por ausência de dado no DW, não por decisão de escopo.
+/// Quando houver integração de sinistros, entra como uma linha aqui e um ramo no SWITCH
+/// de [Exec - Realizado].
+table 'Indicadores Executivos'
+	lineageTag: 8f4c2a71-6d39-4b85-9e17-3a5d8c2f6b94
+
+	column Indicador
+		dataType: string
+		lineageTag: 2b9e5d38-7c14-4a67-8f25-6d3a9b1c4e78
+		summarizeBy: none
+		sourceColumn: Indicador
+		sortByColumn: Ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordem
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5c8a3f16-9b27-4d54-a739-1e6b4c8d2a95
+		summarizeBy: none
+		sourceColumn: Ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Meta
+		dataType: double
+		lineageTag: 7d2f9b45-3a68-4c19-b586-4f1a7d5c3e26
+		summarizeBy: none
+		sourceColumn: Meta
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sentido
+		dataType: string
+		lineageTag: 9a6c4e27-8f13-4b72-9d48-2c7e5a1f8b63
+		summarizeBy: none
+		sourceColumn: Sentido
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Indicadores Executivos' = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(
+				        {
+				            {"Associados Ativos",    1, 18500,  "Maior"},
+				            {"Receita YTD",          2, 0,      "Maior"},
+				            {"Crescimento Líquido",  3, 100,    "Maior"},
+				            {"Inadimplência %",      4, 0.04,   "Menor"},
+				            {"Churn",                5, 0.02,   "Menor"},
+				            {"Recuperação %",        6, 0.30,   "Maior"}
+				        },
+				        type table [Indicador = text, Ordem = Int64.Type, Meta = number, Sentido = text]
+				    )
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+
