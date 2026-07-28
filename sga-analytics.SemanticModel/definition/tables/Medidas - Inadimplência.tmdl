@@ -1,100 +1,484 @@
+/// Medidas de inadimplência sobre fact_delinquency_snapshot.
+/// 
+/// SEMÂNTICA DO FATO (ver sga-api-pipeline):
+/// - O snapshot contém APENAS boletos em aberto (extração por status=2), com PK
+/// (codigo_boleto, dt_referencia) e uma carga por dia de execução do pipeline.
+/// Saldo é ESTOQUE: nunca somar ao longo de dt_referencia.
+/// - dias_em_atraso = max(dt_referencia - data_vencimento, 0). Título a vencer fica
+/// com 0 dias, então "vencido" é dias_em_atraso > 0, e a faixa de origem "0-30"
+/// mistura a vencer com vencido. Use a coluna calculada [Faixa Aging].
+/// - Só existe snapshot nos dias em que o pipeline rodou. Por isso todas as medidas
+/// ancoram no último snapshot DISPONÍVEL ATÉ o fim do período, e não no snapshot
+/// exato do período — do contrário meses sem execução voltariam em branco.
 table 'Medidas - Inadimplência'
 	lineageTag: a3fc303e-97ff-4362-9d70-96e4bf22c279
 
-	measure 'Inadimplência - Valor Absoluto' = SUM(fact_delinquency_snapshot[valor_boleto])
-		lineageTag: 1b16aab1-54f0-43dc-8336-93a5cadac890
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Inadimplência - Última Data Snapshot' = MAX(fact_delinquency_snapshot[dt_referencia])
-		formatString: General Date
-		lineageTag: acf4ab4e-9854-48ed-bbd9-ba4e337a97cf
-
-	measure 'Inadimplência - Valor Atual' = ```
+	/// Carteira total em aberto (vencida + a vencer) na data de referência.
+	measure 'Inadimplência - Saldo em Aberto' =
 			
-			VAR UltimaData = 
-			    MAX(fact_delinquency_snapshot[dt_referencia])
+			VAR _Snap = [Inadimplência - Data Snapshot]
 			RETURN
-			CALCULATE(
-			    'Medidas - Inadimplência'[Inadimplência - Valor Absoluto],
-			    fact_delinquency_snapshot[dt_referencia] = UltimaData
-			)
-			```
-		lineageTag: 54c2498b-1b75-4b49-b9b7-51b438fda34d
-
-	measure 'Inadimplência - Qtd Boletos Atual' = ```
-			
-			VAR UltimaData = 
-			    MAX(fact_delinquency_snapshot[dt_referencia])
-			RETURN
-			CALCULATE(
-			    DISTINCTCOUNT(fact_delinquency_snapshot[codigo_boleto]),
-			    fact_delinquency_snapshot[dt_referencia] = UltimaData
-			)
-			```
-		formatString: 0
-		lineageTag: 9a629368-6c2f-4504-aee8-3a5064f47d10
-
-	measure 'Inadimplência - Ticket Médio' =
-			
-			DIVIDE(
-			    [Inadimplência - Valor Atual],
-			    [Inadimplência - Qtd Boletos Atual]
-			)
-		lineageTag: 38e7a561-4847-4425-b9cc-580067b13e34
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Inadimplência - Valor Mês Anterior' = ```
-			
-			CALCULATE(  
-			    [Inadimplência - Valor Atual],
-			    PREVIOUSMONTH(dim_calendar[Data])
-			)
-			```
-		lineageTag: 05a534b4-8968-4fe3-aea0-c19c34c67b63
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Inadimplência - Dif Mês Atual x Anterior' =
-			
-			[Inadimplência - Valor Atual] - [Inadimplência - Valor Mês Anterior]
+			    CALCULATE (
+			        SUM ( fact_delinquency_snapshot[valor_boleto] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _Snap
+			    )
 		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
-		lineageTag: f8e8857a-f1b5-4880-b7a8-e0386049895c
+		displayFolder: 01 Estoque
+		lineageTag: 1b16aab1-54f0-43dc-8336-93a5cadac890
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
 
-	measure 'Inadimplência - Var % Mês Atual x Anterior' =
+	/// Último snapshot disponível até o fim do período no contexto. Base de todas as
+	/// medidas de estoque; isolada aqui para não repetir a lógica em cada uma e para
+	/// que Período/Comparação funcionem (ambos mexem em dim_calendar, e o fim do
+	/// período acompanha).
+	measure 'Inadimplência - Data Snapshot' =
 			
-			DIVIDE(
-			    [Inadimplência - Dif Mês Atual x Anterior],
-			    [Inadimplência - Valor Mês Anterior]
-			)
-		lineageTag: 9cdef09c-cff9-4942-afab-a227304303c9
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Inadimplência - Qtd Boletos Fechamento' =
-			
-			VAR UltimaData =
-			    MAX ( fact_delinquency_snapshot[dt_referencia] )
+			VAR _FimPeriodo = MAX ( dim_calendar[Data] )
 			RETURN
-			CALCULATE (
-			    DISTINCTCOUNT ( fact_delinquency_snapshot[codigo_boleto] ),
-			    fact_delinquency_snapshot[dt_referencia] = UltimaData
-			)
-		formatString: 0
-		lineageTag: edd21696-6bd1-44ab-ba42-b854e06b83c5
+			    CALCULATE (
+			        MAX ( fact_delinquency_snapshot[dt_referencia] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] <= _FimPeriodo
+			    )
+		formatString: Short Date
+		displayFolder: 01 Estoque
+		lineageTag: acf4ab4e-9854-48ed-bbd9-ba4e337a97cf
 
-	measure 'Inadimplência - % Sobre Emitido' =
-			DIVIDE(
-			    [Inadimplência - Valor Atual],
-			    [Receita Emitida],
-			    0
+	/// MEDIDA PRINCIPAL do painel. Só o que está efetivamente vencido
+	/// (dias_em_atraso > 0). KEEPFILTERS para compor com o calc group Faixa de Aging
+	/// em vez de sobrescrevê-lo.
+	measure 'Inadimplência - Saldo Vencido' =
+			
+			VAR _Snap = [Inadimplência - Data Snapshot]
+			RETURN
+			    CALCULATE (
+			        SUM ( fact_delinquency_snapshot[valor_boleto] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _Snap,
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 0 )
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 01 Estoque
+		lineageTag: 54c2498b-1b75-4b49-b9b7-51b438fda34d
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Inadimplência - Qtd Títulos Vencidos' =
+			
+			VAR _Snap = [Inadimplência - Data Snapshot]
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( fact_delinquency_snapshot[codigo_boleto] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _Snap,
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 0 )
+			    )
+		formatString: #,0
+		displayFolder: 01 Estoque
+		lineageTag: 9a629368-6c2f-4504-aee8-3a5064f47d10
+
+	measure 'Inadimplência - Ticket Médio Vencido' =
+			
+			DIVIDE (
+			    [Inadimplência - Saldo Vencido],
+			    [Inadimplência - Qtd Títulos Vencidos]
 			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 01 Estoque
+		lineageTag: 38e7a561-4847-4425-b9cc-580067b13e34
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Vencido sobre o faturamento EMITIDO do período. ATENÇÃO: divide um estoque por
+	/// um fluxo, então o valor depende do tamanho do período selecionado. Útil como
+	/// referência de exposição, não como taxa comparável entre períodos — para isso
+	/// use [Inadimplência - % da Carteira].
+	measure 'Inadimplência - % Sobre Emitido' =
+			
+			DIVIDE (
+			    [Inadimplência - Saldo Vencido],
+			    [Receita Emitida]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Qualidade
+		lineageTag: 8e3f7a15-2b64-4c98-9d17-5a2e6f4b8c31
+
+	/// Carteira ainda dentro do prazo. Separada do vencido porque a faixa de origem
+	/// "0-30" junta as duas coisas e infla a inadimplência aparente.
+	measure 'Inadimplência - Saldo a Vencer' =
+			
+			VAR _Snap = [Inadimplência - Data Snapshot]
+			RETURN
+			    CALCULATE (
+			        SUM ( fact_delinquency_snapshot[valor_boleto] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _Snap,
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] = 0 )
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 01 Estoque
+		lineageTag: 7c1e4a92-5b83-4d16-9e0c-2d4f8a61c3b8
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Associados distintos com ao menos um título vencido. Diferente da contagem de
+	/// títulos: um associado pode ter vários boletos em atraso.
+	measure 'Inadimplência - Qtd Associados Inadimplentes' =
+			
+			VAR _Snap = [Inadimplência - Data Snapshot]
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( fact_delinquency_snapshot[codigo_associado] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _Snap,
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 0 )
+			    )
+		formatString: #,0
+		displayFolder: 01 Estoque
+		lineageTag: 2f8b6c13-7d94-4e25-a1f6-3b7c9d2e5a41
+
+	/// Idade média da carteira vencida, PONDERADA POR VALOR. Média simples de
+	/// dias_em_atraso trataria um título de R$ 50 igual a um de R$ 50 mil e
+	/// subestimaria o risco real.
+	measure 'Inadimplência - Aging Médio (dias)' =
+			
+			VAR _Snap = [Inadimplência - Data Snapshot]
+			RETURN
+			    CALCULATE (
+			        DIVIDE (
+			            SUMX (
+			                fact_delinquency_snapshot,
+			                fact_delinquency_snapshot[valor_boleto] * fact_delinquency_snapshot[dias_em_atraso]
+			            ),
+			            SUM ( fact_delinquency_snapshot[valor_boleto] )
+			        ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _Snap,
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 0 )
+			    )
+		formatString: #,0
+		displayFolder: 02 Qualidade
+		lineageTag: 4d9e2b71-8c36-4f52-b7a9-1e5d3c8f6b24
+
+	/// % da carteira em aberto que está vencida. Autocontida (estoque / estoque na
+	/// mesma data) — é a taxa que sustenta comparação entre períodos e recortes.
+	measure 'Inadimplência - % da Carteira' =
+			
+			DIVIDE (
+			    [Inadimplência - Saldo Vencido],
+			    [Inadimplência - Saldo em Aberto]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Qualidade
 		lineageTag: 524907ce-220b-4fb3-9c6a-31c858289ecd
 
+	/// Saldo com mais de 90 dias — a faixa de menor probabilidade de recuperação.
+	measure 'Inadimplência - Saldo 90+' =
+			
+			VAR _Snap = [Inadimplência - Data Snapshot]
+			RETURN
+			    CALCULATE (
+			        SUM ( fact_delinquency_snapshot[valor_boleto] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _Snap,
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 90 )
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 02 Qualidade
+		lineageTag: 6a1c8d34-9e72-4b58-8f26-3d7a5b1e9c48
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Quanto da carteira vencida está concentrada em 90+. Indicador de qualidade:
+	/// carteira vencida crescendo com concentração estável é volume; concentração
+	/// subindo é deterioração.
+	measure 'Inadimplência - % Concentração 90+' =
+			
+			DIVIDE (
+			    [Inadimplência - Saldo 90+],
+			    [Inadimplência - Saldo Vencido]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Qualidade
+		lineageTag: 3b7d9e26-4a18-4c73-9b52-8e1f6d2a5c93
+
+	/// Quantos associados concentram 80% do saldo vencido. É a leitura de Pareto
+	/// destilada num número: "23 associados = 80% da dívida" orienta ação melhor que a
+	/// curva inteira, e cabe no cabeçalho de uma tabela em vez de ocupar um visual.
+	///
+	/// Lê-se junto com [Qtd Associados Inadimplentes]: 23 de 2.000 é dívida concentrada
+	/// e tratável por contato direto; 900 de 2.000 é problema estrutural de cobrança.
+	///
+	/// CUSTO: o acumulado exige comparar cada associado com todos os demais (O(n²)).
+	/// Aceitável num cartão calculado uma vez; NÃO use dentro de uma tabela detalhada
+	/// nem repita em vários visuais da mesma página.
+	measure 'Inadimplência - Associados até 80% do Saldo' =
+
+			VAR _Snap = [Inadimplência - Data Snapshot]
+			VAR _PorAssociado =
+			    CALCULATETABLE (
+			        ADDCOLUMNS (
+			            VALUES ( fact_delinquency_snapshot[codigo_associado] ),
+			            "@saldo", CALCULATE ( SUM ( fact_delinquency_snapshot[valor_boleto] ) )
+			        ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _Snap,
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 0 )
+			    )
+			VAR _Alvo = 0.8 * SUMX ( _PorAssociado, [@saldo] )
+			VAR _ComAcumulado =
+			    ADDCOLUMNS (
+			        _PorAssociado,
+			        "@acumulado",
+			            VAR _s = [@saldo]
+			            RETURN
+			                SUMX ( FILTER ( _PorAssociado, [@saldo] >= _s ), [@saldo] )
+			    )
+			RETURN
+			    IF (
+			        _Alvo > 0,
+			        COUNTROWS ( FILTER ( _ComAcumulado, [@acumulado] - [@saldo] < _Alvo ) )
+			    )
+		formatString: #,0
+		displayFolder: 02 Qualidade
+		lineageTag: 4b8e2c95-7d16-4a37-9b24-5c1a8d3b6e79
+
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Saldo vencido no snapshot ANTERIOR ao período — a ponta esquerda do roll-forward.
+	/// Com [Saldo Vencido] na outra ponta, o bloco de movimento fecha a conta:
+	/// Inicial + Entrada − Recuperação = Final. É essa igualdade que torna o movimento
+	/// auditável em vez de três números soltos.
+	measure 'Inadimplência - Saldo Vencido Inicial' =
+
+			VAR _InicioPeriodo = MIN ( dim_calendar[Data] )
+			VAR _SnapIni =
+			    CALCULATE (
+			        MAX ( fact_delinquency_snapshot[dt_referencia] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] < _InicioPeriodo
+			    )
+			RETURN
+			    CALCULATE (
+			        SUM ( fact_delinquency_snapshot[valor_boleto] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _SnapIni,
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 0 )
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 03 Fluxo
+		lineageTag: 2f6b9d47-5c18-4a83-9e26-7d3a1c5f8b94
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// FLUXO. Títulos que estavam vencidos no snapshot anterior ao período e sumiram
+	/// do snapshot final. Como o fato só carrega boletos em aberto, desaparecer =
+	/// resolvido (pago ou baixado). Valorizado pelo saldo que tinham na entrada.
+	measure 'Inadimplência - Recuperação no Período' =
+			
+			VAR _SnapFim = [Inadimplência - Data Snapshot]
+			VAR _InicioPeriodo = MIN ( dim_calendar[Data] )
+			VAR _SnapIni =
+			    CALCULATE (
+			        MAX ( fact_delinquency_snapshot[dt_referencia] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] < _InicioPeriodo
+			    )
+			VAR _TitulosIni =
+			    CALCULATETABLE (
+			        VALUES ( fact_delinquency_snapshot[codigo_boleto] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _SnapIni,
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 0 )
+			    )
+			VAR _TitulosFim =
+			    CALCULATETABLE (
+			        VALUES ( fact_delinquency_snapshot[codigo_boleto] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _SnapFim
+			    )
+			VAR _Resolvidos = EXCEPT ( _TitulosIni, _TitulosFim )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _SnapIni ),
+			        CALCULATE (
+			            SUM ( fact_delinquency_snapshot[valor_boleto] ),
+			            REMOVEFILTERS ( dim_calendar ),
+			            fact_delinquency_snapshot[dt_referencia] = _SnapIni,
+			            _Resolvidos
+			        )
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 03 Fluxo
+		lineageTag: 5c2a8f47-6b39-4d81-a475-9c3e7b1d6f52
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// FLUXO. Títulos que venceram dentro do período: ausentes da carteira vencida no
+	/// snapshot inicial e presentes nela no final. Contrapartida da recuperação.
+	measure 'Inadimplência - Entrada no Período' =
+			
+			VAR _SnapFim = [Inadimplência - Data Snapshot]
+			VAR _InicioPeriodo = MIN ( dim_calendar[Data] )
+			VAR _SnapIni =
+			    CALCULATE (
+			        MAX ( fact_delinquency_snapshot[dt_referencia] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] < _InicioPeriodo
+			    )
+			VAR _VencidosIni =
+			    CALCULATETABLE (
+			        VALUES ( fact_delinquency_snapshot[codigo_boleto] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _SnapIni,
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 0 )
+			    )
+			VAR _VencidosFim =
+			    CALCULATETABLE (
+			        VALUES ( fact_delinquency_snapshot[codigo_boleto] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = _SnapFim,
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 0 )
+			    )
+			VAR _Novos = EXCEPT ( _VencidosFim, _VencidosIni )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( _SnapIni ),
+			        CALCULATE (
+			            SUM ( fact_delinquency_snapshot[valor_boleto] ),
+			            REMOVEFILTERS ( dim_calendar ),
+			            fact_delinquency_snapshot[dt_referencia] = _SnapFim,
+			            _Novos
+			        )
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 03 Fluxo
+		lineageTag: 9f4b6d28-3e75-4a92-b168-2d8c5a7e3b19
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Roll-forward do período: entrada menos recuperação. Positivo = a carteira
+	/// vencida piorou. Fecha contra a variação do saldo vencido, o que torna o
+	/// movimento auditável em vez de só mostrar o antes e o depois.
+	measure 'Inadimplência - Variação Líquida' =
+			
+			[Inadimplência - Entrada no Período] - [Inadimplência - Recuperação no Período]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 03 Fluxo
+		lineageTag: 1a5e9c73-8b24-4c61-9d37-6e2a4f8b5c17
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// % de resolução do período: quanto da carteira vencida de entrada foi liquidada.
+	measure 'Inadimplência - % Recuperação' =
+			
+			DIVIDE (
+			    [Inadimplência - Recuperação no Período],
+			    [Inadimplência - Saldo Vencido Inicial]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 Fluxo
+		lineageTag: 7d3f1b95-2c68-4e47-8a19-5b9d4c2e7f63
+
+	/// Âncora de snapshot para o fato por veículo. Espelha [Inadimplência - Data
+	/// Snapshot], mas sobre fact_delinquency_by_vehicle_history — as duas tabelas são
+	/// carregadas juntas, porém a âncora precisa ler o dt_referencia do próprio fato
+	/// para não depender de coincidência entre elas.
+	measure 'Inadimplência - Data Snapshot Veículo' =
+			
+			VAR _FimPeriodo = MAX ( dim_calendar[Data] )
+			RETURN
+			    CALCULATE (
+			        MAX ( fact_delinquency_by_vehicle_history[dt_referencia] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_by_vehicle_history[dt_referencia] <= _FimPeriodo
+			    )
+		formatString: Short Date
+		isHidden
+		displayFolder: 99 Auxiliares
+		lineageTag: 5d8f3b27-6a94-4e15-8c73-2b1e9a4d6f38
+
+	/// Saldo vencido rateado por veículo — a única via para recortar inadimplência por
+	/// CONSULTOR, já que o snapshot por boleto não carrega voluntário.
+	/// 
+	/// Usa fact_delinquency_by_vehicle_history (não _actual): a view resolve a versão
+	/// SCD2 vigente na data do snapshot, então a atribuição é POINT-IN-TIME — quem
+	/// respondia pelo veículo enquanto ele seguia em atraso. Trocar a carteira de mãos
+	/// não reescreve o passado. Para a pergunta operacional "quem aciono hoje", o fato
+	/// correto é o _actual.
+	/// 
+	/// Somado por todos os consultores reconcilia com [Inadimplência - Saldo Vencido],
+	/// porque valor_rateado divide o boleto entre seus veículos.
+	measure 'Inadimplência - Saldo Vencido por Consultor' =
+			
+			VAR _Snap = [Inadimplência - Data Snapshot Veículo]
+			RETURN
+			    CALCULATE (
+			        SUM ( fact_delinquency_by_vehicle_history[valor_rateado] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_by_vehicle_history[dt_referencia] = _Snap,
+			        KEEPFILTERS ( fact_delinquency_by_vehicle_history[dias_em_atraso] > 0 )
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 04 Por Consultor
+		lineageTag: 8a2c6e93-4f71-4b58-9d24-6e3a5c8b1f47
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Aging médio ponderado da carteira de cada consultor. Complementa o saldo:
+	/// separa quem tem carteira grande de quem tem carteira velha, que é o recorte
+	/// que orienta ação de cobrança.
+	measure 'Inadimplência - Aging Médio por Consultor' =
+			
+			VAR _Snap = [Inadimplência - Data Snapshot Veículo]
+			RETURN
+			    CALCULATE (
+			        DIVIDE (
+			            SUMX (
+			                fact_delinquency_by_vehicle_history,
+			                fact_delinquency_by_vehicle_history[valor_rateado]
+			                    * fact_delinquency_by_vehicle_history[dias_em_atraso]
+			            ),
+			            SUM ( fact_delinquency_by_vehicle_history[valor_rateado] )
+			        ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_by_vehicle_history[dt_referencia] = _Snap,
+			        KEEPFILTERS ( fact_delinquency_by_vehicle_history[dias_em_atraso] > 0 )
+			    )
+		formatString: #,0
+		displayFolder: 04 Por Consultor
+		lineageTag: 3e9b5d14-7c28-4a63-b851-9f4d2a6c8e75
+
+	/// Provisão para devedores duvidosos: saldo de cada faixa × % da matriz editável
+	/// em 'Provisão PDD'. SUMX sobre as faixas porque a taxa varia por faixa — uma
+	/// taxa única sobre o total daria outro número.
+	/// 
+	/// Retorna ZERO enquanto a matriz não for preenchida pelo financeiro. Isso é
+	/// intencional: um zero visível é pendência, um número chutado vira "oficial".
+	measure 'Inadimplência - PDD Estimada' =
+			
+			SUMX (
+			    VALUES ( 'Provisão PDD'[Faixa de Aging] ),
+			    [Inadimplência - Saldo em Aberto] * SELECTEDVALUE ( 'Provisão PDD'[% Provisão] )
+			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 05 PDD
+		lineageTag: 6b3d9a48-2e57-4c81-9f36-8a1d5c7e2b94
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Peso da provisão sobre a carteira em aberto.
+	measure 'Inadimplência - % PDD sobre Carteira' =
+			
+			DIVIDE (
+			    [Inadimplência - PDD Estimada],
+			    [Inadimplência - Saldo em Aberto]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 PDD
+		lineageTag: 4f7c2b96-8d35-4a17-b529-3e6a9d1f5c82
 
 	column Z
 		isHidden
@@ -110,6 +494,4 @@ table 'Medidas - Inadimplência'
 		source = Row("Column", BLANK())
 
 	annotation PBI_Id = a05de167f0004885a4b46c1a15e7c58b
-
-	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
 

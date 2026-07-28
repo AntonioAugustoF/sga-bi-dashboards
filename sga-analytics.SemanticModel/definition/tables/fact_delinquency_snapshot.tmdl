@@ -27,6 +27,7 @@ table fact_delinquency_snapshot
 
 	column codigo_situacao_associado
 		dataType: string
+		isHidden
 		lineageTag: c0e1dc0a-1091-4488-9048-f5f4cba64860
 		summarizeBy: none
 		sourceColumn: codigo_situacao_associado
@@ -43,6 +44,7 @@ table fact_delinquency_snapshot
 
 	column codigo_regional_associado
 		dataType: string
+		isHidden
 		lineageTag: 2e75c315-b976-4b70-b89b-9e32f2c9a19e
 		summarizeBy: none
 		sourceColumn: codigo_regional_associado
@@ -67,6 +69,7 @@ table fact_delinquency_snapshot
 
 	column nosso_numero
 		dataType: string
+		isHidden
 		lineageTag: 77913eed-8dda-4be2-8fdb-f61df9522d62
 		summarizeBy: none
 		sourceColumn: nosso_numero
@@ -75,6 +78,7 @@ table fact_delinquency_snapshot
 
 	column codigo_situacao_boleto
 		dataType: string
+		isHidden
 		lineageTag: 74289df0-53d2-4f08-8cef-5c87eec725b0
 		summarizeBy: none
 		sourceColumn: codigo_situacao_boleto
@@ -99,6 +103,7 @@ table fact_delinquency_snapshot
 
 	column codigo_regional
 		dataType: string
+		isHidden
 		lineageTag: d79a3ac3-0557-4cd0-8669-ccf3289795c4
 		summarizeBy: none
 		sourceColumn: codigo_regional
@@ -199,6 +204,7 @@ table fact_delinquency_snapshot
 
 	column codigo_mgfformapagamento
 		dataType: string
+		isHidden
 		lineageTag: b7f0c646-dd5b-4f31-8d13-bc5ee8bbfdc9
 		summarizeBy: none
 		sourceColumn: codigo_mgfformapagamento
@@ -207,6 +213,7 @@ table fact_delinquency_snapshot
 
 	column codigo_forma_pagamento
 		dataType: string
+		isHidden
 		lineageTag: 78cf4582-b9d7-4bea-bc14-f19829a32db8
 		summarizeBy: none
 		sourceColumn: codigo_forma_pagamento
@@ -235,7 +242,7 @@ table fact_delinquency_snapshot
 		dataType: int64
 		formatString: 0
 		lineageTag: adadbdba-f850-455e-8fb3-01e2fef062c6
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: parcela_paga
 
 		annotation SummarizationSetBy = Automatic
@@ -244,7 +251,7 @@ table fact_delinquency_snapshot
 		dataType: int64
 		formatString: 0
 		lineageTag: 86fccb78-4949-4a0b-9729-f694b15a1b3b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: qtde_parcela
 
 		annotation SummarizationSetBy = Automatic
@@ -259,6 +266,7 @@ table fact_delinquency_snapshot
 
 	column codigo_tipo_boleto
 		dataType: string
+		isHidden
 		lineageTag: aaeea1eb-0194-44fb-bb35-4c3d13088d04
 		summarizeBy: none
 		sourceColumn: codigo_tipo_boleto
@@ -275,6 +283,7 @@ table fact_delinquency_snapshot
 
 	column codigo_conta
 		dataType: string
+		isHidden
 		lineageTag: 8ba767b2-14d2-436b-8d8c-d13cb13dcacd
 		summarizeBy: none
 		sourceColumn: codigo_conta
@@ -283,6 +292,7 @@ table fact_delinquency_snapshot
 
 	column codigo_banco
 		dataType: string
+		isHidden
 		lineageTag: 910e241d-3dea-4b3f-a73d-bacede60abef
 		summarizeBy: none
 		sourceColumn: codigo_banco
@@ -339,6 +349,7 @@ table fact_delinquency_snapshot
 
 	column codigo_situacao
 		dataType: string
+		isHidden
 		lineageTag: 5c74678a-ea5d-4c94-b4f3-f9a7f552db11
 		summarizeBy: none
 		sourceColumn: codigo_situacao
@@ -360,7 +371,7 @@ table fact_delinquency_snapshot
 		dataType: int64
 		formatString: 0
 		lineageTag: 21cd7fc6-7165-42a8-b1b5-e1e30f1954dc
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: dias_em_atraso
 
 		annotation SummarizationSetBy = Automatic
@@ -375,6 +386,7 @@ table fact_delinquency_snapshot
 
 	column sk_customer
 		dataType: int64
+		isHidden
 		lineageTag: 9c7f1bf3-7cc2-4b20-82ec-ae8bf0dc063b
 		summarizeBy: none
 		sourceColumn: sk_customer
@@ -385,10 +397,49 @@ table fact_delinquency_snapshot
 
 	column criado_em
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: dbbea2c8-ac46-4c54-b2b1-dbef0827692c
 		summarizeBy: none
 		sourceColumn: criado_em
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Faixa de aging corrigida. A faixa_atraso de origem joga título A VENCER dentro
+	/// de "0-30" (dias_em_atraso é truncado em zero no pipeline), inflando a
+	/// inadimplência aparente. Aqui "A vencer" é separado. Use esta nas visuais.
+	column 'Faixa de Aging' =
+			SWITCH (
+			    TRUE (),
+			    fact_delinquency_snapshot[dias_em_atraso] = 0, "A vencer",
+			    fact_delinquency_snapshot[dias_em_atraso] <= 30, "1-30 dias",
+			    fact_delinquency_snapshot[dias_em_atraso] <= 60, "31-60 dias",
+			    fact_delinquency_snapshot[dias_em_atraso] <= 90, "61-90 dias",
+			    "90+ dias"
+			)
+		dataType: string
+		lineageTag: 2c7e5b93-4d18-4a67-b529-8f3a1d6c9e42
+		summarizeBy: none
+		sortByColumn: 'Ordem Aging'
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Ordena [Faixa de Aging]. Sem isso a ordenação é alfabética — hoje ela acerta por
+	/// coincidência (0 < 1 < 3 < 6 < 9), e quebraria ao surgir uma faixa como "180+".
+	column 'Ordem Aging' =
+			SWITCH (
+			    TRUE (),
+			    fact_delinquency_snapshot[dias_em_atraso] = 0, 0,
+			    fact_delinquency_snapshot[dias_em_atraso] <= 30, 1,
+			    fact_delinquency_snapshot[dias_em_atraso] <= 60, 2,
+			    fact_delinquency_snapshot[dias_em_atraso] <= 90, 3,
+			    4
+			)
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9d4a2f68-3b71-4c85-b127-6e8d3a5f2c94
+		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
 

@@ -71,3 +71,7 @@ relationship 1f7c9d24-5a83-4b16-9e0c-2d4f8a61c3b7
 	fromColumn: dim_vehicles_current.codigo_voluntario
 	toColumn: dim_volunteers.codigo_voluntario
 
+relationship 3a6d8f25-4b17-4e93-8c26-7d5a1b9e4f38
+	fromColumn: fact_delinquency_snapshot.'Faixa de Aging'
+	toColumn: 'Provisão PDD'.'Faixa de Aging'
+
