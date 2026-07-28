@@ -1,196 +1,217 @@
+/// Medidas de frota protegida. Mesmo padrão point-in-time SCD2 de
+/// 'Medidas - Associados' — ver a documentação daquela tabela para o porquê de não
+/// haver relação com dim_calendar.
+/// 
+/// Substitui a versão anterior, que lia dim_vehicles_history: tabela que não existe no
+/// modelo (resquício da geração pré-DW). Além de quebradas, aquelas medidas tinham
+/// variantes MTD que eram no-op, porque DATESMTD filtrava um calendário sem caminho
+/// até a dimensão. Aqui o recorte temporal é feito pelo intervalo de validade, e os
+/// calc groups Período e Comparação passam a funcionar.
+/// 
+/// A situação PAUSA é tratada como distinta de INATIVO: pausa é suspensão temporária
+/// da proteção e não deve contar como cancelamento.
 table 'Medidas - Veículos'
 	lineageTag: cc88ba3b-88ab-48a8-a5a1-1170c4a95589
 
-	measure 'Veículos - Qtd Cadastros' = DISTINCTCOUNT(dim_vehicles[codigo_veiculo])
-		formatString: 0
+	/// FLUXO. Veículos cadastrados dentro do período.
+	measure 'Veículos - Novos' =
+			
+			VAR _Ini = MIN ( dim_calendar[Data] )
+			VAR _Fim = MAX ( dim_calendar[Data] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_vehicles[codigo_veiculo] ),
+			        FILTER (
+			            ALL ( dim_vehicles[data_cadastro] ),
+			            dim_vehicles[data_cadastro] >= _Ini && dim_vehicles[data_cadastro] <= _Fim
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 02 Movimento
 		lineageTag: 0337459c-3ac6-4132-8605-ac5b95bb0da9
 
-	measure 'Veículos - Cadastros MTD' =
+	/// FLUXO. Transições SCD2 para INATIVO no período, excluindo quem já vinha inativo.
+	measure 'Veículos - Inativações' =
 			
-			CALCULATE(
-			    [Veículos - Qtd Cadastros],
-			    DATESMTD(dim_calendar[Data])
-			)
-		formatString: 0
-		lineageTag: 56d485ab-1ca1-416e-9f31-b7ea775fbcc8
-
-	measure 'Veículos - Qtd Inativações' =
-			CALCULATE(
-			    DISTINCTCOUNT(dim_vehicles_history[codigo_veiculo]),
-			    dim_vehicles_history[descricao_situacao] = "INATIVO",
-			    dim_vehicles_history[status_anterior] <> "INATIVO"
-			)
-		formatString: 0
+			VAR _Ini = MIN ( dim_calendar[Data] )
+			VAR _Fim = MAX ( dim_calendar[Data] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_vehicles[codigo_veiculo] ),
+			        FILTER (
+			            ALL ( dim_vehicles[valido_de] ),
+			            dim_vehicles[valido_de] >= _Ini && dim_vehicles[valido_de] <= _Fim
+			        ),
+			        KEEPFILTERS ( dim_vehicles[descricao_situacao] = "INATIVO" ),
+			        KEEPFILTERS ( dim_vehicles[status_anterior] <> "INATIVO" )
+			    )
+		formatString: #,0
+		displayFolder: 02 Movimento
 		lineageTag: 97f36db3-3987-4d2d-a373-b13ccaafa28d
 
-	measure 'Veículos - Inativações MTD' =
+	/// Veículos em PAUSA na data do contexto — proteção suspensa, não cancelada.
+	/// Acompanhar separadamente porque pausa alta antecede cancelamento.
+	measure 'Veículos - Em Pausa' =
 			
-			CALCULATE(
-			    [Veículos - Qtd Inativações],
-			    DATESMTD(dim_calendar[Data])
-			)
-		formatString: 0
-		lineageTag: 3f90a891-cfcc-42c2-861c-6347072d6192
-
-	measure 'Veículos - Qtd Pausas' =
-			CALCULATE(
-			    DISTINCTCOUNT(dim_vehicles_history[codigo_veiculo]),
-			    dim_vehicles_history[descricao_situacao] = "PAUSA",
-			    NOT dim_vehicles_history[status_anterior] IN {"PAUSA", "INATIVO"}
-			)
-		formatString: 0
+			VAR _Data = MAX ( dim_calendar[Data] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_vehicles[codigo_veiculo] ),
+			        FILTER (
+			            ALL ( dim_vehicles[valido_de], dim_vehicles[valido_ate] ),
+			            dim_vehicles[valido_de] <= _Data
+			                && ( ISBLANK ( dim_vehicles[valido_ate] ) || dim_vehicles[valido_ate] > _Data )
+			        ),
+			        KEEPFILTERS ( dim_vehicles[descricao_situacao] = "PAUSA" )
+			    )
+		formatString: #,0
+		displayFolder: 01 Estoque
 		lineageTag: a6683699-751f-4391-a892-05168ccbf5e9
 
-	measure 'Veículos - Pausas MTD' =
+	/// FLUXO. Entradas em PAUSA no período, partindo de ativo — não conta quem já
+	/// estava pausado nem quem veio de inativo.
+	measure 'Veículos - Pausas' =
 			
-			CALCULATE(
-			    [Veículos - Qtd Pausas],
-			    DATESMTD(dim_calendar[Data])
-			)
-		formatString: 0
+			VAR _Ini = MIN ( dim_calendar[Data] )
+			VAR _Fim = MAX ( dim_calendar[Data] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_vehicles[codigo_veiculo] ),
+			        FILTER (
+			            ALL ( dim_vehicles[valido_de] ),
+			            dim_vehicles[valido_de] >= _Ini && dim_vehicles[valido_de] <= _Fim
+			        ),
+			        KEEPFILTERS ( dim_vehicles[descricao_situacao] = "PAUSA" ),
+			        KEEPFILTERS ( NOT dim_vehicles[status_anterior] IN { "PAUSA", "INATIVO" } )
+			    )
+		formatString: #,0
+		displayFolder: 02 Movimento
 		lineageTag: 94512626-a187-4c22-acc3-c1deec8aac0f
 
+	/// Movimento líquido da frota: entradas e retornos menos saídas.
 	measure 'Veículos - Saldo Líquido' =
 			
-			[Veículos - Qtd Cadastros] - [Veículos - Qtd Inativações]
-		formatString: 0
+			[Veículos - Novos] + [Veículos - Reativações] - [Veículos - Inativações]
+		formatString: +#,0;-#,0;0
+		displayFolder: 02 Movimento
 		lineageTag: 01ab5eb1-a8dd-47fa-8457-fe03833d67d3
-
-	measure 'Veículos - Saldo Líquido MTD' =
-			
-			[Veículos - Cadastros MTD] - [Veículos - Inativações MTD]
-		formatString: 0
-		lineageTag: 49286d23-bfcf-4aff-b2bc-c0f503a830d3
-
-	measure 'Veículos - Cadastros Mês Anterior' =
-			
-			CALCULATE(
-			    [Veículos - Qtd Cadastros],
-			    PREVIOUSMONTH(dim_calendar[Data])
-			)
-		formatString: 0
-		lineageTag: a20efb8b-b2d0-4c6e-88cb-c136f19a9c85
-
-	measure 'Veículos - Inativações Mês Anterior' =
-			
-			CALCULATE(
-			    [Veículos - Qtd Inativações],
-			    PREVIOUSMONTH(dim_calendar[Data])
-			)
-		formatString: 0
-		lineageTag: 842fbaea-bbd8-45e9-a753-585bf9ffd25f
-
-	measure 'Veículos - Pausas Mês Anterior' =
-			
-			CALCULATE(
-			    [Veículos - Qtd Pausas],
-			    PREVIOUSMONTH(dim_calendar[Data])
-			)
-		formatString: 0
-		lineageTag: b1e9ec0d-2399-4564-8314-87c99997cd79
-
-	measure 'Veículos - Saldo Líquido Mês Anterior' =
-			
-			[Veículos - Cadastros Mês Anterior] - [Veículos - Inativações Mês Anterior]
-		formatString: 0
-		lineageTag: d805c29c-e1bb-45b3-86ce-5bec90d671b1
-
-	measure 'Veículos - Var % Cadastros' =
-			
-			DIVIDE(
-			    [Veículos - Qtd Cadastros] - [Veículos - Cadastros Mês Anterior],
-			    [Veículos - Cadastros Mês Anterior]
-			)
-		formatString: 0.00%;-0.00%;0.00%
-		lineageTag: 5d8ed24e-bdd7-492b-93a9-3c5b4a76d953
-
-	measure 'Veículos - Var % Cancelamentos' =
-			
-			DIVIDE(
-			    [Veículos - Qtd Inativações] - [Veículos - Inativações Mês Anterior],
-			    [Veículos - Inativações Mês Anterior]
-			)
-		lineageTag: d1077a9a-a072-4777-bf96-2dd6a9c219f2
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Var % Saldo Líquido' =
-			
-			DIVIDE(
-			    [Veículos - Saldo Líquido] - [Veículos - Saldo Líquido Mês Anterior],
-			    [Veículos - Saldo Líquido Mês Anterior]
-			)
-		lineageTag: 530a5bdc-e24f-4b4f-b188-686cf6e14dd8
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure 'Veículos - % Ativos' =
 			
-			DIVIDE (
-			    [Veículos - Qtd Ativos],
-			    [Veículos - Qtd Atual]
-			)
-		formatString: 0.00%;-0.00%;0.00%
-		lineageTag: fb73c29b-3302-4542-9a1c-3dc1dcc6e182
+			DIVIDE ( [Veículos - Ativos], [Veículos - Base Total] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 01 Estoque
+		lineageTag: 4e8c2a96-7b31-4d58-9f24-6a3e5d1c8b74
 
-	measure 'Veículos - Qtd Ativos' = ```
+	/// Veículos com proteção ativa na data do contexto (estoque point-in-time).
+	measure 'Veículos - Ativos' =
 			
-			VAR UltimaData = 
-			    MAX(dim_vehicles_history[data_extracao])
+			VAR _Data = MAX ( dim_calendar[Data] )
 			RETURN
-			CALCULATE(
-			    DISTINCTCOUNT( dim_vehicles_history[codigo_veiculo]),
-			    dim_vehicles_history[descricao_situacao] = "ATIVO",
-			    dim_vehicles_history[data_extracao] = UltimaData
-			)
-			```
-		formatString: 0
-		lineageTag: d5ec2002-24a7-4fe4-92d2-64a3a0681642
-
-	measure 'Veículos - Qtd Atual' =
-			
-			VAR UltimaData =
-			    MAX(dim_vehicles_history[data_extracao])
-			RETURN
-			CALCULATE(
-			    DISTINCTCOUNT(dim_vehicles_history[codigo_veiculo]),
-			    dim_vehicles_history[data_extracao] = UltimaData,
-			    dim_vehicles_history[descricao_situacao] <> "INATIVO"
-			)
-		formatString: 0
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_vehicles[codigo_veiculo] ),
+			        FILTER (
+			            ALL ( dim_vehicles[valido_de], dim_vehicles[valido_ate] ),
+			            dim_vehicles[valido_de] <= _Data
+			                && ( ISBLANK ( dim_vehicles[valido_ate] ) || dim_vehicles[valido_ate] > _Data )
+			        ),
+			        KEEPFILTERS ( dim_vehicles[descricao_situacao] = "ATIVO" )
+			    )
+		formatString: #,0
+		displayFolder: 01 Estoque
 		lineageTag: 7154df90-4848-4654-8285-c9ea0a7c48d8
 
-	measure 'Veículos - Qtd Fechamento' =
+	/// Frota total na data do contexto, em qualquer situação.
+	measure 'Veículos - Base Total' =
 			
-			VAR UltimaData =
-			    MAX ( dim_vehicles_history[data_extracao] )
+			VAR _Data = MAX ( dim_calendar[Data] )
 			RETURN
-			CALCULATE (
-			    DISTINCTCOUNT ( dim_vehicles_history[codigo_veiculo] ),
-			    dim_vehicles_history[data_extracao] = UltimaData
-			)
-		formatString: 0
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_vehicles[codigo_veiculo] ),
+			        FILTER (
+			            ALL ( dim_vehicles[valido_de], dim_vehicles[valido_ate] ),
+			            dim_vehicles[valido_de] <= _Data
+			                && ( ISBLANK ( dim_vehicles[valido_ate] ) || dim_vehicles[valido_ate] > _Data )
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 01 Estoque
 		lineageTag: 190dc4dc-920e-431b-82c3-948dc307f0bb
 
-	measure 'Veículos - Última Data Snapshot' =
+	/// Idade média da frota ativa, em anos. Frota mais velha tende a elevar sinistro e
+	/// a pressionar a relação entre cobertura e mensalidade.
+	measure 'Veículos - Idade Média da Frota' =
 			
-			MAX(dim_vehicles_history[data_extracao])
-		formatString: General Date
+			CALCULATE (
+			    AVERAGE ( dim_vehicles_current[Idade do Veículo] ),
+			    KEEPFILTERS ( dim_vehicles_current[descricao_situacao] = "ATIVO" )
+			)
+		formatString: #,0.0
+		displayFolder: 03 Perfil da Frota
 		lineageTag: 76d8fa3c-8208-481c-9d51-00751994b2c3
 
-	measure 'Veículos - Qtd Reativações' =
-			CALCULATE(
-			    DISTINCTCOUNT(dim_vehicles_history[codigo_veiculo]),
-			    dim_vehicles_history[descricao_situacao] = "ATIVO",
-			    dim_vehicles_history[status_anterior] IN { "INATIVO", "PAUSA" }
-			)
-		formatString: 0
+	/// FLUXO. Retornos à proteção ativa vindos de pausa ou inatividade.
+	measure 'Veículos - Reativações' =
+			
+			VAR _Ini = MIN ( dim_calendar[Data] )
+			VAR _Fim = MAX ( dim_calendar[Data] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_vehicles[codigo_veiculo] ),
+			        FILTER (
+			            ALL ( dim_vehicles[valido_de] ),
+			            dim_vehicles[valido_de] >= _Ini && dim_vehicles[valido_de] <= _Fim
+			        ),
+			        KEEPFILTERS ( dim_vehicles[descricao_situacao] = "ATIVO" ),
+			        KEEPFILTERS ( dim_vehicles[status_anterior] IN { "INATIVO", "PAUSA" } )
+			    )
+		formatString: #,0
+		displayFolder: 02 Movimento
 		lineageTag: 9fef32c4-42eb-4843-9dff-35e68658451d
+
+	/// Valor FIPE total da frota ativa — exposição da carteira. Não é receita: é o
+	/// tamanho do risco coberto.
+	measure 'Veículos - Valor FIPE da Frota' =
+			
+			CALCULATE (
+			    SUM ( dim_vehicles_current[valor_fipe] ),
+			    KEEPFILTERS ( dim_vehicles_current[descricao_situacao] = "ATIVO" )
+			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 03 Perfil da Frota
+		lineageTag: 2b7d5e93-8c14-4a67-9f38-5d2a6c9b1e47
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Veículos - Valor FIPE Médio' =
+			
+			CALCULATE (
+			    AVERAGE ( dim_vehicles_current[valor_fipe] ),
+			    KEEPFILTERS ( dim_vehicles_current[descricao_situacao] = "ATIVO" )
+			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 03 Perfil da Frota
+		lineageTag: 6c9a3f18-4e75-4b26-8d51-7a2f5c8e3b94
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Participação de cada recorte na frota ativa — o "% do total" dos rankings de
+	/// perfil (estado, consultor, marca, faixa FIPE) sem repetir ALLSELECTED em cada
+	/// visual.
+	measure 'Veículos - % da Frota' =
+			
+			DIVIDE (
+			    [Veículos - Ativos],
+			    CALCULATE ( [Veículos - Ativos], ALLSELECTED () )
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 Perfil da Frota
+		lineageTag: 8d4b6c27-3a91-4e58-b736-2c5f9a1d6e83
 
 	column Z
 		isHidden
 		formatString: 0
-		lineageTag: b4b39c75-b235-4176-904a-3e53a8cbfc0a
+		lineageTag: 3d2f8a61-5c47-4b93-8e26-9a1d4c7f5b28
 		summarizeBy: sum
 		isNameInferred
 		sourceColumn: [Z]
@@ -200,8 +221,4 @@ table 'Medidas - Veículos'
 	partition 'Medidas - Veículos' = calculated
 		mode: import
 		source = Row("Z", BLANK())
-
-	annotation PBI_Id = ca4875f7600140ddaf127b1c099d7b88
-
-	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
 
