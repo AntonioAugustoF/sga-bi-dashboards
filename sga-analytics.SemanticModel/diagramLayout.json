@@ -4,7 +4,7 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 801.6360953605307,
+        "x": 801.26234942890142,
         "y": 0
       },
       "nodes": [
@@ -259,6 +259,46 @@
           "nodeIndex": "Medidas - Faturamento",
           "size": {
             "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "Medidas - Executivo",
+          "nodeLineageTag": "3e7b9d41-5c28-4a63-8f97-1d6a4b2c5e83",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "Faixa de Aging",
+          "nodeLineageTag": "6c4f8a21-9d37-4b52-8e16-3a7c5d2f9b48",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "Indicadores Executivos",
+          "nodeLineageTag": "8f4c2a71-6d39-4b85-9e17-3a5d8c2f6b94",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "Provisão PDD",
+          "nodeLineageTag": "4e8b2c96-7a35-4d18-b642-9f1e5a3c7d84",
+          "size": {
+            "height": 152,
             "width": 234
           },
           "zIndex": 0

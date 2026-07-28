@@ -21,7 +21,7 @@ table bridge_invoices_vehicles
 		dataType: int64
 		formatString: 0
 		lineageTag: bbbd1fdd-3d92-4c37-b03d-22e2a1c986cc
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: qtd_veiculos_boleto
 
 		annotation SummarizationSetBy = Automatic
@@ -38,6 +38,7 @@ table bridge_invoices_vehicles
 
 	column criado_em
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: 37bed867-0caf-4233-8275-e0c78513300c
 		summarizeBy: none
@@ -58,6 +59,7 @@ table bridge_invoices_vehicles
 
 	column atualizado_em
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: f8e31345-6f4a-4fb9-a702-99954f51f5e0
 		summarizeBy: none

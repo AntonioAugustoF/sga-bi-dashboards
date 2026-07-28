@@ -1,4 +1,10 @@
+/// Visão vigente de associados (uma linha por associado). Oculta da visão de
+/// relatório porque só alcança o snapshot de inadimplência — para fatiar receita e
+/// inadimplência por atributo de cliente use dim_customers, que está ligada aos dois
+/// fatos via sk_customer. Aqui ficam as medidas de permanência e fidelização, que
+/// precisam de uma linha por associado e não por versão.
 table dim_customers_current
+	isHidden
 	lineageTag: b67dde70-2497-4322-9663-355017ef48a6
 
 	column codigo_associado
@@ -11,6 +17,7 @@ table dim_customers_current
 
 	column codigo_situacao
 		dataType: string
+		isHidden
 		lineageTag: 2d089ee1-2e62-4c08-8951-18f67bc580f3
 		summarizeBy: none
 		sourceColumn: codigo_situacao
@@ -131,6 +138,7 @@ table dim_customers_current
 
 	column codigo_profissao
 		dataType: string
+		isHidden
 		lineageTag: f080f773-67fe-478e-8da0-72e69dfbe71d
 		summarizeBy: none
 		sourceColumn: codigo_profissao
@@ -139,6 +147,7 @@ table dim_customers_current
 
 	column codigo_classificacao
 		dataType: string
+		isHidden
 		lineageTag: 09820145-ed6c-42f4-bb78-4f01cb5d5aab
 		summarizeBy: none
 		sourceColumn: codigo_classificacao
@@ -249,6 +258,7 @@ table dim_customers_current
 
 	column codigo_regional
 		dataType: string
+		isHidden
 		lineageTag: 869885ea-31ad-4c11-b7ab-867a8bc6fdfc
 		summarizeBy: none
 		sourceColumn: codigo_regional
@@ -257,6 +267,7 @@ table dim_customers_current
 
 	column codigo_cooperativa
 		dataType: string
+		isHidden
 		lineageTag: b8cbbbcd-8194-4af6-bb22-b94dc5fbb8e7
 		summarizeBy: none
 		sourceColumn: codigo_cooperativa
@@ -282,7 +293,7 @@ table dim_customers_current
 	column idade
 		dataType: double
 		lineageTag: d062cb7c-f0c7-44de-8bba-69e210fbd561
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: idade
 
 		annotation SummarizationSetBy = Automatic
@@ -322,6 +333,7 @@ table dim_customers_current
 
 	column sk_customer
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: f074106d-418f-44ab-a8cc-852ba19d298a
 		summarizeBy: sum
