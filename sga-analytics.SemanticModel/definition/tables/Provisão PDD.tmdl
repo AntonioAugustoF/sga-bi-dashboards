@@ -1,0 +1,61 @@
+/// Matriz de provisão para PDD: % esperado de perda por faixa de aging.
+/// 
+/// PERCENTUAIS ZERADOS DE PROPÓSITO. Provisão é definição contábil, não estimativa de
+/// BI — quem responde pelo financeiro precisa informar os valores. Enquanto estiverem
+/// em zero, [Inadimplência - PDD Estimada] retorna zero, o que é honesto: melhor um
+/// card zerado e visivelmente pendente do que um número inventado circulando como
+/// oficial.
+/// 
+/// Para editar: Power BI Desktop > Transformar dados > Provisão PDD > editar a fonte.
+/// As faixas precisam bater exatamente com fact_delinquency_snapshot[Faixa de Aging].
+table 'Provisão PDD'
+	lineageTag: 4e8b2c96-7a35-4d18-b642-9f1e5a3c7d84
+
+	column 'Faixa de Aging'
+		dataType: string
+		lineageTag: 7f2a6d51-3c94-4b87-a218-5e9d4b1f6c23
+		summarizeBy: none
+		sourceColumn: Faixa de Aging
+
+		annotation SummarizationSetBy = Automatic
+
+	column '% Provisão'
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 2d9e4b78-6f13-4a25-9c87-3b6a8d5e1f49
+		summarizeBy: none
+		sourceColumn: % Provisão
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":false}
+
+	column Ordem
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8c5f3a17-9d26-4e74-b381-6a2c9d4b7e15
+		summarizeBy: none
+		sourceColumn: Ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Provisão PDD' = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(
+				        {
+				            {"A vencer",   0.0, 0},
+				            {"1-30 dias",  0.0, 1},
+				            {"31-60 dias", 0.0, 2},
+				            {"61-90 dias", 0.0, 3},
+				            {"90+ dias",   0.0, 4}
+				        },
+				        type table [#"Faixa de Aging" = text, #"% Provisão" = number, Ordem = Int64.Type]
+				    )
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+

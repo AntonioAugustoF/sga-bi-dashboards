@@ -45,7 +45,7 @@ relationship d20290c5-4efe-973a-a934-617f548fd90b
 
 relationship cfc3b37d-998d-a6d9-aa51-22c29aac81d6
 	fromColumn: bridge_invoices_vehicles.codigo_veiculo
-	toColumn: dim_vehicles.codigo_veiculo
+	toColumn: dim_vehicles_current.codigo_veiculo
 
 relationship 8a6a3b21-b440-6bad-64d8-b6a9f9904245
 	fromColumn: fact_delinquency_by_vehicle_actual.dt_referencia
@@ -66,4 +66,12 @@ relationship 294591a9-8b16-3079-eacc-a65a9bf888af
 relationship 6b546e24-67f8-d508-14b5-8d2614e861bb
 	fromColumn: fact_delinquency_snapshot.codigo_associado
 	toColumn: dim_customers_current.codigo_associado
+
+relationship 1f7c9d24-5a83-4b16-9e0c-2d4f8a61c3b7
+	fromColumn: dim_vehicles_current.codigo_voluntario
+	toColumn: dim_volunteers.codigo_voluntario
+
+relationship 3a6d8f25-4b17-4e93-8c26-7d5a1b9e4f38
+	fromColumn: fact_delinquency_snapshot.'Faixa de Aging'
+	toColumn: 'Provisão PDD'.'Faixa de Aging'
 

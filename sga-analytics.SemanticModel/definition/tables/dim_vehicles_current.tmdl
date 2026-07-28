@@ -43,6 +43,7 @@ table dim_vehicles_current
 
 	column codigo_usuario
 		dataType: string
+		isHidden
 		lineageTag: 6e0b011e-6b9d-4a11-b8a0-8151e2e09c72
 		summarizeBy: none
 		sourceColumn: codigo_usuario
@@ -51,6 +52,7 @@ table dim_vehicles_current
 
 	column codigo_tipo
 		dataType: string
+		isHidden
 		lineageTag: f59aecb1-b967-454f-8944-99382a05e039
 		summarizeBy: none
 		sourceColumn: codigo_tipo
@@ -59,6 +61,7 @@ table dim_vehicles_current
 
 	column codigo_classificacao
 		dataType: string
+		isHidden
 		lineageTag: 83fe807f-6344-437e-b858-b907622084b1
 		summarizeBy: none
 		sourceColumn: codigo_classificacao
@@ -67,6 +70,7 @@ table dim_vehicles_current
 
 	column codigo_cota
 		dataType: string
+		isHidden
 		lineageTag: 6ad00cbb-bd9a-4362-a757-1234c9ae6035
 		summarizeBy: none
 		sourceColumn: codigo_cota
@@ -75,6 +79,7 @@ table dim_vehicles_current
 
 	column codigo_fipe
 		dataType: string
+		isHidden
 		lineageTag: dff9063c-6210-4529-ad90-bba1045b97ff
 		summarizeBy: none
 		sourceColumn: codigo_fipe
@@ -113,7 +118,7 @@ table dim_vehicles_current
 		dataType: int64
 		formatString: 0
 		lineageTag: fba71490-c646-4786-aef6-0300c2eabf92
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: pontos
 
 		annotation SummarizationSetBy = Automatic
@@ -142,6 +147,7 @@ table dim_vehicles_current
 
 	column codigo_depreciacao
 		dataType: string
+		isHidden
 		lineageTag: 6e9d2d32-2437-4da0-a192-18e1aff1b716
 		summarizeBy: none
 		sourceColumn: codigo_depreciacao
@@ -150,6 +156,7 @@ table dim_vehicles_current
 
 	column codigo_tipo_envio_boleto
 		dataType: string
+		isHidden
 		lineageTag: 1cf61b53-0994-4406-b6ba-55bbf4493852
 		summarizeBy: none
 		sourceColumn: codigo_tipo_envio_boleto
@@ -158,6 +165,7 @@ table dim_vehicles_current
 
 	column codigo_regional
 		dataType: string
+		isHidden
 		lineageTag: 19c657ed-96c9-42d6-bec8-bad8fe22cfe8
 		summarizeBy: none
 		sourceColumn: codigo_regional
@@ -166,6 +174,7 @@ table dim_vehicles_current
 
 	column codigo_cooperativa
 		dataType: string
+		isHidden
 		lineageTag: dd93c443-0b08-46f9-8639-05f170d8f060
 		summarizeBy: none
 		sourceColumn: codigo_cooperativa
@@ -174,6 +183,7 @@ table dim_vehicles_current
 
 	column codigo_marca
 		dataType: string
+		isHidden
 		lineageTag: be0c6225-92be-47b4-be98-8684352784b1
 		summarizeBy: none
 		sourceColumn: codigo_marca
@@ -182,6 +192,7 @@ table dim_vehicles_current
 
 	column codigo_modelo
 		dataType: string
+		isHidden
 		lineageTag: f56cd337-f4b8-484c-b18a-9be0af9ae018
 		summarizeBy: none
 		sourceColumn: codigo_modelo
@@ -192,7 +203,7 @@ table dim_vehicles_current
 		dataType: int64
 		formatString: 0
 		lineageTag: 3801ca53-cf57-4cc2-8d8e-3a213758d189
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ano_fabricacao
 
 		annotation SummarizationSetBy = Automatic
@@ -201,13 +212,14 @@ table dim_vehicles_current
 		dataType: int64
 		formatString: 0
 		lineageTag: 746bf8af-4a41-468f-aeca-bfdf96972bf0
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ano_modelo
 
 		annotation SummarizationSetBy = Automatic
 
 	column codigo_combustivel
 		dataType: string
+		isHidden
 		lineageTag: befe5821-758b-4970-92e3-36da07d7349a
 		summarizeBy: none
 		sourceColumn: codigo_combustivel
@@ -216,6 +228,7 @@ table dim_vehicles_current
 
 	column codigo_cor
 		dataType: string
+		isHidden
 		lineageTag: 9e1576fb-409e-4093-9e90-debc327742f7
 		summarizeBy: none
 		sourceColumn: codigo_cor
@@ -224,6 +237,7 @@ table dim_vehicles_current
 
 	column codigo_grupo_produto
 		dataType: string
+		isHidden
 		lineageTag: 0d98d5bb-060e-496f-ac6e-a1f620bfd6a1
 		summarizeBy: none
 		sourceColumn: codigo_grupo_produto
@@ -232,6 +246,7 @@ table dim_vehicles_current
 
 	column codigo_vencimento
 		dataType: string
+		isHidden
 		lineageTag: 41ee928b-9bd7-40c7-8cd3-52d8f1c99fcd
 		summarizeBy: none
 		sourceColumn: codigo_vencimento
@@ -250,7 +265,7 @@ table dim_vehicles_current
 		dataType: int64
 		formatString: 0
 		lineageTag: c437562d-538e-4538-9b4c-fa0623cc4af1
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: mes_final_carne
 
 		annotation SummarizationSetBy = Automatic
@@ -275,6 +290,7 @@ table dim_vehicles_current
 
 	column codigo_categoria
 		dataType: string
+		isHidden
 		lineageTag: f13543ce-0fde-4883-97c3-24f78bfefd95
 		summarizeBy: none
 		sourceColumn: codigo_categoria
@@ -379,6 +395,7 @@ table dim_vehicles_current
 
 	column codigo_situacao
 		dataType: string
+		isHidden
 		lineageTag: cb82bb17-1d1e-4d65-92c5-5ff97c21af3c
 		summarizeBy: none
 		sourceColumn: codigo_situacao
@@ -480,10 +497,62 @@ table dim_vehicles_current
 
 	column sk_vehicle
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: dc8db6d1-f747-45f8-a56e-56494a92612e
 		summarizeBy: sum
 		sourceColumn: sk_vehicle
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Faixa de valor FIPE — exposição da carteira por porte de veículo. Vive em
+	/// dim_vehicles_current (uma linha por veículo) e não na SCD2, para que a análise
+	/// de perfil não conte o mesmo veículo em duas faixas por causa de versões.
+	column 'Faixa FIPE' =
+			SWITCH (
+			    TRUE (),
+			    ISBLANK ( dim_vehicles_current[valor_fipe] ), "Sem FIPE",
+			    dim_vehicles_current[valor_fipe] <= 30000, "Até R$ 30 mil",
+			    dim_vehicles_current[valor_fipe] <= 60000, "R$ 30-60 mil",
+			    dim_vehicles_current[valor_fipe] <= 100000, "R$ 60-100 mil",
+			    dim_vehicles_current[valor_fipe] <= 150000, "R$ 100-150 mil",
+			    "Acima de R$ 150 mil"
+			)
+		dataType: string
+		lineageTag: 3d7a9e25-6c81-4b47-9f13-2a5e8d4c7b96
+		summarizeBy: none
+		sortByColumn: 'Ordem FIPE'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ordem FIPE' =
+			SWITCH (
+			    TRUE (),
+			    ISBLANK ( dim_vehicles_current[valor_fipe] ), 99,
+			    dim_vehicles_current[valor_fipe] <= 30000, 1,
+			    dim_vehicles_current[valor_fipe] <= 60000, 2,
+			    dim_vehicles_current[valor_fipe] <= 100000, 3,
+			    dim_vehicles_current[valor_fipe] <= 150000, 4,
+			    5
+			)
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9e4b7c31-5a26-4d89-b752-1f8c3a6d5e27
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Idade do veículo em anos, para [Veículos - Idade Média da Frota]. Frota mais
+	/// velha tende a elevar sinistro e depreciação da cobertura.
+	column 'Idade do Veículo' =
+			VAR _ano = dim_vehicles_current[ano_modelo]
+			RETURN
+			    IF ( _ano > 1900, YEAR ( TODAY () ) - _ano )
+		dataType: int64
+		formatString: 0
+		lineageTag: 6a2d8f94-3e57-4c16-b829-4d7a1e5b3c68
+		summarizeBy: average
 
 		annotation SummarizationSetBy = Automatic
 

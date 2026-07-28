@@ -1,0 +1,106 @@
+/// Calc group de recorte por idade de atraso. Existe para dar as faixas ACUMULADAS
+/// (acima de 30/60/90), que é como risco de crédito se lê na prática e que uma coluna
+/// de faixa não entrega — colunas só dão faixas exclusivas.
+/// 
+/// Aplica-se sobre os três fatos de inadimplência para valer em qualquer medida do
+/// painel; filtrar um fato que a medida não usa é inócuo.
+/// 
+/// precedence 5: abaixo de Período (10) e Comparação (20), para que o recorte de faixa
+/// seja o filtro mais interno e a inteligência temporal opere sobre ele.
+table 'Faixa de Aging'
+	lineageTag: 6c4f8a21-9d37-4b52-8e16-3a7c5d2f9b48
+
+	calculationGroup
+		precedence: 5
+
+		calculationItem Total = SELECTEDMEASURE()
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'A vencer' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] = 0 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_actual[dias_em_atraso] = 0 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_history[dias_em_atraso] = 0 )
+				)
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem '1-30 dias' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] >= 1 && fact_delinquency_snapshot[dias_em_atraso] <= 30 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_actual[dias_em_atraso] >= 1 && fact_delinquency_by_vehicle_actual[dias_em_atraso] <= 30 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_history[dias_em_atraso] >= 1 && fact_delinquency_by_vehicle_history[dias_em_atraso] <= 30 )
+				)
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem '31-60 dias' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] >= 31 && fact_delinquency_snapshot[dias_em_atraso] <= 60 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_actual[dias_em_atraso] >= 31 && fact_delinquency_by_vehicle_actual[dias_em_atraso] <= 60 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_history[dias_em_atraso] >= 31 && fact_delinquency_by_vehicle_history[dias_em_atraso] <= 60 )
+				)
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem '61-90 dias' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] >= 61 && fact_delinquency_snapshot[dias_em_atraso] <= 90 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_actual[dias_em_atraso] >= 61 && fact_delinquency_by_vehicle_actual[dias_em_atraso] <= 90 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_history[dias_em_atraso] >= 61 && fact_delinquency_by_vehicle_history[dias_em_atraso] <= 90 )
+				)
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem '90+ dias' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 90 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_actual[dias_em_atraso] > 90 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_history[dias_em_atraso] > 90 )
+				)
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Acima de 30 dias' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 30 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_actual[dias_em_atraso] > 30 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_history[dias_em_atraso] > 30 )
+				)
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+		calculationItem 'Acima de 60 dias' =
+				CALCULATE (
+				    SELECTEDMEASURE (),
+				    KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 60 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_actual[dias_em_atraso] > 60 ),
+				    KEEPFILTERS ( fact_delinquency_by_vehicle_history[dias_em_atraso] > 60 )
+				)
+
+			formatStringDefinition = SELECTEDMEASUREFORMATSTRING()
+
+	column 'Faixa de Aging'
+		dataType: string
+		lineageTag: 8b2d6e94-1c57-4a38-9f26-4d8a3c7b5e21
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5e9a3c17-7b48-4d26-a935-1f6c8b2d4a73
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

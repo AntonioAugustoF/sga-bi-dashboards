@@ -11,6 +11,7 @@ table dim_customers
 
 	column codigo_situacao
 		dataType: string
+		isHidden
 		lineageTag: 8707342b-44cf-45d1-86a2-c2945d965a3f
 		summarizeBy: none
 		sourceColumn: codigo_situacao
@@ -131,6 +132,7 @@ table dim_customers
 
 	column codigo_profissao
 		dataType: string
+		isHidden
 		lineageTag: 7455b4b9-071b-43f6-8a06-e2ab6c78a4fe
 		summarizeBy: none
 		sourceColumn: codigo_profissao
@@ -139,6 +141,7 @@ table dim_customers
 
 	column codigo_classificacao
 		dataType: string
+		isHidden
 		lineageTag: 2e533a91-fe06-4869-b3f8-a0668dcce6d9
 		summarizeBy: none
 		sourceColumn: codigo_classificacao
@@ -249,6 +252,7 @@ table dim_customers
 
 	column codigo_regional
 		dataType: string
+		isHidden
 		lineageTag: 5a0c36f9-c252-44b8-b3d6-92a0d8b41855
 		summarizeBy: none
 		sourceColumn: codigo_regional
@@ -257,6 +261,7 @@ table dim_customers
 
 	column codigo_cooperativa
 		dataType: string
+		isHidden
 		lineageTag: 3f2cc0e1-e93b-44ea-8757-5f42c7a81a81
 		summarizeBy: none
 		sourceColumn: codigo_cooperativa
@@ -282,7 +287,7 @@ table dim_customers
 	column idade
 		dataType: double
 		lineageTag: 54629ea9-0479-4532-af6b-80cc5abb7ae9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: idade
 
 		annotation SummarizationSetBy = Automatic
@@ -322,6 +327,7 @@ table dim_customers
 
 	column sk_customer
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 36edf3e5-b964-417b-be87-7adbea125d06
 		summarizeBy: none
@@ -331,6 +337,7 @@ table dim_customers
 
 	column criado_em
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: 2ba5312b-da92-4e63-9bd1-f3273816df20
 		summarizeBy: none
@@ -340,10 +347,41 @@ table dim_customers
 
 	column atualizado_em
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: b7f0ab40-cc2c-4152-bfd3-9563fb24e8c8
 		summarizeBy: none
 		sourceColumn: atualizado_em
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Situação da versão SCD2 IMEDIATAMENTE ANTERIOR deste associado. Reconstrói o que
+	/// a antiga dim_customers_history[status_anterior] fornecia, agora a partir do SCD2.
+	/// 
+	/// Necessária porque uma versão nova é criada por QUALQUER coluna monitorada
+	/// (codigo_situacao, codigo_voluntario, classificação, regional, cooperativa). Sem
+	/// comparar com a anterior, uma troca de regional de um associado já inativo seria
+	/// contada como cancelamento.
+	/// 
+	/// Usa ALLEXCEPT em vez de FILTER(ALL(...)) porque o segundo é O(n²) sobre a
+	/// dimensão inteira a cada refresh.
+	column status_anterior =
+			VAR _de = dim_customers[valido_de]
+			VAR _deAnterior =
+			    CALCULATE (
+			        MAX ( dim_customers[valido_de] ),
+			        ALLEXCEPT ( dim_customers, dim_customers[codigo_associado] ),
+			        dim_customers[valido_de] < _de
+			    )
+			RETURN
+			    CALCULATE (
+			        MAX ( dim_customers[descricao_situacao] ),
+			        ALLEXCEPT ( dim_customers, dim_customers[codigo_associado] ),
+			        dim_customers[valido_de] = _deAnterior
+			    )
+		dataType: string
+		lineageTag: 7b4e2d68-9c15-4a37-b826-3f5d9a1c6e42
+		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
 
@@ -352,9 +390,11 @@ table dim_customers
 		source =
 				let
 				    Fonte = PostgreSQL.Database("localhost", "sga_dw"),
-				    public_dim_customers = Fonte{[Schema="public",Item="dim_customers"]}[Data]
+				    public_dim_customers = Fonte{[Schema="public",Item="dim_customers"]}[Data],
+				    #"Texto em Maiúscula" = Table.TransformColumns(public_dim_customers,{{"estado", Text.Upper, type text}}),
+				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(#"Texto em Maiúscula",{{"nome", Text.Proper, type text}})
 				in
-				    public_dim_customers
+				    #"Colocar Cada Palavra Em Maiúscula"
 
 	annotation PBI_NavigationStepName = Navegação
 

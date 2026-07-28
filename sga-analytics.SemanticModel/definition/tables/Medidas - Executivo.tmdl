@@ -1,0 +1,179 @@
+/// Medidas do Painel Executivo.
+/// 
+/// PRINCÍPIO: este painel NÃO replica medida de outro painel. Receita MTD, Receita YTD
+/// e "vs mês anterior" não existem aqui como medidas — são [Receita Recebida] com os
+/// calc items Período[MTD]/Período[YTD] e Comparação[Δ MoM %]. Criar medidas dedicadas
+/// desfaria a arquitetura de calc groups do modelo.
+/// 
+/// O que existe aqui são as COMPOSTAS: cruzamentos entre carteira, receita e
+/// inadimplência que não pertencem a nenhum painel isolado, mais a mecânica de meta /
+/// semáforo / Health Score dirigida por 'Indicadores Executivos'.
+table 'Medidas - Executivo'
+	lineageTag: 3e7b9d41-5c28-4a63-8f97-1d6a4b2c5e83
+
+	/// Receita dos associados SEM título vencido. Mais informativa que a receita total:
+	/// é a parcela que não depende de cobrança para se sustentar.
+	measure 'Exec - Receita Protegida' =
+			
+			VAR _Inadimplentes =
+			    CALCULATETABLE (
+			        VALUES ( fact_delinquency_snapshot[codigo_associado] ),
+			        REMOVEFILTERS ( dim_calendar ),
+			        fact_delinquency_snapshot[dt_referencia] = [Inadimplência - Data Snapshot],
+			        KEEPFILTERS ( fact_delinquency_snapshot[dias_em_atraso] > 0 )
+			    )
+			RETURN
+			    CALCULATE (
+			        [Receita Recebida],
+			        FILTER (
+			            ALL ( fact_invoices[codigo_associado] ),
+			            NOT fact_invoices[codigo_associado] IN _Inadimplentes
+			        )
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 01 Receita Composta
+		lineageTag: 6a3d8f25-9b47-4e16-a852-3c7f1d5b9e42
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Contrapartida: receita vinda de quem tem título vencido. Não é perda — é a
+	/// parcela da receita que está condicionada à cobrança funcionar.
+	measure 'Exec - Receita em Risco' =
+			
+			[Receita Recebida] - [Exec - Receita Protegida]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 01 Receita Composta
+		lineageTag: 4f9c2b68-7a35-4d81-9e24-8b1a6c3d7f95
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Exec - % Receita em Risco' =
+			
+			DIVIDE ( [Exec - Receita em Risco], [Receita Recebida] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 01 Receita Composta
+		lineageTag: 8d5a1e37-2c94-4b76-8f13-5e2b9d4a6c81
+
+	/// Receita mensal que sai da base com os cancelamentos do período. Aproximação:
+	/// cancelamentos × receita mensal média por associado. Quem cancela tende a ter
+	/// ticket abaixo da média, então o número puxa para cima — serve para ordem de
+	/// grandeza e comparação entre períodos, não como perda contábil.
+	measure 'Exec - Receita Perdida' =
+			
+			[Associados - Cancelamentos] * [Associados - Receita Mensal por Associado]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 01 Receita Composta
+		lineageTag: 2c8f6b14-9d53-4a27-b691-7f4a2e8c5d36
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Valor realizado do indicador da linha corrente de 'Indicadores Executivos'.
+	/// Ponto único de ligação entre a tabela de metas e as medidas dos outros painéis —
+	/// incluir um indicador novo é uma linha lá e um ramo aqui.
+	measure 'Exec - Realizado' =
+			
+			SWITCH (
+			    SELECTEDVALUE ( 'Indicadores Executivos'[Indicador] ),
+			    "Associados Ativos",   [Associados - Ativos],
+			    "Receita YTD",         CALCULATE ( [Receita Recebida], 'Período'[Período] = "YTD" ),
+			    "Crescimento Líquido", [Associados - Crescimento Líquido],
+			    "Inadimplência %",     [Inadimplência - % da Carteira],
+			    "Churn",               [Associados - Churn],
+			    "Recuperação %",       [Inadimplência - % Recuperação]
+			)
+		displayFolder: 02 Semáforo e Metas
+		lineageTag: 9b4e7c23-6f18-4d95-a372-1c5d8a4b6e97
+
+		formatStringDefinition =
+				SWITCH (
+				    SELECTEDVALUE ( 'Indicadores Executivos'[Indicador] ),
+				    "Associados Ativos",   "#,0",
+				    "Crescimento Líquido", "+#,0;-#,0;0",
+				    "Receita YTD",         """R$"" #,0.00",
+				    "0.0%"
+				)
+
+	measure 'Exec - Meta' =
+			
+			SELECTEDVALUE ( 'Indicadores Executivos'[Meta] )
+		displayFolder: 02 Semáforo e Metas
+		lineageTag: 5a2d9f46-8c71-4b38-9e25-4d7f1b3c6a89
+
+		formatStringDefinition =
+				SWITCH (
+				    SELECTEDVALUE ( 'Indicadores Executivos'[Indicador] ),
+				    "Associados Ativos",   "#,0",
+				    "Crescimento Líquido", "+#,0;-#,0;0",
+				    "Receita YTD",         """R$"" #,0.00",
+				    "0.0%"
+				)
+
+	/// Atingimento normalizado, sempre "maior é melhor". Para indicadores de sentido
+	/// invertido (inadimplência, churn) a razão é trocada — sem isso, estourar a meta de
+	/// inadimplência apareceria como 130% de atingimento.
+	measure 'Exec - Atingimento' =
+			
+			VAR _Real = [Exec - Realizado]
+			VAR _Meta = [Exec - Meta]
+			VAR _Sentido = SELECTEDVALUE ( 'Indicadores Executivos'[Sentido] )
+			RETURN
+			    IF (
+			        _Meta = 0 || ISBLANK ( _Meta ),
+			        BLANK (),
+			        IF ( _Sentido = "Menor", DIVIDE ( _Meta, _Real ), DIVIDE ( _Real, _Meta ) )
+			    )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Semáforo e Metas
+		lineageTag: 7c1b4a89-3e56-4f27-8d94-2a6c5b1e9f38
+
+	/// Semáforo: verde >= 100% da meta, amarelo >= 90%, vermelho abaixo. Retorna texto
+	/// para uso direto em tabela/matriz — em cartão, prefira formatação condicional
+	/// sobre [Exec - Atingimento].
+	measure 'Exec - Status' =
+			
+			VAR _A = [Exec - Atingimento]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( _A ), "",
+			        _A >= 1,    "🟢",
+			        _A >= 0.9,  "🟡",
+			        "🔴"
+			    )
+		displayFolder: 02 Semáforo e Metas
+		lineageTag: 1e8d5c37-4b92-4a61-9f83-6c2a7d4b5e19
+
+	/// Health Score 0-100: média dos atingimentos dos indicadores, cada um limitado a
+	/// 100% para que um indicador excepcional não mascare outro em crise.
+	/// 
+	/// RESSALVA: sem sinistralidade, o índice cobre carteira, receita e cobrança — não a
+	/// saúde operacional. Um Health Score alto aqui NÃO significa operação saudável.
+	/// Rever os pesos (hoje todos iguais) quando o eixo de sinistros existir.
+	measure 'Exec - Health Score' =
+			
+			VAR _Indicadores =
+			    ADDCOLUMNS (
+			        ALL ( 'Indicadores Executivos'[Indicador] ),
+			        "@atingimento", CALCULATE ( [Exec - Atingimento] )
+			    )
+			VAR _Validos = FILTER ( _Indicadores, NOT ISBLANK ( [@atingimento] ) )
+			RETURN
+			    100 * AVERAGEX ( _Validos, MIN ( [@atingimento], 1 ) )
+		formatString: #,0
+		displayFolder: 02 Semáforo e Metas
+		lineageTag: 3d6f9b52-8a14-4c73-b298-5e1a4d7c6b83
+
+	column Z
+		isHidden
+		formatString: 0
+		lineageTag: 6b9c3e18-5d47-4a26-8f51-2c8a7b4d3e95
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Z]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Medidas - Executivo' = calculated
+		mode: import
+		source = Row("Z", BLANK())
+

@@ -1,90 +1,309 @@
+/// Medidas de carteira de associados.
+/// 
+/// PADRÃO POINT-IN-TIME SCD2: dim_customers NÃO tem relação com dim_calendar — de
+/// propósito. Uma dimensão SCD2 carrega um intervalo de validade, não uma data, então
+/// relacionar por data única daria a resposta errada. O estoque é calculado filtrando
+/// valido_de <= data do contexto < valido_ate. É isso que faz os calc groups Período e
+/// Comparação funcionarem aqui, o que as medidas antigas (baseadas na tabela
+/// inexistente dim_customers_history) não conseguiam.
+/// 
+/// EVENTOS (novos, cancelamentos) são fluxo: contados pela data do evento dentro do
+/// período. Cancelamento compara com [status_anterior], senão uma troca de regional de
+/// quem já estava inativo entraria como cancelamento novo.
+/// 
+/// ATENÇÃO — regra de negócio em literal: "ATIVO"/"INATIVO" vêm de descricao_situacao.
+/// Se o pipeline mudar o rótulo, estas medidas erram em silêncio. Migrar para
+/// codigo_situacao quando os códigos forem confirmados.
 table 'Medidas - Associados'
 	lineageTag: 2a2c4482-5472-43c2-ad31-32007d7af349
 
-	measure 'Associados - Última Data Snapshot' =
+	/// Associados ativos na data do contexto (estoque point-in-time).
+	measure 'Associados - Ativos' =
 			
-			MAX(dim_customers_history[data_extracao])
-		formatString: General Date
-		lineageTag: 46b7b9b2-6c38-4622-9b2a-f2917e9d8fda
-
-	measure 'Associados - Qtd Atual' =
-			
-			VAR UltimaData =
-			    MAX(dim_customers_history[data_extracao])
+			VAR _Data = MAX ( dim_calendar[Data] )
 			RETURN
-			CALCULATE(
-			    DISTINCTCOUNT(dim_customers_history[codigo_associado]),
-			    dim_customers_history[data_extracao] = UltimaData,
-			    dim_customers_history[descricao_situacao] <> "INATIVO"
-			)
-		formatString: 0
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_customers[codigo_associado] ),
+			        FILTER (
+			            ALL ( dim_customers[valido_de], dim_customers[valido_ate] ),
+			            dim_customers[valido_de] <= _Data
+			                && ( ISBLANK ( dim_customers[valido_ate] ) || dim_customers[valido_ate] > _Data )
+			        ),
+			        KEEPFILTERS ( dim_customers[descricao_situacao] = "ATIVO" )
+			    )
+		formatString: #,0
+		displayFolder: 01 Estoque
 		lineageTag: 3b011c9e-4629-4216-972e-4d72b656a400
-
-	measure 'Associados - Qtd Ativos' =
-			
-			VAR UltimaData =
-			    MAX(dim_customers_history[data_extracao])
-			RETURN
-			CALCULATE(
-			    DISTINCTCOUNT (dim_customers_history[codigo_associado]),
-			    dim_customers_history[data_extracao] = UltimaData,
-			    dim_customers_history[descricao_situacao] = "ATIVO"
-			)
-		formatString: 0
-		lineageTag: 2f1b272c-3ffe-43e1-a76c-f36ea8370c20
 
 	measure 'Associados - % Ativos' =
 			
-			DIVIDE (
-			    [Associados - Qtd Ativos],
-			    [Associados - Qtd Atual]
-			)
+			DIVIDE ( [Associados - Ativos], [Associados - Base Total] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 01 Estoque
 		lineageTag: 705c381f-27b2-4fe2-b9fd-1b65c3660d5c
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Associados - Qtd Fechamento' =
+	/// Diagnóstico de integridade: receita de boletos cujo associado não existe em
+	/// dim_customers. Mantida da versão anterior — é o mesmo tipo de balde de órfãos
+	/// que rastreamos no Faturamento.
+	measure 'Associados - Receita Órfã' =
 			
-			VAR UltimaData =
-			    MAX ( dim_customers_history[data_extracao] )
-			RETURN
 			CALCULATE (
-			    DISTINCTCOUNT ( dim_customers_history[codigo_associado] ),
-			    dim_customers_history[data_extracao] = UltimaData
-			)
-		formatString: 0
-		lineageTag: bfa3a990-a1c0-4868-971a-c662fce11c60
-
-	measure 'Associados - Cadastros' =
-			
-			CALCULATE(
-			    DISTINCTCOUNT(dim_customers[codigo_associado])
-			)
-		formatString: 0
-		lineageTag: 5bbb8298-97ac-4b02-8a20-06545a36a341
-
-	measure 'Associados - Cadastros MTD' =
-			
-			CALCULATE(
-			    [Associados - Cadastros],
-			    DATESMTD(dim_calendar[Data])
-			)
-		formatString: 0
-		lineageTag: 03b20087-30eb-42a0-9d36-e4e9c2ae71c0
-
-	measure 'Faturas orfas' =
-			
-			CALCULATE(
 			    [Receita Recebida],
-			    FILTER(
+			    FILTER (
 			        fact_invoices,
-			        NOT fact_invoices[codigo_associado]
-			            IN VALUES( dim_customers[codigo_associado] )
+			        NOT fact_invoices[codigo_associado] IN VALUES ( dim_customers[codigo_associado] )
 			    )
 			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 99 Auxiliares
 		lineageTag: cc87c020-fce0-49c5-8ab8-344fd1864d7f
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Base total na data do contexto, ativos e inativos. Denominador de [% Ativos].
+	measure 'Associados - Base Total' =
+			
+			VAR _Data = MAX ( dim_calendar[Data] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_customers[codigo_associado] ),
+			        FILTER (
+			            ALL ( dim_customers[valido_de], dim_customers[valido_ate] ),
+			            dim_customers[valido_de] <= _Data
+			                && ( ISBLANK ( dim_customers[valido_ate] ) || dim_customers[valido_ate] > _Data )
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 01 Estoque
+		lineageTag: 8f3c5a19-7d24-4b68-9e37-1a6d4c8b2f95
+
+	/// FLUXO. Associados cadastrados dentro do período.
+	measure 'Associados - Novos' =
+			
+			VAR _Ini = MIN ( dim_calendar[Data] )
+			VAR _Fim = MAX ( dim_calendar[Data] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_customers[codigo_associado] ),
+			        FILTER (
+			            ALL ( dim_customers[data_cadastro_associado] ),
+			            dim_customers[data_cadastro_associado] >= _Ini
+			                && dim_customers[data_cadastro_associado] <= _Fim
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 02 Movimento
+		lineageTag: 4c8e2b76-9a15-4d37-8f62-5b3a7d1e6c49
+
+	/// FLUXO. Transições SCD2 para INATIVO no período, ignorando versões que já vinham
+	/// inativas — é a diferença entre cancelamento e mera atualização cadastral de quem
+	/// já havia saído.
+	measure 'Associados - Cancelamentos' =
+			
+			VAR _Ini = MIN ( dim_calendar[Data] )
+			VAR _Fim = MAX ( dim_calendar[Data] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_customers[codigo_associado] ),
+			        FILTER (
+			            ALL ( dim_customers[valido_de] ),
+			            dim_customers[valido_de] >= _Ini && dim_customers[valido_de] <= _Fim
+			        ),
+			        KEEPFILTERS ( dim_customers[descricao_situacao] = "INATIVO" ),
+			        KEEPFILTERS ( dim_customers[status_anterior] <> "INATIVO" )
+			    )
+		formatString: #,0
+		displayFolder: 02 Movimento
+		lineageTag: 2d9f6c48-3b71-4e85-a136-7c5e8a2d4b93
+
+	measure 'Associados - Crescimento Líquido' =
+			
+			[Associados - Novos] - [Associados - Cancelamentos]
+		formatString: +#,0;-#,0;0
+		displayFolder: 02 Movimento
+		lineageTag: 7a1c4e93-5d28-4f67-b914-6e2b8d5a3c71
+
+	/// Base ativa no INÍCIO do período. Denominador de crescimento e churn; isolada
+	/// para não repetir o mesmo bloco nas duas medidas.
+	measure 'Associados - Base Inicial' =
+			
+			VAR _Ini = MIN ( dim_calendar[Data] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_customers[codigo_associado] ),
+			        FILTER (
+			            ALL ( dim_customers[valido_de], dim_customers[valido_ate] ),
+			            dim_customers[valido_de] < _Ini
+			                && ( ISBLANK ( dim_customers[valido_ate] ) || dim_customers[valido_ate] >= _Ini )
+			        ),
+			        KEEPFILTERS ( dim_customers[descricao_situacao] = "ATIVO" )
+			    )
+		formatString: #,0
+		isHidden
+		displayFolder: 99 Auxiliares
+		lineageTag: 9d4c7b28-6e13-4a95-8f27-3b5a1d6c8e49
+
+	/// Crescimento líquido sobre a base do início do período — a leitura usual. Dividir
+	/// pela base final subestimaria o crescimento.
+	measure 'Associados - Taxa de Crescimento' =
+			
+			DIVIDE ( [Associados - Crescimento Líquido], [Associados - Base Inicial] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: 02 Movimento
+		lineageTag: 9b5d3a17-8c46-4e29-b573-2f7a1c6d4e85
+
+	/// Churn: cancelamentos sobre a base ativa inicial. Espelho da taxa de crescimento —
+	/// juntas, as duas explicam o movimento da carteira.
+	measure 'Associados - Churn' =
+			
+			DIVIDE ( [Associados - Cancelamentos], [Associados - Base Inicial] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 02 Movimento
+		lineageTag: 6e2a8f35-4b97-4d18-9c26-5a3d7b1e9f42
+
+	/// Permanência média dos ativos, em meses, do contrato até hoje. Lê
+	/// dim_customers_current (uma linha por associado) — a SCD2 ponderaria pelo número
+	/// de versões, não por associado.
+	measure 'Associados - Permanência Média (meses)' =
+			
+			AVERAGEX (
+			    FILTER (
+			        dim_customers_current,
+			        dim_customers_current[descricao_situacao] = "ATIVO"
+			            && NOT ISBLANK ( dim_customers_current[data_contrato_associado] )
+			    ),
+			    DATEDIFF ( dim_customers_current[data_contrato_associado], TODAY (), MONTH )
+			)
+		formatString: #,0
+		displayFolder: 03 Retenção
+		lineageTag: 1f7b4d92-6a38-4c57-8e21-9d5c3a7f6b48
+
+	/// Fidelização: % da base ativa com mais de 12 meses de casa.
+	measure 'Associados - % Acima de 12 Meses' =
+			
+			VAR _Ativos =
+			    FILTER (
+			        dim_customers_current,
+			        dim_customers_current[descricao_situacao] = "ATIVO"
+			            && NOT ISBLANK ( dim_customers_current[data_contrato_associado] )
+			    )
+			VAR _Fieis =
+			    FILTER (
+			        _Ativos,
+			        DATEDIFF ( dim_customers_current[data_contrato_associado], TODAY (), MONTH ) >= 12
+			    )
+			RETURN
+			    DIVIDE ( COUNTROWS ( _Fieis ), COUNTROWS ( _Ativos ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 03 Retenção
+		lineageTag: 8c3e6b14-2d75-4a89-b436-7f1a5c9d2e63
+
+	/// Receita real por associado ativo. Usa a arrecadação de fact_invoices, não a
+	/// mensalidade cadastral: o que entrou em caixa, não o que foi contratado.
+	measure 'Associados - Receita por Associado' =
+			
+			DIVIDE ( [Receita Recebida], [Associados - Ativos] )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 04 Financeiro
+		lineageTag: 5b9d2c78-4e16-4f35-a827-3c6b8a1d5e94
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Veículos protegidos por associado. Acima de 1 indica base com frota múltipla, o
+	/// que muda a leitura de ticket e de exposição.
+	measure 'Associados - Veículos por Associado' =
+			
+			DIVIDE ( [Veículos - Ativos], [Associados - Ativos] )
+		formatString: #,0.00
+		displayFolder: 05 Saúde da Carteira
+		lineageTag: 3a6c9e51-7b28-4d64-9f37-1e5a2d8c4b76
+
+	/// Associados ativos SEM título vencido. Ponte com o painel de Inadimplência: lá a
+	/// leitura é por dívida, aqui é por gente.
+	measure 'Associados - Adimplentes' =
+			
+			[Associados - Ativos] - [Inadimplência - Qtd Associados Inadimplentes]
+		formatString: #,0
+		displayFolder: 05 Saúde da Carteira
+		lineageTag: 2e7c9b41-8d36-4a52-9f18-4b6a3d5c7e29
+
+	/// % da base ativa com ao menos um título vencido. Diferente da inadimplência por
+	/// valor: 5% dos associados podem concentrar 30% da dívida, e é a distância entre
+	/// os dois números que indica se o problema é difuso ou concentrado.
+	measure 'Associados - % Inadimplentes' =
+			
+			DIVIDE (
+			    [Inadimplência - Qtd Associados Inadimplentes],
+			    [Associados - Ativos]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: 05 Saúde da Carteira
+		lineageTag: 7b4d2a68-5e19-4c37-8a25-9f3c6b1d4e82
+
+	/// Receita mensal média por associado ativo, normalizada pelo nº de meses do
+	/// contexto. Sem a normalização o valor mudaria de escala conforme o período
+	/// selecionado (um ano renderia 12× um mês) e não serviria de base para LTV.
+	measure 'Associados - Receita Mensal por Associado' =
+			
+			VAR _Meses = MAX ( DISTINCTCOUNT ( dim_calendar[MesAno] ), 1 )
+			RETURN
+			    DIVIDE (
+			        DIVIDE ( [Receita Recebida], _Meses ),
+			        [Associados - Ativos]
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 04 Financeiro
+		lineageTag: 4a8e6c15-9b27-4d73-a516-8e2c4b7d9f35
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// LTV aproximado: receita mensal média por associado × permanência média.
+	/// 
+	/// RESSALVA: é um LTV RETROSPECTIVO, não um valor presente descontado. Usa a
+	/// permanência já observada da base ativa, que subestima quem ainda vai ficar mais
+	/// tempo, e não desconta fluxo futuro nem considera custo de servir. Serve para
+	/// comparar recortes (consultor, estado, plano) — não como número contábil.
+	measure 'Associados - LTV Aproximado' =
+			
+			[Associados - Receita Mensal por Associado] * [Associados - Permanência Média (meses)]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: 04 Financeiro
+		lineageTag: 9c5b3f27-6a48-4e19-b834-2d7a5c1e6f93
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	/// Tempo médio, em meses, entre o contrato e o cancelamento — para quem cancelou
+	/// DENTRO do período. Complementa a permanência média (que só olha quem ficou):
+	/// juntas, mostram se a perda está na entrada ou na maturidade da base.
+	measure 'Associados - Tempo até Cancelamento (meses)' =
+			
+			VAR _Ini = MIN ( dim_calendar[Data] )
+			VAR _Fim = MAX ( dim_calendar[Data] )
+			VAR _Cancelados =
+			    CALCULATETABLE (
+			        FILTER (
+			            dim_customers,
+			            NOT ISBLANK ( dim_customers[data_contrato_associado] )
+			        ),
+			        FILTER (
+			            ALL ( dim_customers[valido_de] ),
+			            dim_customers[valido_de] >= _Ini && dim_customers[valido_de] <= _Fim
+			        ),
+			        KEEPFILTERS ( dim_customers[descricao_situacao] = "INATIVO" ),
+			        KEEPFILTERS ( dim_customers[status_anterior] <> "INATIVO" )
+			    )
+			RETURN
+			    AVERAGEX (
+			        _Cancelados,
+			        DATEDIFF (
+			            dim_customers[data_contrato_associado],
+			            dim_customers[valido_de],
+			            MONTH
+			        )
+			    )
+		formatString: #,0
+		displayFolder: 03 Retenção
+		lineageTag: 6f2a8d54-3c91-4b67-8e25-7a4d1c9b5e38
 
 	column Z
 		isHidden
@@ -99,8 +318,4 @@ table 'Medidas - Associados'
 	partition 'Medidas - Associados' = calculated
 		mode: import
 		source = Row("Z", BLANK())
-
-	annotation PBI_Id = fef5dcb9f658496da2203e991dc60d48
-
-	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
 

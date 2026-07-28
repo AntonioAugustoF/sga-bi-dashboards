@@ -23,12 +23,11 @@
                       "Entity": "Medidas - Faturamento"
                     }
                   },
-                  "Property": "Receita Recebida - MTD"
+                  "Property": "Receita Recebida"
                 }
               },
-              "queryRef": "Medidas - Faturamento.Faturamento MTD",
-              "nativeQueryRef": "Faturamento MTD",
-              "format": "\"R$\" #,0.00;-\"R$\" #,0.00;\"R$\" #,0.00"
+              "queryRef": "Medidas - Faturamento.Receita Recebida",
+              "nativeQueryRef": "Receita Recebida"
             }
           ]
         }
@@ -43,7 +42,7 @@
                     "Entity": "Medidas - Faturamento"
                   }
                 },
-                "Property": "Receita Recebida - MTD"
+                "Property": "Receita Recebida"
               }
             },
             "direction": "Descending"
@@ -54,20 +53,6 @@
     },
     "objects": {
       "value": [
-        {
-          "properties": {
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Medidas - Faturamento.Faturamento MTD"
-          }
-        },
         {
           "properties": {
             "fontColor": {
@@ -185,5 +170,132 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "32839f3c989d6746a4c1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Medidas - Faturamento"
+              }
+            },
+            "Property": "Receita Recebida"
+          }
+        },
+        "type": "Advanced",
+        "isHiddenInViewMode": true
+      },
+      {
+        "name": "c1604e769b60e380cbe4",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Período"
+              }
+            },
+            "Property": "Período"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "p",
+              "Entity": "Período",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "p"
+                          }
+                        },
+                        "Property": "Período"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'MTD'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "f2bbee4f8a06c8431cfa",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Comparação"
+              }
+            },
+            "Property": "Comparação"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "Comparação",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "c"
+                          }
+                        },
+                        "Property": "Comparação"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Valor'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
   }
 }

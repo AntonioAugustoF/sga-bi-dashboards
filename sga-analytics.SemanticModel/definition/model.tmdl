@@ -9,11 +9,11 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["dim_cooperatives","dim_customers","dim_regionals","dim_volunteers","dim_vehicles","fact_invoices","fact_delinquency_snapshot","dim_customers_current","dim_vehicles_current","bridge_invoices_vehicles","fact_delinquency_by_vehicle_actual","fact_delinquency_by_vehicle_history"]
+annotation PBI_QueryOrder = ["dim_cooperatives","dim_customers","dim_regionals","dim_volunteers","dim_vehicles","fact_invoices","fact_delinquency_snapshot","dim_customers_current","dim_vehicles_current","bridge_invoices_vehicles","fact_delinquency_by_vehicle_actual","fact_delinquency_by_vehicle_history","Provisão PDD","Indicadores Executivos"]
 
 annotation PBI_RemovedChildren = [{"remoteItemId":{"foreignKeyRelationship":{"fromTableLocalLineageTag":"e57cdd99-0b1b-4e27-8d8d-588d77103ec7","fromColumnLocalLineageTag":"d2e2c1ee-6469-4c53-84a9-7cb1e41f7a05","toTableLocalLineageTag":"a2133dfa-1c75-496f-9893-fe60f991459f","toColumnLocalLineageTag":"0204bc9a-a1ac-49ae-87b8-5c31968536b4"}},"objectType":"Relationship"},{"remoteItemId":{"foreignKeyRelationship":{"fromTableLocalLineageTag":"26134ad6-0fc4-4c04-9739-53a0d1aff740","fromColumnLocalLineageTag":"1de1ea18-ac25-4cc2-8a67-a16568055c7f","toTableLocalLineageTag":"6a0853db-d3de-4b60-8bda-693a7808aa80","toColumnLocalLineageTag":"b9d4f492-b517-4831-a418-b19d974e5133"}},"objectType":"Relationship"},{"remoteItemId":{"foreignKeyRelationship":{"fromTableLocalLineageTag":"26134ad6-0fc4-4c04-9739-53a0d1aff740","fromColumnLocalLineageTag":"3f2cc0e1-e93b-44ea-8757-5f42c7a81a81","toTableLocalLineageTag":"feb3f071-6ede-487f-8735-c3d562f39e70","toColumnLocalLineageTag":"3ad0de69-8c32-4e0c-a12c-ddfe5ad45bc4"}},"objectType":"Relationship"}]
 
-annotation PBI_ProTooling = ["DevMode"]
+annotation PBI_ProTooling = ["DevMode","DaxQueryView_Desktop"]
 
 annotation __TEdtr = 1
 
@@ -36,6 +36,11 @@ ref table fact_delinquency_by_vehicle_actual
 ref table fact_delinquency_by_vehicle_history
 ref table Período
 ref table Comparação
+ref table '% Crescimento Meta'
+ref table 'Faixa de Aging'
+ref table 'Provisão PDD'
+ref table 'Indicadores Executivos'
+ref table 'Medidas - Executivo'
 
 ref cultureInfo pt-BR
 

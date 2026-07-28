@@ -1,4 +1,9 @@
+/// SCD2 completa de veículos (uma linha por VERSÃO). Oculta da visão de relatório:
+/// codigo_veiculo não é único aqui, então fatiar por ela causa fan-out — foi
+/// exatamente o bug do ranking de consultor. Serve às medidas point-in-time e à
+/// fact_delinquency_by_vehicle_history. Para perfil de frota use dim_vehicles_current.
 table dim_vehicles
+	isHidden
 	lineageTag: e57cdd99-0b1b-4e27-8d8d-588d77103ec7
 
 	column codigo_veiculo
@@ -43,6 +48,7 @@ table dim_vehicles
 
 	column codigo_usuario
 		dataType: string
+		isHidden
 		lineageTag: ef25810b-fadd-42f4-954a-2e5d13db6b4c
 		summarizeBy: none
 		sourceColumn: codigo_usuario
@@ -51,6 +57,7 @@ table dim_vehicles
 
 	column codigo_tipo
 		dataType: string
+		isHidden
 		lineageTag: ddb65517-e639-44ca-bfc5-adab42ef9f2c
 		summarizeBy: none
 		sourceColumn: codigo_tipo
@@ -59,6 +66,7 @@ table dim_vehicles
 
 	column codigo_classificacao
 		dataType: string
+		isHidden
 		lineageTag: b1bd5ad3-831d-488e-8645-a43219f1e0b6
 		summarizeBy: none
 		sourceColumn: codigo_classificacao
@@ -67,6 +75,7 @@ table dim_vehicles
 
 	column codigo_cota
 		dataType: string
+		isHidden
 		lineageTag: d871341d-523c-4eec-bfd4-b1795ec020bd
 		summarizeBy: none
 		sourceColumn: codigo_cota
@@ -75,6 +84,7 @@ table dim_vehicles
 
 	column codigo_fipe
 		dataType: string
+		isHidden
 		lineageTag: c9c79a41-1787-4c28-afdc-bf3a6aa97260
 		summarizeBy: none
 		sourceColumn: codigo_fipe
@@ -113,7 +123,7 @@ table dim_vehicles
 		dataType: int64
 		formatString: 0
 		lineageTag: e8cc2042-3b9f-4b69-8dde-533e8d606ea1
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: pontos
 
 		annotation SummarizationSetBy = Automatic
@@ -142,6 +152,7 @@ table dim_vehicles
 
 	column codigo_depreciacao
 		dataType: string
+		isHidden
 		lineageTag: 8090bced-34f5-43c7-b5e8-1a130aa0c8c3
 		summarizeBy: none
 		sourceColumn: codigo_depreciacao
@@ -150,6 +161,7 @@ table dim_vehicles
 
 	column codigo_tipo_envio_boleto
 		dataType: string
+		isHidden
 		lineageTag: ae510da5-df87-4cbe-9a87-d45175d60bd6
 		summarizeBy: none
 		sourceColumn: codigo_tipo_envio_boleto
@@ -158,6 +170,7 @@ table dim_vehicles
 
 	column codigo_regional
 		dataType: string
+		isHidden
 		lineageTag: d2e2c1ee-6469-4c53-84a9-7cb1e41f7a05
 		summarizeBy: none
 		sourceColumn: codigo_regional
@@ -166,6 +179,7 @@ table dim_vehicles
 
 	column codigo_cooperativa
 		dataType: string
+		isHidden
 		lineageTag: 94044a84-c46d-483b-84be-aac1690a3118
 		summarizeBy: none
 		sourceColumn: codigo_cooperativa
@@ -174,6 +188,7 @@ table dim_vehicles
 
 	column codigo_marca
 		dataType: string
+		isHidden
 		lineageTag: e1ac81ed-9a45-4381-a718-f314cd5bdc67
 		summarizeBy: none
 		sourceColumn: codigo_marca
@@ -182,6 +197,7 @@ table dim_vehicles
 
 	column codigo_modelo
 		dataType: string
+		isHidden
 		lineageTag: 629d87dc-33c5-46dd-9b4e-3562c104239d
 		summarizeBy: none
 		sourceColumn: codigo_modelo
@@ -192,7 +208,7 @@ table dim_vehicles
 		dataType: int64
 		formatString: 0
 		lineageTag: e8acef9e-c45d-4ca6-844e-fcc60343953c
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ano_fabricacao
 
 		annotation SummarizationSetBy = Automatic
@@ -201,13 +217,14 @@ table dim_vehicles
 		dataType: int64
 		formatString: 0
 		lineageTag: cfc99b6d-8fd9-42f5-b77e-e59a88f0edfe
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ano_modelo
 
 		annotation SummarizationSetBy = Automatic
 
 	column codigo_combustivel
 		dataType: string
+		isHidden
 		lineageTag: 17a897cc-1f43-4717-be04-dbf863b69709
 		summarizeBy: none
 		sourceColumn: codigo_combustivel
@@ -216,6 +233,7 @@ table dim_vehicles
 
 	column codigo_cor
 		dataType: string
+		isHidden
 		lineageTag: b4db9630-0aa4-4586-a2d8-99ca5e0f9ca8
 		summarizeBy: none
 		sourceColumn: codigo_cor
@@ -224,6 +242,7 @@ table dim_vehicles
 
 	column codigo_grupo_produto
 		dataType: string
+		isHidden
 		lineageTag: e716c6db-5cc9-4468-ad13-b12ee58e04c3
 		summarizeBy: none
 		sourceColumn: codigo_grupo_produto
@@ -232,6 +251,7 @@ table dim_vehicles
 
 	column codigo_vencimento
 		dataType: string
+		isHidden
 		lineageTag: 4f2bcedb-f59d-4a42-bb32-467b9e6239c2
 		summarizeBy: none
 		sourceColumn: codigo_vencimento
@@ -250,7 +270,7 @@ table dim_vehicles
 		dataType: int64
 		formatString: 0
 		lineageTag: d75bef11-8d39-483a-af85-6bd7c4cf1105
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: mes_final_carne
 
 		annotation SummarizationSetBy = Automatic
@@ -275,6 +295,7 @@ table dim_vehicles
 
 	column codigo_categoria
 		dataType: string
+		isHidden
 		lineageTag: 4580b958-e254-440e-8c56-c86789c3fc6a
 		summarizeBy: none
 		sourceColumn: codigo_categoria
@@ -379,6 +400,7 @@ table dim_vehicles
 
 	column codigo_situacao
 		dataType: string
+		isHidden
 		lineageTag: edc46806-4e00-41f3-928c-f59e8b311313
 		summarizeBy: none
 		sourceColumn: codigo_situacao
@@ -480,6 +502,7 @@ table dim_vehicles
 
 	column sk_vehicle
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: d731c7dd-fe70-46e9-ad8c-7d089580b80e
 		summarizeBy: none
@@ -489,6 +512,7 @@ table dim_vehicles
 
 	column criado_em
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: 0757b7ab-f715-479c-8a0c-ed03e69b2cc8
 		summarizeBy: none
@@ -498,10 +522,34 @@ table dim_vehicles
 
 	column atualizado_em
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: d35566d1-9bed-47f0-be53-320aa92963c4
 		summarizeBy: none
 		sourceColumn: atualizado_em
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Situação da versão SCD2 imediatamente anterior deste veículo. Reconstrói a
+	/// antiga dim_vehicles_history[status_anterior]. Ver a coluna homônima em
+	/// dim_customers para o porquê da comparação com a versão anterior.
+	column status_anterior =
+			VAR _de = dim_vehicles[valido_de]
+			VAR _deAnterior =
+			    CALCULATE (
+			        MAX ( dim_vehicles[valido_de] ),
+			        ALLEXCEPT ( dim_vehicles, dim_vehicles[codigo_veiculo] ),
+			        dim_vehicles[valido_de] < _de
+			    )
+			RETURN
+			    CALCULATE (
+			        MAX ( dim_vehicles[descricao_situacao] ),
+			        ALLEXCEPT ( dim_vehicles, dim_vehicles[codigo_veiculo] ),
+			        dim_vehicles[valido_de] = _deAnterior
+			    )
+		dataType: string
+		lineageTag: 5f9c3a17-2b48-4d76-9e35-8a1f6c2d4b93
+		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
 

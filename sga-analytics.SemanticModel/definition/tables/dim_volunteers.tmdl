@@ -75,6 +75,7 @@ table dim_volunteers
 
 	column codigo_classificacao
 		dataType: string
+		isHidden
 		lineageTag: 927c6a3d-5fce-48a3-b67c-dfddca92e700
 		summarizeBy: none
 		sourceColumn: codigo_classificacao
@@ -169,6 +170,7 @@ table dim_volunteers
 
 	column criado_em
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: b4236edb-8445-4460-b6be-f273fd36ef72
 		summarizeBy: none
@@ -178,6 +180,7 @@ table dim_volunteers
 
 	column atualizado_em
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: 99eaf75d-b85a-4d78-a248-a585ee455bd7
 		summarizeBy: none
@@ -201,9 +204,10 @@ table dim_volunteers
 		source =
 				let
 				    Fonte = PostgreSQL.Database("localhost", "sga_dw"),
-				    public_dim_volunteers = Fonte{[Schema="public",Item="dim_volunteers"]}[Data]
+				    public_dim_volunteers = Fonte{[Schema="public",Item="dim_volunteers"]}[Data],
+				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(public_dim_volunteers,{{"nome", Text.Proper, type text}})
 				in
-				    public_dim_volunteers
+				    #"Colocar Cada Palavra Em Maiúscula"
 
 	annotation PBI_NavigationStepName = Navegação
 

@@ -56,7 +56,7 @@ table fact_delinquency_by_vehicle_history
 		dataType: int64
 		formatString: 0
 		lineageTag: 4f9980e9-2af3-473d-8ba2-121ad9eb06bb
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: dias_em_atraso
 
 		annotation SummarizationSetBy = Automatic
@@ -89,7 +89,7 @@ table fact_delinquency_by_vehicle_history
 		dataType: int64
 		formatString: 0
 		lineageTag: a65d053e-60a2-4d68-be03-4a095a698abf
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: qtd_veiculos_boleto
 
 		annotation SummarizationSetBy = Automatic
@@ -106,6 +106,7 @@ table fact_delinquency_by_vehicle_history
 
 	column sk_vehicle
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: d04801e3-361e-47ad-90e7-9fce6162d1a6
 		summarizeBy: none
@@ -131,6 +132,7 @@ table fact_delinquency_by_vehicle_history
 
 	column codigo_regional_veiculo
 		dataType: string
+		isHidden
 		lineageTag: 889516dd-9b9e-4181-a88b-5c23e5b5d956
 		summarizeBy: none
 		sourceColumn: codigo_regional_veiculo
@@ -139,6 +141,7 @@ table fact_delinquency_by_vehicle_history
 
 	column codigo_cooperativa_veiculo
 		dataType: string
+		isHidden
 		lineageTag: e98e0e2b-6232-4360-bf6b-25e87455e019
 		summarizeBy: none
 		sourceColumn: codigo_cooperativa_veiculo
@@ -147,6 +150,7 @@ table fact_delinquency_by_vehicle_history
 
 	column codigo_situacao_veiculo
 		dataType: string
+		isHidden
 		lineageTag: 47ac6552-cacb-46a8-801c-86453808770a
 		summarizeBy: none
 		sourceColumn: codigo_situacao_veiculo

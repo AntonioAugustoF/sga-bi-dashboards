@@ -27,6 +27,7 @@ table fact_invoices
 
 	column codigo_situacao_associado
 		dataType: string
+		isHidden
 		lineageTag: dae95249-cffb-4a3c-a37e-e29275574e25
 		summarizeBy: none
 		sourceColumn: codigo_situacao_associado
@@ -43,6 +44,7 @@ table fact_invoices
 
 	column codigo_regional_associado
 		dataType: string
+		isHidden
 		lineageTag: d06a1fc5-2d0c-42ce-b4e4-6d7ba02cc80c
 		summarizeBy: none
 		sourceColumn: codigo_regional_associado
@@ -67,6 +69,7 @@ table fact_invoices
 
 	column nosso_numero
 		dataType: string
+		isHidden
 		lineageTag: 60262493-6a37-4d94-a236-1be2e453dcfd
 		summarizeBy: none
 		sourceColumn: nosso_numero
@@ -75,6 +78,7 @@ table fact_invoices
 
 	column codigo_situacao_boleto
 		dataType: string
+		isHidden
 		lineageTag: 85382f48-3a65-4b31-a304-22466d4be155
 		summarizeBy: none
 		sourceColumn: codigo_situacao_boleto
@@ -99,6 +103,7 @@ table fact_invoices
 
 	column codigo_regional
 		dataType: string
+		isHidden
 		lineageTag: 66bd611a-414b-4024-8dbd-a6f264f2d152
 		summarizeBy: none
 		sourceColumn: codigo_regional
@@ -206,6 +211,7 @@ table fact_invoices
 
 	column codigo_mgfformapagamento
 		dataType: string
+		isHidden
 		lineageTag: cfdaaf7e-b5e2-4237-a0ff-62712a0dfcf5
 		summarizeBy: none
 		sourceColumn: codigo_mgfformapagamento
@@ -214,6 +220,7 @@ table fact_invoices
 
 	column codigo_forma_pagamento
 		dataType: string
+		isHidden
 		lineageTag: b1c271c8-2c9d-4181-ab10-5e92e04247e0
 		summarizeBy: none
 		sourceColumn: codigo_forma_pagamento
@@ -242,7 +249,7 @@ table fact_invoices
 		dataType: int64
 		formatString: 0
 		lineageTag: 4308b86c-0b2d-4221-a8ae-2e0d3fb35450
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: parcela_paga
 
 		annotation SummarizationSetBy = Automatic
@@ -251,7 +258,7 @@ table fact_invoices
 		dataType: int64
 		formatString: 0
 		lineageTag: 0bbde20f-2898-42e7-8ac6-be6cdf862fb9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: qtde_parcela
 
 		annotation SummarizationSetBy = Automatic
@@ -266,6 +273,7 @@ table fact_invoices
 
 	column codigo_tipo_boleto
 		dataType: string
+		isHidden
 		lineageTag: 5f23a4b4-ddef-45bc-bfd2-291f0ae8b1b8
 		summarizeBy: none
 		sourceColumn: codigo_tipo_boleto
@@ -282,6 +290,7 @@ table fact_invoices
 
 	column codigo_conta
 		dataType: string
+		isHidden
 		lineageTag: 6eb8da57-73e2-4cb3-b0a7-92eb5a2b5584
 		summarizeBy: none
 		sourceColumn: codigo_conta
@@ -290,6 +299,7 @@ table fact_invoices
 
 	column codigo_banco
 		dataType: string
+		isHidden
 		lineageTag: 18d0c8d0-9bd6-4dc7-8067-fe42956cf98f
 		summarizeBy: none
 		sourceColumn: codigo_banco
@@ -346,6 +356,7 @@ table fact_invoices
 
 	column codigo_situacao
 		dataType: string
+		isHidden
 		lineageTag: 9d3bc0e0-3cc2-43a8-8c94-cba98bc711cd
 		summarizeBy: none
 		sourceColumn: codigo_situacao
@@ -355,7 +366,7 @@ table fact_invoices
 	column dias_em_atraso
 		dataType: double
 		lineageTag: 2338fd33-889e-4ee5-90d0-94f15cf03abb
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: dias_em_atraso
 
 		annotation SummarizationSetBy = Automatic
@@ -390,6 +401,7 @@ table fact_invoices
 
 	column sk_customer
 		dataType: int64
+		isHidden
 		lineageTag: ef43ed6b-c804-4bde-b2b4-8718407ab02e
 		summarizeBy: none
 		sourceColumn: sk_customer
@@ -400,6 +412,7 @@ table fact_invoices
 
 	column criado_em
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: e38dc5c1-1b2c-466f-8d0d-214121578922
 		summarizeBy: none
@@ -409,6 +422,7 @@ table fact_invoices
 
 	column atualizado_em
 		dataType: dateTime
+		isHidden
 		formatString: General Date
 		lineageTag: 23d329a8-3b6b-4d3a-addf-39bc792b78dc
 		summarizeBy: none
